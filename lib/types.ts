@@ -1,12 +1,11 @@
 export type VideoType = "webinar" | "clip" | "short";
 
 export type TonePreference =
-  | "engagement"
-  | "educational"
-  | "analytical"
-  | "bold-contrarian"
-  | "conversational"
-  | "executive-authority";
+  | "empowering"
+  | "functional-data"
+  | "collaborative"
+  | "aspirational"
+  | "witty-clever";
 
 export interface FormData {
   videoType: VideoType;

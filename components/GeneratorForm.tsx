@@ -16,12 +16,11 @@ const videoTypeOptions: { value: VideoType; label: string; hint: string }[] = [
 ];
 
 const toneOptions: { value: TonePreference; label: string }[] = [
-  { value: "engagement",          label: "Engagement (default)"  },
-  { value: "educational",         label: "Educational"           },
-  { value: "analytical",          label: "Analytical"            },
-  { value: "bold-contrarian",     label: "Bold / Contrarian"     },
-  { value: "conversational",      label: "Conversational"        },
-  { value: "executive-authority", label: "Executive / Authority" },
+  { value: "empowering",           label: "Empowering (default)" },
+  { value: "functional-data",      label: "Functional + Data"    },
+  { value: "collaborative",        label: "Collaborative"        },
+  { value: "aspirational",         label: "Aspirational"         },
+  { value: "witty-clever",         label: "Witty + Clever"       },
 ];
 
 const defaultForm: FormData = {
@@ -32,7 +31,7 @@ const defaultForm: FormData = {
   guestRole:        "",
   guestCompany:     "",
   transcript:       "",
-  tonePreference:   "engagement",
+  tonePreference:   "empowering",
   titleCount:       5,
   recapUrl:         "",
   takeaways:        "",

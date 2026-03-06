@@ -15,18 +15,16 @@ const formatLabel: Record<string, string> = {
 };
 
 const toneInstructions: Record<string, string> = {
-  engagement:
-    "Optimize for maximum engagement. Use curiosity, direct statements, and action-oriented phrasing that drives click-through and watch time.",
-  educational:
-    "Clear, instructive tone. Lead with what the viewer will learn. Authoritative but accessible.",
-  analytical:
-    "Data-driven, measured language. Emphasize insights, frameworks, and evidence. No hype.",
-  "bold-contrarian":
-    "Confident, direct, and contrarian. Challenge assumptions. Strong declarative sentences.",
-  conversational:
-    "Warm and direct. Sound like a knowledgeable peer, not a press release.",
-  "executive-authority":
-    "Executive-level authority. Emphasize expertise, outcomes, and strategic implications. Professional and precise.",
+  empowering:
+    "Motivating and confident. Emphasize what the audience can do and achieve. Action-oriented, forward-looking, builds belief in the reader.",
+  "functional-data":
+    "Clear, precise, and evidence-led. Lead with data, outcomes, and measurable impact. No hype — let the numbers and logic do the work.",
+  collaborative:
+    "Warm, inclusive, and peer-to-peer. Sound like a knowledgeable partner sharing what's working. Avoid hierarchy or authority posture.",
+  aspirational:
+    "Visionary and inspiring. Paint a picture of what's possible. Connect the insight to a bigger shift or future the audience wants to be part of.",
+  "witty-clever":
+    "Sharp, playful, and intelligent. Use wit to make the insight land harder. Confident tone with a light touch — never try-hard.",
 };
 
 function formatOutputRules(format: string, recapUrl: string): string {
