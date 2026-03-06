@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import type { FormData, TranscriptAnalysis } from "./types";
+import type { FormData, TranscriptAnalysis, MatchedMoment } from "./types";
 import type { MatchedPrompt } from "./matchPrompts";
 
 function loadChannelGuidelines(): string {
@@ -78,7 +78,8 @@ CTA ENFORCEMENT: Include exactly one CTA. Do not add secondary CTAs, subscribe p
 export function buildPrompt(
   data: FormData,
   analysis?: TranscriptAnalysis | null,
-  matchedPrompts?: MatchedPrompt[]
+  matchedPrompts?: MatchedPrompt[],
+  matchedMoments?: MatchedMoment[]
 ): string {
   const guidelines  = loadChannelGuidelines();
   const format      = formatLabel[data.videoType] ?? "CLIPS";
@@ -164,6 +165,20 @@ These AirOps prompts were matched against the transcript's AI search queries. Us
 
 Matched high-visibility prompts:
 ${matchedPrompts.map((m) => `• ${m.prompt.name} — ${m.reason}`).join("\n")}
+
+---` : ""}${matchedMoments && matchedMoments.length > 0 ? `
+# ORGANIC TRANSCRIPT MOMENTS — TARGET TOPIC ALIGNMENT
+
+The following moments were extracted from the transcript where AirOps target topics arise naturally in the conversation. Use them to:
+- Drive title angle selection toward these topics where relevant
+- Anchor chapter timestamps to these moments
+- Inform the pinned comment hook with the most compelling insight
+
+Matched moments:
+${matchedMoments.map((m) => `• Topic: ${m.promptName}
+  Timestamp: ${m.approximateTimestamp}
+  Quote: "${m.quote}"
+  Reasoning: ${m.reasoning}`).join("\n\n")}
 
 ---` : ""}
 

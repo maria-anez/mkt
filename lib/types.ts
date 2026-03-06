@@ -10,7 +10,7 @@ export type TonePreference =
 
 export interface FormData {
   videoType: VideoType;
-  videoTitle?: string;       // Required for webinars (official name); optional for clips/shorts
+  videoTitle?: string;
   primaryKeyword: string;
   guestName: string;
   guestRole: string;
@@ -18,7 +18,7 @@ export interface FormData {
   transcript: string;
   tonePreference: TonePreference;
   titleCount: number;
-  recapUrl?: string;         // Webinar recap blog URL; falls back to {{WEBINAR_RECAP_URL}}
+  recapUrl?: string;
 }
 
 export interface TranscriptAnalysis {
@@ -26,13 +26,20 @@ export interface TranscriptAnalysis {
   strategic_shifts:  string[];
   authority_signals: string[];
   commercial_intent: string[];
-  suggested_queries: string[];  // Natural-language AI search queries grounded in transcript
+  suggested_queries: string[];
 }
 
 export interface AirOpsPrompt {
   name:          string;
   description:   string;
-  citation_rate: number;    // 0–100; used to boost match scores
+  citation_rate: number;
+}
+
+export interface MatchedMoment {
+  promptName: string;
+  quote: string;
+  approximateTimestamp: string;
+  reasoning: string;
 }
 
 export interface GenerateResult {
@@ -41,4 +48,5 @@ export interface GenerateResult {
   descriptionCharCount: number;
   chapters: string;
   pinnedComment: string;
+  matchedMoments?: MatchedMoment[];
 }
