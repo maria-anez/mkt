@@ -81,7 +81,7 @@ export default function Home() {
       <div className="generator-layout">
         {/* Left — Input */}
         <div>
-          <GeneratorForm onSubmit={handleSubmit} loading={loading} />
+          <GeneratorForm onSubmit={handleSubmit} onClear={handleClear} loading={loading} />
         </div>
 
         {/* Right — Output */}

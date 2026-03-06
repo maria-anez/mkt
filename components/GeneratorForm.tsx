@@ -5,6 +5,7 @@ import type { FormData, TonePreference, VideoType } from "@/lib/types";
 
 interface Props {
   onSubmit: (data: FormData) => void;
+  onClear: () => void;
   loading: boolean;
 }
 
@@ -36,7 +37,7 @@ const defaultForm: FormData = {
   recapUrl:         "",
 };
 
-export default function GeneratorForm({ onSubmit, loading }: Props) {
+export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
   const [form, setForm] = useState<FormData>(defaultForm);
 
   function set<K extends keyof FormData>(field: K, value: FormData[K]) {
@@ -46,6 +47,15 @@ export default function GeneratorForm({ onSubmit, loading }: Props) {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     onSubmit(form);
+  }
+
+  function handleRegenerate() {
+    onSubmit(form);
+  }
+
+  function handleClear() {
+    setForm(defaultForm);
+    onClear();
   }
 
   const isWebinar = form.videoType === "webinar";
@@ -248,7 +258,7 @@ export default function GeneratorForm({ onSubmit, loading }: Props) {
           />
         </div>
 
-        {/* Submit */}
+        {/* Actions */}
         <div style={{ marginTop: 24 }}>
           <button
             type="submit"
@@ -258,6 +268,27 @@ export default function GeneratorForm({ onSubmit, loading }: Props) {
           >
             {loading ? "Generating..." : "Generate"}
           </button>
+
+          <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
+            <button
+              type="button"
+              className="btn-primary"
+              style={{ flex: 1, padding: "10px 0", fontSize: 14 }}
+              onClick={handleRegenerate}
+              disabled={!isValid || loading}
+            >
+              Regenerate
+            </button>
+            <button
+              type="button"
+              className="btn-ghost"
+              style={{ flex: 1, padding: "10px 0", fontSize: 14 }}
+              onClick={handleClear}
+              disabled={loading}
+            >
+              Clear all
+            </button>
+          </div>
         </div>
       </div>
     </form>
