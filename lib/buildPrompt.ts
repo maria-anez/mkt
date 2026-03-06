@@ -2,99 +2,112 @@ import type { FormData } from "./types";
 
 const toneInstructions: Record<string, string> = {
   engagement:
-    "Write for maximum engagement. Use curiosity hooks, direct statements, and action-oriented phrasing. Prioritize click-through and watch time signals.",
+    "Optimize for maximum engagement. Use curiosity, direct statements, and action-oriented phrasing that drives click-through and watch time.",
   educational:
-    "Write in a clear, informative tone. Lead with what the viewer will learn. Use precise language and authoritative framing.",
+    "Clear, instructive tone. Lead with what the viewer will learn. Authoritative but accessible.",
   analytical:
-    "Write with data-driven, measured language. Emphasize insights, frameworks, and evidence. Avoid hype.",
+    "Data-driven, measured language. Emphasize insights, frameworks, and evidence. No hype.",
   "bold-contrarian":
-    "Write with a confident, direct, and contrarian angle. Challenge assumptions. Use strong declarative sentences.",
+    "Confident, direct, and contrarian. Challenge assumptions. Strong declarative sentences.",
   conversational:
-    "Write in a warm, direct, human tone. Sound like a knowledgeable peer — not a press release.",
+    "Warm and direct. Sound like a knowledgeable peer, not a press release.",
   "executive-authority":
-    "Write with executive-level authority. Emphasize expertise, outcomes, and high-stakes implications. Professional and precise.",
+    "Executive-level authority. Emphasize expertise, outcomes, and strategic implications. Professional and precise.",
 };
 
-const shortFormInstructions = `
-FORMAT: YouTube Short (60 seconds or less)
-- Keep the description concise: 150-300 characters ideal
-- Lead with the core insight in the first sentence
-- No timestamps needed
-- One clear CTA at the end
-`;
-
-const longFormInstructions = `
-FORMAT: YouTube Long-form video (3+ minutes)
-- Target 200-500 characters (YouTube indexes ~300 chars above the fold)
-- Include 2-3 semantic keyword variations naturally in the text
-- Add a timestamps section if talking points are provided
-- Include a CTA and subscription prompt at the end
-- Close with guest social/website if company is known
-`;
-
 export function buildPrompt(data: FormData): string {
-  const formatInstructions =
-    data.videoType === "short" ? shortFormInstructions : longFormInstructions;
-
-  const toneGuide =
-    toneInstructions[data.tonePreference] ?? toneInstructions["engagement"];
-
-  const guestBlock =
-    data.guestName
-      ? `GUEST AUTHORITY:
-Name: ${data.guestName}
-Role: ${data.guestRole || "Not provided"}
-Company: ${data.guestCompany || "Not provided"}
-Instruction: Surface the guest's title and company early to build authority signals. Do not fabricate credentials.`
-      : "";
-
-  const talkingPointsBlock =
-    data.keyTalkingPoints?.trim()
-      ? `KEY TALKING POINTS (use for timestamps if long-form):
-${data.keyTalkingPoints}`
-      : "";
-
-  const ctaBlock =
-    data.callToAction?.trim()
-      ? `CALL TO ACTION: ${data.callToAction}`
-      : `CALL TO ACTION: Encourage viewers to subscribe for more content on ${data.primaryKeyword}.`;
+  const tone = toneInstructions[data.tonePreference] ?? toneInstructions["engagement"];
 
   const transcriptPreview =
-    data.transcript.length > 3000
-      ? data.transcript.slice(0, 3000) + "\n[transcript truncated for length]"
+    data.transcript.length > 4000
+      ? data.transcript.slice(0, 4000) + "\n[transcript truncated]"
       : data.transcript;
 
-  return `You are an expert YouTube content strategist and SEO copywriter specializing in AI retrieval optimization (AEO) and search visibility.
+  const isShort = data.videoType === "short";
 
-Your task: Write a YouTube video description optimized for search discoverability, AI engine retrieval, and viewer engagement.
+  return `You are an expert YouTube content strategist specializing in AEO (Answer Engine Optimization), search visibility, and creator growth.
 
-RULES:
-- Extract keywords and semantic phrases directly from the transcript — do not invent them
-- Reinforce the primary keyword naturally (do not keyword-stuff)
-- Amplify guest authority using their name, role, and company
-- Avoid generic filler phrases like "In this video we discuss..." or "Don't forget to like and subscribe"
-- Use active voice and direct, specific language
-- Never use banned words: synergize, robust, comprehensive, seamless, leverage (as verb), supercharge, groundbreaking, revolutionary
-- Sentence case for all text (not title case)
+Your task: analyze the transcript and guest metadata, then generate 4 outputs for a YouTube video.
 
-${formatInstructions}
-
-TONE INSTRUCTION:
-${toneGuide}
-
-VIDEO DETAILS:
-Title: ${data.videoTitle}
-Type: ${data.videoType === "short" ? "YouTube Short" : "Long-form video"}
+INPUTS:
 Primary keyword: ${data.primaryKeyword}
+Video type: ${isShort ? "YouTube Short (under 60s)" : "Long-form video (3+ minutes)"}
+Guest name: ${data.guestName}
+Guest role: ${data.guestRole || "not provided"}
+Guest company: ${data.guestCompany || "not provided"}
+Tone: ${tone}
+Number of title variations requested: ${data.titleCount}
 
-${guestBlock}
-
-TRANSCRIPT (extract phrasing and keywords from this):
+TRANSCRIPT:
 ${transcriptPreview}
 
-${talkingPointsBlock}
+---
 
-${ctaBlock}
+STEP 1 — INTERNAL ANALYSIS (use this to inform all outputs, do not include in response):
+- Extract 3–5 key insights from the transcript
+- Identify the strongest authority signal from the guest metadata
+- Identify the core tension or problem discussed
+- Extract 3 semantic keyword phrases related to the primary keyword
 
-OUTPUT: Return only the final YouTube description. No explanation, no preamble, no markdown headers. Just the description text ready to paste into YouTube.`;
+---
+
+STEP 2 — GENERATE ALL 4 OUTPUTS:
+
+Return a JSON object with this exact structure:
+{
+  "titles": [
+    "Title using direct benefit angle (under 70 chars)",
+    "Title using curiosity angle (under 70 chars)",
+    "Title using authority-driven angle (under 70 chars)",
+    "Title using contrarian/tension angle (under 70 chars)",
+    "Title using tactical/outcome-driven angle (under 70 chars)"
+  ],
+  "description": "Full description text...",
+  "chapters": "00:00 Chapter title\\n02:30 Chapter title\\n...",
+  "pinnedComment": "AirOps pinned comment text..."
+}
+
+TITLE RULES:
+- Each title must use a different framing angle
+- Reinforce primary keyword naturally in most titles
+- Under 70 characters each
+- High-CTR but credible — no spam, no misleading claims
+- Sentence case
+
+DESCRIPTION RULES:
+${isShort ? `Short format:
+- Hook line (1 sentence, draws viewer in)
+- Authority line (guest name, role, company)
+- Tight 2–3 line summary of what was covered
+- 3–5 relevant hashtags
+- CTA (1 line)`
+: `Long-form format:
+- Search-optimized opening paragraph (keyword early, 2–3 sentences)
+- Authority framing paragraph (guest credentials and why they matter)
+- Structured summary of key points covered
+- CTA
+- 5–8 relevant hashtags`}
+- Pull semantic phrases from the transcript — do not invent them
+- No filler: never write "In this video we discuss..." or "Don't forget to like and subscribe"
+- Active voice, sentence case
+
+CHAPTER RULES:
+${isShort ? `- 2–3 chapters only for Shorts` : `- Minimum 5 chapters for long-form`}
+- Detect major topic shifts from the transcript
+- Avoid generic labels like "Introduction" except at 00:00
+- Reinforce primary keyword in chapter titles where natural
+- If no real timestamps in transcript, estimate logical time blocks starting at 00:00
+- Format: MM:SS Title (one per line)
+
+PINNED COMMENT RULES (written as AirOps brand voice):
+- Conversational but strategic
+- Reinforce primary keyword naturally
+- Highlight why this guest matters in 1 line
+- Ask one thoughtful question to drive comments
+- Optional soft CTA (not mandatory)
+- Do NOT use excessive emojis (max 1–2 if any)
+- Do NOT sound corporate or spammy
+- Structure: hook line → value reinforcement → engagement question → optional CTA
+
+Return only the JSON object. No explanation, no markdown code fences.`;
 }

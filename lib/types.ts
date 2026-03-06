@@ -9,19 +9,20 @@ export type TonePreference =
   | "executive-authority";
 
 export interface FormData {
-  videoTitle: string;
-  videoType: VideoType;
   primaryKeyword: string;
+  videoType: VideoType;
   guestName: string;
   guestRole: string;
   guestCompany: string;
   transcript: string;
-  keyTalkingPoints?: string;
-  callToAction?: string;
   tonePreference: TonePreference;
+  titleCount: number;
 }
 
 export interface GenerateResult {
+  titles: string[];
   description: string;
-  characterCount: number;
+  descriptionCharCount: number;
+  chapters: string;
+  pinnedComment: string;
 }

@@ -58,22 +58,10 @@
   --text-tertiary: #a5aab6;
   --stroke-primary: #ecedef;
   --stroke-green: #d4e8da;
-  --hero-bg: #0b0e16;
 
   --font-sans: 'Saans', 'Helvetica Neue', sans-serif;
   --font-serif: 'Serrif VF', Georgia, serif;
   --font-mono: 'Saans Mono', 'DM Mono', monospace;
-
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-12: 48px;
-  --space-16: 64px;
-  --space-24: 96px;
-  --space-32: 128px;
 }
 
 * {
@@ -85,11 +73,28 @@
 html {
   font-family: var(--font-sans);
   color: var(--text-primary);
-  background: var(--white);
+  background: var(--off-white);
   -webkit-font-smoothing: antialiased;
 }
 
-/* Utility classes */
+/* Two-column generator layout */
+.generator-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .generator-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Shared component styles */
 .headline {
   font-family: var(--font-serif);
   font-weight: 400;
@@ -99,72 +104,143 @@ html {
 .pill {
   display: inline-flex;
   align-items: center;
-  padding: 4px 10px;
+  padding: 3px 8px;
   background: var(--accent-label);
   border: 1px solid var(--stroke-green);
   border-radius: 0;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--near-black);
+  line-height: 1;
+}
+
+.pill-green {
+  background: var(--green-200);
 }
 
 .card {
   background: var(--white);
   border: 1px solid var(--stroke-green);
   border-radius: 0;
-  padding: 24px;
 }
 
 .btn-primary {
   background: var(--near-black);
   color: #fff;
   border: none;
-  padding: 12px 24px;
+  padding: 10px 20px;
   border-radius: 0;
   font-family: var(--font-sans);
   font-weight: 600;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 14px;
   transition: background 0.15s;
+  line-height: 1;
 }
 
 .btn-primary:hover {
   background: #1a2e1f;
 }
 
+.btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .btn-accent {
   background: var(--interaction);
   color: var(--near-black);
   border: none;
-  padding: 12px 24px;
+  padding: 10px 20px;
   border-radius: 0;
   font-family: var(--font-sans);
   font-weight: 600;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 14px;
   transition: background 0.15s;
+  line-height: 1;
 }
 
 .btn-accent:hover {
   background: #00e65a;
 }
 
-.btn-secondary {
-  background: var(--white);
-  color: var(--near-black);
-  border: 1px solid var(--near-black);
-  padding: 12px 24px;
-  border-radius: 0;
-  font-family: var(--font-sans);
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 15px;
-  transition: background 0.15s;
+.btn-accent:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
-.btn-secondary:hover {
-  background: var(--off-white);
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--stroke-primary);
+  padding: 8px 14px;
+  border-radius: 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  line-height: 1;
+}
+
+.btn-ghost:hover {
+  border-color: var(--near-black);
+  color: var(--near-black);
+}
+
+.btn-ghost.copied {
+  border-color: var(--green-500);
+  color: var(--green-500);
+}
+
+/* Form inputs */
+.field-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+}
+
+.field-input {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--stroke-green);
+  border-radius: 0;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--white);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.field-input:focus {
+  border-color: var(--green-500);
+}
+
+.field-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+/* Loading shimmer */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, var(--stroke-primary) 25%, var(--off-white) 50%, var(--stroke-primary) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: 0;
 }
