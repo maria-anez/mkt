@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { buildPrompt } from "@/lib/buildPrompt";
 import { mockGenerate } from "@/lib/mockGenerate";
+import { generateOutput } from "@/lib/generateOutput";
 import { analyzeTranscript } from "@/lib/analyzeTranscript";
 import { matchPromptsFromQueries, localAirOpsPrompts } from "@/lib/matchPrompts";
 import { fetchAirOpsPrompts } from "@/lib/fetchAirOpsPrompts";
@@ -37,12 +38,14 @@ export async function POST(req: NextRequest) {
     let cardSuggestions: CardSuggestion[] = [];
 
     if (process.env.ANTHROPIC_API_KEY) {
+      // Step 1: Analyze transcript
       try {
         analysis = await analyzeTranscript(data.transcript);
       } catch (e) {
         console.warn("[/api/generate] transcript analysis failed:", e);
       }
 
+      // Step 2: Load live AirOps prompts (fallback to local)
       let airOpsPromptSource = await fetchAirOpsPrompts();
       if (!airOpsPromptSource.length) {
         airOpsPromptSource = localAirOpsPrompts;
@@ -51,6 +54,7 @@ export async function POST(req: NextRequest) {
         console.info(`[/api/generate] loaded ${airOpsPromptSource.length} live AirOps prompts`);
       }
 
+      // Step 3: Match transcript queries against AirOps prompts
       if (analysis?.suggested_queries?.length) {
         try {
           matchedPrompts = matchPromptsFromQueries(
@@ -62,6 +66,7 @@ export async function POST(req: NextRequest) {
         }
       }
 
+      // Step 4: Extract organic transcript moments for matched prompts
       if (matchedPrompts.length) {
         try {
           matchedMoments = await extractMatchedMoments(
@@ -73,6 +78,7 @@ export async function POST(req: NextRequest) {
         }
       }
 
+      // Step 5: Score transcript for clip-worthy moments (webinar only)
       if (data.videoType === "webinar") {
         try {
           clipMoments = await scoreClipsFromTranscript(
@@ -85,6 +91,7 @@ export async function POST(req: NextRequest) {
         }
       }
 
+      // Step 6: Suggest YouTube cards and end screens
       if (analysis) {
         try {
           cardSuggestions = await suggestCards(
@@ -98,16 +105,20 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // Step 7: Build prompt
     const prompt = buildPrompt(data, analysis, matchedPrompts, matchedMoments);
 
-    const airOpsKey = process.env.AIR_OPS_API_KEY;
+    // Step 8: Generate real output from Claude (fallback to mock if no API key)
     let result: GenerateResult;
 
-    if (airOpsKey && airOpsKey !== "your_airops_api_key_here") {
-      void prompt;
-      result = mockGenerate(data);
+    if (process.env.ANTHROPIC_API_KEY) {
+      try {
+        result = await generateOutput(prompt);
+      } catch (e) {
+        console.warn("[/api/generate] generateOutput failed, falling back to mock:", e);
+        result = mockGenerate(data);
+      }
     } else {
-      void prompt;
       result = mockGenerate(data);
     }
 
