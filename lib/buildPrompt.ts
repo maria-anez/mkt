@@ -49,14 +49,13 @@ CTA ENFORCEMENT: Include exactly one CTA. Do not add secondary CTAs, subscribe p
 
     case "CLIPS":
       return `REQUIRED OUTPUT SECTIONS FOR CLIPS:
-1. Title — query-based, natural-language question, append "| AirOps"; under 70 characters
-2. Description — repeat query on first line, speaker authority, direct evidence-backed answer, cause–effect logic
+1. Title — derived from what the speaker actually says in the transcript; a direct quote, strong statement, or the core insight in their own words; append "| AirOps"; under 70 characters
+2. Description — repeat the core insight on first line, speaker authority, direct evidence-backed answer, cause–effect logic
 3. Takeaways — exactly 3; tactical or strategic; 1–2 sentences each; formatted as a "Learn:" bullet list within the description
-4. Timestamped chapters — 3–5 chapters; format strictly as: MM:SS – Topic Name (one per line)
-5. CTA — exactly one; placed at the end of the description; text: "Watch the full session:" followed by ${recapUrl}
-6. Pinned comment — AirOps voice
+4. CTA — exactly one; placed at the end of the description; text: "Watch the full session:" followed by ${recapUrl}
+5. Pinned comment — AirOps voice
 
-TIMESTAMP ENFORCEMENT: Timestamps are REQUIRED for this format. Format strictly as MM:SS – Topic Name.
+TIMESTAMP ENFORCEMENT: Do NOT include timestamps or chapters for this format. Return chapters as an empty string "".
 CTA ENFORCEMENT: Include exactly one CTA. Do not add secondary CTAs, subscribe prompts, or additional links.`;
 
     case "SHORTS":
@@ -85,8 +84,9 @@ export function buildPrompt(
   const format      = formatLabel[data.videoType] ?? "CLIPS";
   const tone        = toneInstructions[data.tonePreference] ?? toneInstructions["engagement"];
   const recapUrl    = data.recapUrl?.trim() || "{{WEBINAR_RECAP_URL}}";
-  const isWebinar   = data.videoType === "webinar";
-  const outputRules = formatOutputRules(format, recapUrl);
+  const isWebinar      = data.videoType === "webinar";
+  const isClipOrShort  = data.videoType === "clip" || data.videoType === "short";
+  const outputRules    = formatOutputRules(format, recapUrl);
 
   const transcriptPreview =
     data.transcript.length > 4000
@@ -96,10 +96,19 @@ export function buildPrompt(
   const titleInstruction = isWebinar
     ? `TITLES: The official webinar title has been provided. Return it exactly as given — do NOT rewrite, rephrase, or generate variations. Return it as a single-item array.
 Official title: "${data.videoTitle ?? ""}"`
-    : `TITLES: Generate ${data.titleCount} title variations following the ${format} TITLE RULES defined in the channel guidelines above.
+    : `TITLES: Generate ${data.titleCount} title variations for this ${format}.
+
+CRITICAL TITLE RULES FOR CLIPS AND SHORTS:
+- Titles MUST come from what the speaker actually says in the transcript
+- Pull a direct quote, a strong statement, or the core insight in the speaker's own words
+- A great title sounds like something the speaker said, not a keyword or topic label
+- Example of a GOOD title: "Momentum Creates Clarity" (something the speaker actually said)
+- Example of a BAD title: "Content Momentum changes everything" (generic topic label, not from transcript)
+- Do NOT use the primary keyword as the title — find the real insight from the transcript
 - Each title must use a different framing angle
 - Under 70 characters each
-- No clickbait, no hype, sentence case`;
+- No clickbait, no hype, sentence case
+- For CLIPS: append "| AirOps" at the end`;
 
   return `${guidelines}
 
@@ -125,11 +134,11 @@ ${outputRules}
 
 # INPUTS
 
-Primary keyword: ${data.primaryKeyword}
+${!isClipOrShort && data.primaryKeyword ? `Primary keyword: ${data.primaryKeyword}` : ""}
 Video format: ${format}${data.videoTitle ? `\nOfficial title: ${data.videoTitle}` : ""}
 Guest name: ${data.guestName}
 Guest role: ${data.guestRole || "not provided"}
-Guest company: ${data.guestCompany || "not provided"}
+${data.guestCompany ? `Guest company: ${data.guestCompany}` : `Guest company: not provided — use name and role only`}
 Tone modifier: ${tone}
 Title variations requested: ${data.titleCount}
 Recap URL: ${recapUrl}
@@ -138,7 +147,11 @@ TRANSCRIPT:
 ${transcriptPreview}
 
 ---
-${analysis ? `
+${isWebinar && data.takeaways?.trim() ? `
+# PROVIDED TAKEAWAYS — USE EXACTLY AS GIVEN
+The following takeaways have been provided and must be used verbatim in the description. Do NOT rewrite, summarize, or generate new takeaways. Use these exactly as written, formatted as a bullet list within the description before the CTA.
+${data.takeaways.trim()}
+---` : ""}${analysis ? `
 # PRE-EXTRACTED TRANSCRIPT INSIGHTS
 
 The following analysis was run on the full transcript before this prompt. Use it to inform all outputs — do not repeat or restate it literally, but let it shape phrasing, framing, and emphasis.
@@ -188,14 +201,17 @@ ${titleInstruction}
 
 DESCRIPTION: Follow the ${format} DESCRIPTION STRUCTURE RULES and TAKEAWAY RULES exactly as defined in the channel guidelines.
 - Pull semantic phrases from the transcript — do not invent them.
+${isWebinar && data.takeaways?.trim()
+  ? `- TAKEAWAYS: Use the provided takeaways EXACTLY as written — do not rewrite or replace them.`
+  : `- TAKEAWAYS: Generate takeaways from the transcript following the ${format} TAKEAWAY RULES.`}
 - Embed takeaways within the description body before the CTA.
 - No filler language. Active voice. Sentence case.
 - Tone must match the ${format} VOICE defined in the channel guidelines.
 - End description with exactly one CTA using recap URL: ${recapUrl}
 
 CHAPTERS: Follow the ${format} TIMESTAMP RULES exactly as defined in the channel guidelines.
-- WEBINAR/CLIPS: Include timestamped chapters in the chapters field.
-- SHORTS: Return an empty string "" for chapters. Do not generate timestamps.
+- WEBINAR only: Include timestamped chapters in the chapters field.
+- CLIPS and SHORTS: Return an empty string "" for chapters. Never generate timestamps for clips or shorts.
 
 PINNED COMMENT (written as AirOps — follow PINNED COMMENT RULES from channel guidelines):
 

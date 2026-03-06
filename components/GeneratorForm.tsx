@@ -35,6 +35,7 @@ const defaultForm: FormData = {
   tonePreference:   "engagement",
   titleCount:       5,
   recapUrl:         "",
+  takeaways:        "",
 };
 
 export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
@@ -61,10 +62,10 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
   const isWebinar = form.videoType === "webinar";
 
   const isValid =
-    form.primaryKeyword.trim() &&
     form.guestName.trim() &&
     form.transcript.trim() &&
-    (!isWebinar || (form.videoTitle ?? "").trim());
+    (!isWebinar || (form.videoTitle ?? "").trim()) &&
+    (!isWebinar || (form.primaryKeyword ?? "").trim());
 
   return (
     <form onSubmit={handleSubmit}>
@@ -136,18 +137,20 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
             </div>
           )}
 
-          {/* Primary keyword */}
-          <div>
-            <label className="field-label">Primary keyword</label>
-            <input
-              className="field-input"
-              type="text"
-              placeholder="e.g. answer engine optimization"
-              value={form.primaryKeyword}
-              onChange={(e) => set("primaryKeyword", e.target.value)}
-              required
-            />
-          </div>
+          {/* Primary keyword — required for Webinar only */}
+          {isWebinar && (
+            <div>
+              <label className="field-label">Primary keyword</label>
+              <input
+                className="field-input"
+                type="text"
+                placeholder="e.g. answer engine optimization"
+                value={form.primaryKeyword ?? ""}
+                onChange={(e) => set("primaryKeyword", e.target.value)}
+                required={isWebinar}
+              />
+            </div>
+          )}
 
           {/* Guest info */}
           <div>
@@ -174,12 +177,17 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
               />
             </div>
             <div>
-              <label className="field-label">Guest company</label>
+              <label className="field-label">
+                Guest company
+                <span style={{ color: "var(--text-tertiary)", marginLeft: 6, textTransform: "none", letterSpacing: 0, fontFamily: "var(--font-sans)", fontSize: 11 }}>
+                  — optional
+                </span>
+              </label>
               <input
                 className="field-input"
                 type="text"
-                placeholder="AirOps"
-                value={form.guestCompany}
+                placeholder="leave blank if freelancer"
+                value={form.guestCompany ?? ""}
                 onChange={(e) => set("guestCompany", e.target.value)}
               />
             </div>
@@ -257,6 +265,24 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
             onChange={(e) => set("recapUrl", e.target.value)}
           />
         </div>
+
+        {isWebinar && (
+          <div style={{ marginTop: 12 }}>
+            <label className="field-label">
+              Takeaways
+              <span style={{ color: "var(--text-tertiary)", marginLeft: 6, textTransform: "none", letterSpacing: 0, fontFamily: "var(--font-sans)", fontSize: 11 }}>
+                — paste yours to keep consistent across publications; leave blank to auto-generate
+              </span>
+            </label>
+            <textarea
+              className="field-input"
+              style={{ minHeight: 120, resize: "vertical", lineHeight: 1.6 }}
+              placeholder="e.g. • AI search is reshaping how buyers discover tools"
+              value={form.takeaways ?? ""}
+              onChange={(e) => set("takeaways", e.target.value)}
+            />
+          </div>
+        )}
 
         {/* Actions */}
         <div style={{ marginTop: 24 }}>

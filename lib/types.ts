@@ -14,11 +14,12 @@ export interface FormData {
   primaryKeyword: string;
   guestName: string;
   guestRole: string;
-  guestCompany: string;
+  guestCompany?: string;
   transcript: string;
   tonePreference: TonePreference;
   titleCount: number;
   recapUrl?: string;
+  takeaways?: string;
 }
 
 export interface TranscriptAnalysis {
@@ -42,6 +43,15 @@ export interface MatchedMoment {
   reasoning: string;
 }
 
+export interface ClipMoment {
+  timestampStart: string;
+  timestampEnd: string;
+  summary: string;
+  rationale: string;
+  insightType: string;
+  score: number;
+}
+
 export interface GenerateResult {
   titles: string[];
   description: string;
@@ -49,4 +59,5 @@ export interface GenerateResult {
   chapters: string;
   pinnedComment: string;
   matchedMoments?: MatchedMoment[];
+  clipMoments?: ClipMoment[];
 }

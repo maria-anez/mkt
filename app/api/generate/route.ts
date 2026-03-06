@@ -5,16 +5,23 @@ import { analyzeTranscript } from "@/lib/analyzeTranscript";
 import { matchPromptsFromQueries, localAirOpsPrompts } from "@/lib/matchPrompts";
 import { fetchAirOpsPrompts } from "@/lib/fetchAirOpsPrompts";
 import { extractMatchedMoments } from "@/lib/extractMatchedMoments";
-import type { FormData, GenerateResult, TranscriptAnalysis, MatchedMoment } from "@/lib/types";
+import { scoreClipsFromTranscript } from "@/lib/scoreClips";
+import type { FormData, GenerateResult, TranscriptAnalysis, MatchedMoment, ClipMoment } from "@/lib/types";
 import type { MatchedPrompt } from "@/lib/matchPrompts";
 
 export async function POST(req: NextRequest) {
   try {
     const data: FormData = await req.json();
 
-    if (!data.primaryKeyword || !data.guestName || !data.transcript || !data.videoType) {
+    if (!data.guestName || !data.transcript || !data.videoType) {
       return NextResponse.json(
-        { error: "Missing required fields: primaryKeyword, guestName, transcript, videoType" },
+        { error: "Missing required fields: guestName, transcript, videoType" },
+        { status: 400 }
+      );
+    }
+    if (data.videoType === "webinar" && !data.primaryKeyword) {
+      return NextResponse.json(
+        { error: "primaryKeyword is required for webinars" },
         { status: 400 }
       );
     }
@@ -24,6 +31,7 @@ export async function POST(req: NextRequest) {
     let analysis: TranscriptAnalysis | null = null;
     let matchedPrompts: MatchedPrompt[] = [];
     let matchedMoments: MatchedMoment[] = [];
+    let clipMoments: ClipMoment[] = [];
 
     if (process.env.ANTHROPIC_API_KEY) {
       // Step 1: Analyze transcript
@@ -65,6 +73,19 @@ export async function POST(req: NextRequest) {
           console.warn("[/api/generate] moment extraction failed:", e);
         }
       }
+
+      // Step 5: Score clip moments for webinars
+      if (data.videoType === "webinar") {
+        try {
+          clipMoments = await scoreClipsFromTranscript(
+            data.transcript,
+            data.guestName,
+            data.videoType
+          );
+        } catch (e) {
+          console.warn("[/api/generate] clip scoring failed:", e);
+        }
+      }
     }
 
     // Step 5: Build prompt
@@ -83,6 +104,7 @@ export async function POST(req: NextRequest) {
     }
 
     result.matchedMoments = matchedMoments;
+    result.clipMoments = clipMoments;
     return NextResponse.json(result);
   } catch (e: unknown) {
     console.error("[/api/generate]", e);

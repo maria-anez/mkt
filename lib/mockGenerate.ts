@@ -5,7 +5,7 @@ import type { FormData, GenerateResult } from "./types";
  * Swap with real AirOps API call in app/api/generate/route.ts.
  */
 export function mockGenerate(data: FormData): GenerateResult {
-  const kw      = data.primaryKeyword;
+  const kw      = data.primaryKeyword ?? "AI search";
   const guest   = data.guestName;
   const role    = data.guestRole    || "expert";
   const company = data.guestCompany || "their company";
