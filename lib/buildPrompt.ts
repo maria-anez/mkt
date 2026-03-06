@@ -15,16 +15,16 @@ const formatLabel: Record<string, string> = {
 };
 
 const toneInstructions: Record<string, string> = {
-  empowering:
-    "Motivating and confident. Emphasize what the audience can do and achieve. Action-oriented, forward-looking, builds belief in the reader.",
+  "empowering":
+    "Expert, optimistic, and empowering. Warm but authoritative. Lead with clarity and subtle wit. Direct, instructional language in second person ('your brand', 'you need'). Short paragraphs. Back claims with concrete data and named platforms. Default AirOps voice for thought leadership and social.",
   "functional-data":
-    "Clear, precise, and evidence-led. Lead with data, outcomes, and measurable impact. No hype — let the numbers and logic do the work.",
-  collaborative:
-    "Warm, inclusive, and peer-to-peer. Sound like a knowledgeable partner sharing what's working. Avoid hierarchy or authority posture.",
-  aspirational:
-    "Visionary and inspiring. Paint a picture of what's possible. Connect the insight to a bigger shift or future the audience wants to be part of.",
+    "Data-driven and precise. Lead with metrics, evidence, and named platforms. Businesslike but readable. Structured with clear sequences and scannable formatting. Use for research, docs, and sales decks.",
+  "collaborative":
+    "Warm, inclusive, and supportive. Sound like a knowledgeable peer walking someone through a process. Encouraging without being patronizing. Use for onboarding, support content, and nurture.",
+  "aspirational":
+    "Bold and forward-looking. Paint a picture of what's possible. Authoritative vision paired with grounded optimism. Elevated but not corporate. Use for blog posts, website copy, and keynote-style content.",
   "witty-clever":
-    "Sharp, playful, and intelligent. Use wit to make the insight land harder. Confident tone with a light touch — never try-hard.",
+    "Sharp, playful, and confident. Subtle humor and wit. Short punchy sentences. Celebrates community wins. Frames AI as a catalyst for creativity, not a threat. Avoids jargon and corporate stiffness. Use for LinkedIn, social, and ad copy.",
 };
 
 function formatOutputRules(format: string, recapUrl: string): string {
