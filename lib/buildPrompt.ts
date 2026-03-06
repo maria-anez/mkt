@@ -169,13 +169,31 @@ CHAPTERS: Follow the ${format} TIMESTAMP RULES exactly as defined in the channel
 - WEBINAR/CLIPS: Include timestamped chapters in the chapters field.
 - SHORTS: Return an empty string "" for chapters. Do not generate timestamps.
 
-PINNED COMMENT (written as AirOps):
-- Conversational but strategic. Confident, helpful, expert-level, but human.
-- Reinforce the primary keyword naturally.
-- Highlight why this guest matters in 1 line.
-- Ask one thoughtful engagement question.
-- Optional soft CTA. Max 1–2 emojis. Do not sound corporate or spammy.
-- Structure: hook line → value reinforcement → engagement question → optional CTA
+PINNED COMMENT (written as AirOps — follow PINNED COMMENT RULES from channel guidelines):
+
+GENERAL RULES (all formats):
+- 1–3 short lines maximum. No long paragraphs.
+- No corporate tone. No self-referential brand commentary.
+- No over-explaining the insight. Do not restate the full thesis.
+- At most 1 engagement question. Tone: sharp, confident, conversational.
+- Do not repeat the description.
+
+${format === "WEBINAR"
+  ? `WEBINAR STYLE:
+- Distill the core idea into 1 punchy line.
+- Follow with 1 clean engagement question.
+- No recap link in the comment.`
+  : format === "CLIPS"
+  ? `CLIP STYLE:
+- Highlight the tension or implication of the insight.
+- Follow with 1 evaluation-stage question.
+- Keep concise and sharp.`
+  : `SHORT STYLE:
+- Can be slightly playful or bold.
+- 1 strong line.
+- Optional short engagement question.
+- Keep native to YouTube tone.`
+}
 
 Return a JSON object with this exact structure:
 {

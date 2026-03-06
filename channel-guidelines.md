@@ -46,6 +46,21 @@ Align tone, structure, and density with the strategic objective of the selected 
 
 ---
 
+# PINNED COMMENT RULES (APPLY TO ALL FORMATS)
+
+GENERAL COMMENT RULES
+• 1–3 short lines maximum.
+• No long paragraphs.
+• No corporate tone.
+• No self-referential brand commentary.
+• No over-explaining the insight.
+• Include at most 1 engagement question.
+• Tone: sharp, confident, conversational.
+• Avoid repeating the description.
+• Do not restate the full thesis.
+
+---
+
 # FORMAT RULES
 
 ---
@@ -92,6 +107,11 @@ TAKEAWAY RULES
 • Include 3–5 concise, insight-led takeaways.
 • Each takeaway should be 1–2 sentences.
 • Avoid repeating description copy.
+
+PINNED COMMENT STYLE
+• Distill the core idea into 1 punchy line.
+• Follow with 1 clean engagement question.
+• No recap link in comment.
 
 ---
 
@@ -201,6 +221,11 @@ CTA RULES
 • If recap URL is provided, use it.
 • If recap URL is not provided, use: {{WEBINAR_RECAP_URL}}
 
+PINNED COMMENT STYLE
+• Highlight tension or implication.
+• Follow with 1 evaluation-stage question.
+• Keep concise and sharp.
+
 ---
 
 ### CLIP EXAMPLES
@@ -283,6 +308,12 @@ CTA RULES
 • Keep CTA neutral and concise.
 • If recap URL is provided, use it.
 • If recap URL is not provided, use: {{WEBINAR_RECAP_URL}}
+
+PINNED COMMENT STYLE
+• Can be slightly playful or bold.
+• 1 strong line.
+• Optional short engagement question.
+• Keep native to YouTube tone.
 
 ---
 

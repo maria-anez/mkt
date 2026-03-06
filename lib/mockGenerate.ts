@@ -38,11 +38,9 @@ https://www.airops.com/blog/webinar-recap`;
 51:00 Q&A and closing thoughts`;
 
     const pinnedComment =
-`This session with ${guest} covers ground most teams aren't thinking about yet.
+`${kw.charAt(0).toUpperCase() + kw.slice(1)} is an infrastructure problem — and most teams are still treating it like a content calendar problem.
 
-The point about ${kw} being an infrastructure problem — not a content volume problem — is something we keep coming back to at AirOps. ${role} at ${company} has rare firsthand perspective on this at scale.
-
-What's your team's current approach to ${kw}? Are you building systems, or still optimizing tactics?`;
+What's your team's current approach — building systems, or optimizing tactics?`;
 
     return {
       titles: [officialTitle],
@@ -86,11 +84,9 @@ Includes real examples and citation data from ${company}.`;
 02:10 What this means for your content and visibility strategy`;
 
     const pinnedComment =
-`${guest}'s answer here cuts through a lot of the noise around ${kw}.
+`${kw.charAt(0).toUpperCase() + kw.slice(1)} is a citation signal — not just a ranking factor. Most teams haven't made that mental shift yet.
 
-The cause-and-effect logic — ${kw} as a citation signal, not just a ranking factor — is something we think about constantly at AirOps. ${role} at ${company} is one of the few people making this case with real data behind it.
-
-Where's your team on this? Still optimizing for clicks, or starting to build for citations?`;
+Where's your team on this?`;
 
     return {
       titles: allTitles,
@@ -126,10 +122,7 @@ https://www.airops.com/blog/webinar-recap`;
 00:25 Why it matters right now
 00:55 The one thing to change`;
 
-  const pinnedComment =
-`${guest} packs a lot into a short window here. The ${kw} point is one we keep referencing internally at AirOps.
-
-What's your read — is your team already thinking this way, or is this a new frame?`;
+  const pinnedComment = `This ${kw} take from ${guest} hits differently. Are you already thinking this way?`;
 
   return {
     titles: allTitles,
