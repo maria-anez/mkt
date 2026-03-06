@@ -103,7 +103,7 @@ CRITICAL TITLE RULES FOR CLIPS AND SHORTS:
 - Pull a direct quote, a strong statement, or the core insight in the speaker's own words
 - A great title sounds like something the speaker said, not a keyword or topic label
 - Example of a GOOD title: "Momentum Creates Clarity" (something the speaker actually said)
-- Example of a BAD title: "Content Momentum changes everything" (generic topic label, not from transcript)
+- Example of a BAD title: "Content Momentum changes everything" (generic topic label)
 - Do NOT use the primary keyword as the title — find the real insight from the transcript
 - Each title must use a different framing angle
 - Under 70 characters each
@@ -149,7 +149,7 @@ ${transcriptPreview}
 ---
 ${isWebinar && data.takeaways?.trim() ? `
 # PROVIDED TAKEAWAYS — USE EXACTLY AS GIVEN
-The following takeaways have been provided and must be used verbatim in the description. Do NOT rewrite, summarize, or generate new takeaways. Use these exactly as written, formatted as a bullet list within the description before the CTA.
+The following takeaways have been provided and must be used verbatim in the description. Do NOT rewrite, summarize, or generate new takeaways.
 ${data.takeaways.trim()}
 ---` : ""}${analysis ? `
 # PRE-EXTRACTED TRANSCRIPT INSIGHTS
@@ -199,17 +199,16 @@ ${matchedMoments.map((m) => `• Topic: ${m.promptName}
 
 ${titleInstruction}
 
-DESCRIPTION: Follow the ${format} DESCRIPTION STRUCTURE RULES and TAKEAWAY RULES exactly as defined in the channel guidelines.
+DESCRIPTION: Follow the ${format} DESCRIPTION STRUCTURE RULES and TAKEAWAY RULES exactly.
 - Pull semantic phrases from the transcript — do not invent them.
 ${isWebinar && data.takeaways?.trim()
   ? `- TAKEAWAYS: Use the provided takeaways EXACTLY as written — do not rewrite or replace them.`
   : `- TAKEAWAYS: Generate takeaways from the transcript following the ${format} TAKEAWAY RULES.`}
 - Embed takeaways within the description body before the CTA.
 - No filler language. Active voice. Sentence case.
-- Tone must match the ${format} VOICE defined in the channel guidelines.
 - End description with exactly one CTA using recap URL: ${recapUrl}
 
-CHAPTERS: Follow the ${format} TIMESTAMP RULES exactly as defined in the channel guidelines.
+CHAPTERS: Follow the ${format} TIMESTAMP RULES exactly.
 - WEBINAR only: Include timestamped chapters in the chapters field.
 - CLIPS and SHORTS: Return an empty string "" for chapters. Never generate timestamps for clips or shorts.
 

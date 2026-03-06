@@ -6,7 +6,8 @@ import { matchPromptsFromQueries, localAirOpsPrompts } from "@/lib/matchPrompts"
 import { fetchAirOpsPrompts } from "@/lib/fetchAirOpsPrompts";
 import { extractMatchedMoments } from "@/lib/extractMatchedMoments";
 import { scoreClipsFromTranscript } from "@/lib/scoreClips";
-import type { FormData, GenerateResult, TranscriptAnalysis, MatchedMoment, ClipMoment } from "@/lib/types";
+import { suggestCards } from "@/lib/suggestCards";
+import type { FormData, GenerateResult, TranscriptAnalysis, MatchedMoment, ClipMoment, CardSuggestion } from "@/lib/types";
 import type { MatchedPrompt } from "@/lib/matchPrompts";
 
 export async function POST(req: NextRequest) {
@@ -19,6 +20,7 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+
     if (data.videoType === "webinar" && !data.primaryKeyword) {
       return NextResponse.json(
         { error: "primaryKeyword is required for webinars" },
@@ -32,16 +34,15 @@ export async function POST(req: NextRequest) {
     let matchedPrompts: MatchedPrompt[] = [];
     let matchedMoments: MatchedMoment[] = [];
     let clipMoments: ClipMoment[] = [];
+    let cardSuggestions: CardSuggestion[] = [];
 
     if (process.env.ANTHROPIC_API_KEY) {
-      // Step 1: Analyze transcript
       try {
         analysis = await analyzeTranscript(data.transcript);
       } catch (e) {
         console.warn("[/api/generate] transcript analysis failed:", e);
       }
 
-      // Step 2: Load live AirOps prompts (fallback to local)
       let airOpsPromptSource = await fetchAirOpsPrompts();
       if (!airOpsPromptSource.length) {
         airOpsPromptSource = localAirOpsPrompts;
@@ -50,7 +51,6 @@ export async function POST(req: NextRequest) {
         console.info(`[/api/generate] loaded ${airOpsPromptSource.length} live AirOps prompts`);
       }
 
-      // Step 3: Match transcript queries against AirOps prompts
       if (analysis?.suggested_queries?.length) {
         try {
           matchedPrompts = matchPromptsFromQueries(
@@ -62,7 +62,6 @@ export async function POST(req: NextRequest) {
         }
       }
 
-      // Step 4: Extract organic transcript moments for matched prompts
       if (matchedPrompts.length) {
         try {
           matchedMoments = await extractMatchedMoments(
@@ -74,7 +73,6 @@ export async function POST(req: NextRequest) {
         }
       }
 
-      // Step 5: Score clip moments for webinars
       if (data.videoType === "webinar") {
         try {
           clipMoments = await scoreClipsFromTranscript(
@@ -86,12 +84,22 @@ export async function POST(req: NextRequest) {
           console.warn("[/api/generate] clip scoring failed:", e);
         }
       }
+
+      if (analysis) {
+        try {
+          cardSuggestions = await suggestCards(
+            analysis,
+            data.guestName,
+            data.videoTitle ?? ""
+          );
+        } catch (e) {
+          console.warn("[/api/generate] card suggestions failed:", e);
+        }
+      }
     }
 
-    // Step 5: Build prompt
     const prompt = buildPrompt(data, analysis, matchedPrompts, matchedMoments);
 
-    // Step 6: Generate outputs
     const airOpsKey = process.env.AIR_OPS_API_KEY;
     let result: GenerateResult;
 
@@ -105,6 +113,8 @@ export async function POST(req: NextRequest) {
 
     result.matchedMoments = matchedMoments;
     result.clipMoments = clipMoments;
+    result.cardSuggestions = cardSuggestions;
+
     return NextResponse.json(result);
   } catch (e: unknown) {
     console.error("[/api/generate]", e);

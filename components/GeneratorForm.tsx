@@ -60,6 +60,7 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
   }
 
   const isWebinar = form.videoType === "webinar";
+  const isClipOrShort = form.videoType === "clip" || form.videoType === "short";
 
   const isValid =
     form.guestName.trim() &&
@@ -271,13 +272,13 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
             <label className="field-label">
               Takeaways
               <span style={{ color: "var(--text-tertiary)", marginLeft: 6, textTransform: "none", letterSpacing: 0, fontFamily: "var(--font-sans)", fontSize: 11 }}>
-                — paste yours to keep consistent across publications; leave blank to auto-generate
+                — paste yours to keep consistent; leave blank to auto-generate
               </span>
             </label>
             <textarea
               className="field-input"
               style={{ minHeight: 120, resize: "vertical", lineHeight: 1.6 }}
-              placeholder="e.g. • AI search is reshaping how buyers discover tools"
+              placeholder={"e.g.\n• AI search is reshaping how buyers discover tools\n• Brand mentions matter more than backlinks now"}
               value={form.takeaways ?? ""}
               onChange={(e) => set("takeaways", e.target.value)}
             />
