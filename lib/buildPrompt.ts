@@ -27,6 +27,48 @@ const toneInstructions: Record<string, string> = {
     "Sharp, playful, and confident. Subtle humor and wit. Short punchy sentences. Celebrates community wins. Frames AI as a catalyst for creativity, not a threat. Avoids jargon and corporate stiffness. Use for LinkedIn, social, and ad copy.",
 };
 
+// ─── AirOps Brand Writing Rules ───────────────────────────────────────────────
+// Pulled directly from the AirOps 2026 Brand Kit (ID: 26564).
+// These are injected into every generation prompt to enforce brand voice.
+
+const AIROPS_WRITING_RULES = `
+AIROPS BRAND WRITING RULES — APPLY TO ALL OUTPUT:
+
+LANGUAGE & PHRASING:
+- Never use em dashes (—) as dramatic pauses. Rewrite the sentence. Use a period instead.
+  BAD: "AirOps is more than a platform — it's a movement."
+  GOOD: "AirOps is more than a platform. It's a movement."
+- Never use "AI-generated", "AI-driven", or "AI-powered" as adjectives. Use specific plain language instead.
+  BAD: "AI-generated content", "AI-driven workflows", "AI-powered platform"
+  GOOD: "AI answers", "content workflows", "content built with AI"
+- Never start with "In today's world," "In an era where," or similar scene-setting clichés. Get to the point.
+- Never use: "delve into", "it's worth noting that", "leveraging". Use: explore, use, tap, apply, build.
+- Avoid "Furthermore," "Moreover," "Additionally." Use natural connective tissue or start a new sentence.
+- Don't end lists with "and beyond." Name the actual things or cut the list.
+- Avoid hollow affirmations like "Great question!" "Absolutely!" "Certainly!" They're filler.
+- Never use the "if X, then Y" construction. Use plain, direct language instead.
+  BAD: "If you want to grow visibility, then you need great content."
+  GOOD: "Great content is how you grow visibility."
+- Don't open with rhetorical questions you immediately answer. Lead with the answer instead.
+- Avoid overly formal or hedge-everything language. Have a POV. Definitive beats diplomatic.
+  BAD: "quality is often considered important"
+  GOOD: "Quality content is the only durable strategy"
+
+TONE & VOICE:
+- Write like a real person. Copy should pass the casual dinner party test.
+- Talk with authority and confidence. Back claims with data, stats, or logic.
+- Never egg on AI anxiety or doomsday language. Keep it positive and empowering.
+- Don't make it about AirOps. Frame the product as the vehicle for the user's success.
+- Focus on the viewer's impact and outcome, not just what the tool does.
+- Respect the reader's time. Crisp language. Communicate, don't market.
+- Never be patronizing. Empower, don't belittle.
+
+FORMATTING:
+- Use sentence case for all headings and chapter titles (not Title Case).
+- Short paragraphs — often 1–3 sentences.
+- Second-person language: "your brand," "you need," "your team."
+`.trim();
+
 function formatOutputRules(format: string, recapUrl: string): string {
   switch (format) {
     case "WEBINAR":
@@ -74,13 +116,13 @@ export function buildPrompt(
   matchedPrompts?: MatchedPrompt[],
   matchedMoments?: MatchedMoment[]
 ): string {
-  const guidelines  = loadChannelGuidelines();
-  const format      = formatLabel[data.videoType] ?? "CLIPS";
-  const tone        = toneInstructions[data.tonePreference] ?? toneInstructions["engagement"];
-  const recapUrl    = data.recapUrl?.trim() || "{{WEBINAR_RECAP_URL}}";
-  const isWebinar   = data.videoType === "webinar";
+  const guidelines    = loadChannelGuidelines();
+  const format        = formatLabel[data.videoType] ?? "CLIPS";
+  const tone          = toneInstructions[data.tonePreference] ?? toneInstructions["empowering"];
+  const recapUrl      = data.recapUrl?.trim() || "{{WEBINAR_RECAP_URL}}";
+  const isWebinar     = data.videoType === "webinar";
   const isClipOrShort = data.videoType === "clip" || data.videoType === "short";
-  const outputRules = formatOutputRules(format, recapUrl);
+  const outputRules   = formatOutputRules(format, recapUrl);
 
   const transcriptPreview =
     data.transcript.length > 12000
@@ -105,6 +147,12 @@ CRITICAL TITLE RULES FOR CLIPS AND SHORTS:
 - For CLIPS: append "| AirOps" at the end`;
 
   return `${guidelines}
+
+---
+
+# AIROPS BRAND STYLE RULES
+
+${AIROPS_WRITING_RULES}
 
 ---
 
