@@ -22,10 +22,17 @@ export interface FormData {
 }
 
 export interface TranscriptAnalysis {
-  coreThemes:        string[];
-  commercialPhrases: string[];
-  strategicShifts:   string[];
-  authoritySignals:  string[];
+  core_themes:       string[];
+  strategic_shifts:  string[];
+  authority_signals: string[];
+  commercial_intent: string[];
+  suggested_queries: string[];  // Natural-language AI search queries grounded in transcript
+}
+
+export interface AirOpsPrompt {
+  name:          string;
+  description:   string;
+  citation_rate: number;    // 0–100; used to boost match scores
 }
 
 export interface GenerateResult {

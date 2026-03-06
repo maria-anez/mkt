@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { buildPrompt } from "@/lib/buildPrompt";
 import { mockGenerate } from "@/lib/mockGenerate";
 import { analyzeTranscript } from "@/lib/analyzeTranscript";
+import { matchPromptsFromQueries, localAirOpsPrompts } from "@/lib/matchPrompts";
 import type { FormData, GenerateResult, TranscriptAnalysis } from "@/lib/types";
+import type { MatchedPrompt } from "@/lib/matchPrompts";
 
 export async function POST(req: NextRequest) {
   try {
@@ -17,10 +19,11 @@ export async function POST(req: NextRequest) {
 
     data.titleCount = Math.min(Math.max(Number(data.titleCount) || 5, 1), 10);
 
-    // ── Step 1: Analyze transcript with Claude ────────────────────────────
-    // Runs when ANTHROPIC_API_KEY is set. Falls back to null gracefully —
-    // the prompt still works without pre-extracted insights.
+    // ── Step 1: Analyze transcript with Claude ─────────────────────────────
+    // Requires ANTHROPIC_API_KEY. Falls back to null — generation proceeds
+    // normally without analysis and matching.
     let analysis: TranscriptAnalysis | null = null;
+    let matchedPrompts: MatchedPrompt[] = [];
 
     if (process.env.ANTHROPIC_API_KEY) {
       try {
@@ -28,17 +31,31 @@ export async function POST(req: NextRequest) {
       } catch (e) {
         console.warn("[/api/generate] transcript analysis failed, continuing without it:", e);
       }
+
+      // ── Step 2: Match suggested queries against local AirOps prompt DB ───
+      // Only runs if analysis succeeded and produced suggested_queries.
+      // No match is forced — returns [] if alignment is weak.
+      if (analysis?.suggested_queries?.length) {
+        try {
+          matchedPrompts = matchPromptsFromQueries(
+            analysis.suggested_queries,
+            localAirOpsPrompts
+          );
+        } catch (e) {
+          console.warn("[/api/generate] prompt matching failed, continuing without matches:", e);
+        }
+      }
     }
 
-    // ── Step 2: Build prompt with channel guidelines + analysis ──────────
-    const prompt = buildPrompt(data, analysis);
+    // ── Step 3: Build prompt with guidelines + analysis + matched prompts ──
+    const prompt = buildPrompt(data, analysis, matchedPrompts);
 
-    // ── Step 3: Generate outputs ──────────────────────────────────────────
+    // ── Step 4: Generate outputs ───────────────────────────────────────────
     const airOpsKey = process.env.AIR_OPS_API_KEY;
     let result: GenerateResult;
 
     if (airOpsKey && airOpsKey !== "your_airops_api_key_here") {
-      // ─── Real AirOps integration ────────────────────────────────────────
+      // ─── Real AirOps integration ─────────────────────────────────────────
       //
       // const response = await fetch(
       //   "https://api.airops.com/public_api/agent/YOUR_AGENT_ID/execute",
@@ -64,9 +81,9 @@ export async function POST(req: NextRequest) {
       //   pinnedComment: parsed.pinnedComment,
       // };
       //
-      // ─── End AirOps integration ─────────────────────────────────────────
+      // ─── End AirOps integration ──────────────────────────────────────────
 
-      void prompt; // keep buildPrompt call live
+      void prompt;
       result = mockGenerate(data);
     } else {
       void prompt;

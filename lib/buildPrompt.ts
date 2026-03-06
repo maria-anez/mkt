@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import type { FormData, TranscriptAnalysis } from "./types";
+import type { MatchedPrompt } from "./matchPrompts";
 
 function loadChannelGuidelines(): string {
   const filePath = path.join(process.cwd(), "channel-guidelines.md");
@@ -76,7 +77,8 @@ CTA ENFORCEMENT: Include exactly one CTA. Do not add secondary CTAs, subscribe p
 
 export function buildPrompt(
   data: FormData,
-  analysis?: TranscriptAnalysis | null
+  analysis?: TranscriptAnalysis | null,
+  matchedPrompts?: MatchedPrompt[]
 ): string {
   const guidelines  = loadChannelGuidelines();
   const format      = formatLabel[data.videoType] ?? "CLIPS";
@@ -141,16 +143,27 @@ ${analysis ? `
 The following analysis was run on the full transcript before this prompt. Use it to inform all outputs — do not repeat or restate it literally, but let it shape phrasing, framing, and emphasis.
 
 Core themes:
-${analysis.coreThemes.map((t) => `• ${t}`).join("\n")}
-
-High-intent commercial phrases:
-${analysis.commercialPhrases.map((p) => `• ${p}`).join("\n")}
+${analysis.core_themes.map((t) => `• ${t}`).join("\n")}
 
 Strategic shifts:
-${analysis.strategicShifts.map((s) => `• ${s}`).join("\n")}
+${analysis.strategic_shifts.map((s) => `• ${s}`).join("\n")}
 
 Authority signals:
-${analysis.authoritySignals.map((a) => `• ${a}`).join("\n")}
+${analysis.authority_signals.map((a) => `• ${a}`).join("\n")}
+
+High-intent commercial phrases:
+${analysis.commercial_intent.map((p) => `• ${p}`).join("\n")}
+
+Suggested AI search queries (grounded in this transcript):
+${analysis.suggested_queries.map((q) => `• ${q}`).join("\n")}
+
+---` : ""}${matchedPrompts && matchedPrompts.length > 0 ? `
+# VISIBILITY QUERY ALIGNMENT
+
+These AirOps prompts were matched against the transcript's AI search queries. Use them to elevate the authority framing and search visibility of all outputs.
+
+Matched high-visibility prompts:
+${matchedPrompts.map((m) => `• ${m.prompt.name} — ${m.reason}`).join("\n")}
 
 ---` : ""}
 
