@@ -29,10 +29,6 @@ const toneInstructions: Record<string, string> = {
     "Executive-level authority. Emphasize expertise, outcomes, and strategic implications. Professional and precise.",
 };
 
-/**
- * Required output sections and structural rules per format.
- * These are injected into the prompt to enforce strict output shape.
- */
 function formatOutputRules(format: string, recapUrl: string): string {
   switch (format) {
     case "WEBINAR":
@@ -40,11 +36,11 @@ function formatOutputRules(format: string, recapUrl: string): string {
 1. Title — use the official webinar name exactly; do NOT rewrite
 2. Description — full-context framing paragraph, guest authority intro, strategic shift, why it matters now
 3. Takeaways — 3–5 concise insight-led bullets (1–2 sentences each); embed within the description before the CTA
-4. Timestamped chapters — minimum 5; format: MM:SS Title (one per line)
+4. Timestamped chapters — minimum 8; format: MM:SS Title (one per line)
 5. CTA — exactly one; placed at the end of the description; text: "Get all of the takeaways:" followed by ${recapUrl}
 6. Pinned comment — AirOps voice
 
-TIMESTAMP ENFORCEMENT: Timestamps are REQUIRED for this format.
+TIMESTAMP ENFORCEMENT: Timestamps are REQUIRED for this format. Minimum 8 chapters. Read the actual transcript.
 CTA ENFORCEMENT: Include exactly one CTA. Do not add secondary CTAs, subscribe prompts, or additional links.`;
 
     case "CLIPS":
@@ -60,13 +56,13 @@ CTA ENFORCEMENT: Include exactly one CTA. Do not add secondary CTAs, subscribe p
 
     case "SHORTS":
       return `REQUIRED OUTPUT SECTIONS FOR SHORTS:
-1. Title — engagement-led; short declarative statement or outcome-focused question; no AI query framing
+1. Title — derived from what the speaker actually says; a direct quote or the core insight in their own words; no AI query framing
 2. Description — speaker authority on first line, why the insight matters, do not over-teach, keep concise
 3. Takeaways — 2–3 takeaways; 1 sentence each; reinforce the main insight; do not over-explain
 4. CTA — exactly one; neutral and concise; placed at the end; text: "Watch the full session:" followed by ${recapUrl}
 5. Pinned comment — AirOps voice
 
-TIMESTAMP ENFORCEMENT: Do NOT include timestamps in description or chapters for this format. Return chapters as an empty string.
+TIMESTAMP ENFORCEMENT: Do NOT include timestamps or chapters for this format. Return chapters as an empty string "".
 CTA ENFORCEMENT: Include exactly one CTA. Do not add secondary CTAs, subscribe prompts, or additional links.`;
 
     default:
@@ -84,13 +80,13 @@ export function buildPrompt(
   const format      = formatLabel[data.videoType] ?? "CLIPS";
   const tone        = toneInstructions[data.tonePreference] ?? toneInstructions["engagement"];
   const recapUrl    = data.recapUrl?.trim() || "{{WEBINAR_RECAP_URL}}";
-  const isWebinar      = data.videoType === "webinar";
-  const isClipOrShort  = data.videoType === "clip" || data.videoType === "short";
-  const outputRules    = formatOutputRules(format, recapUrl);
+  const isWebinar   = data.videoType === "webinar";
+  const isClipOrShort = data.videoType === "clip" || data.videoType === "short";
+  const outputRules = formatOutputRules(format, recapUrl);
 
   const transcriptPreview =
-    data.transcript.length > 4000
-      ? data.transcript.slice(0, 4000) + "\n[transcript truncated]"
+    data.transcript.length > 12000
+      ? data.transcript.slice(0, 12000) + "\n[transcript truncated]"
       : data.transcript;
 
   const titleInstruction = isWebinar
@@ -103,7 +99,7 @@ CRITICAL TITLE RULES FOR CLIPS AND SHORTS:
 - Pull a direct quote, a strong statement, or the core insight in the speaker's own words
 - A great title sounds like something the speaker said, not a keyword or topic label
 - Example of a GOOD title: "Momentum Creates Clarity" (something the speaker actually said)
-- Example of a BAD title: "Content Momentum changes everything" (generic topic label)
+- Example of a BAD title: "Content Momentum changes everything" (generic topic label, not from transcript)
 - Do NOT use the primary keyword as the title — find the real insight from the transcript
 - Each title must use a different framing angle
 - Under 70 characters each
@@ -149,8 +145,11 @@ ${transcriptPreview}
 ---
 ${isWebinar && data.takeaways?.trim() ? `
 # PROVIDED TAKEAWAYS — USE EXACTLY AS GIVEN
-The following takeaways have been provided and must be used verbatim in the description. Do NOT rewrite, summarize, or generate new takeaways.
+
+The following takeaways have been provided and must be used verbatim in the description. Do NOT rewrite, summarize, or generate new takeaways. Use these exactly as written, formatted as a bullet list within the description before the CTA.
+
 ${data.takeaways.trim()}
+
 ---` : ""}${analysis ? `
 # PRE-EXTRACTED TRANSCRIPT INSIGHTS
 
@@ -182,16 +181,20 @@ ${matchedPrompts.map((m) => `• ${m.prompt.name} — ${m.reason}`).join("\n")}
 ---` : ""}${matchedMoments && matchedMoments.length > 0 ? `
 # ORGANIC TRANSCRIPT MOMENTS — TARGET TOPIC ALIGNMENT
 
-The following moments were extracted from the transcript where AirOps target topics arise naturally in the conversation. Use them to:
-- Drive title angle selection toward these topics where relevant
-- Anchor chapter timestamps to these moments
-- Inform the pinned comment hook with the most compelling insight
+These are moments in the transcript where topics AirOps wants to be cited for in AI search come up organically in the conversation. These are the most strategically valuable moments in the video.
+
+Use them as follows:
+- TITLES: At least one title variation should be angled around the topic from the strongest matched moment
+- CHAPTERS: Each matched moment MUST appear as a timestamped chapter at its given timestamp, with a chapter title that reflects the target topic naturally
+- PINNED COMMENT: Reference the topic from the top matched moment in AirOps voice
 
 Matched moments:
-${matchedMoments.map((m) => `• Topic: ${m.promptName}
-  Timestamp: ${m.approximateTimestamp}
-  Quote: "${m.quote}"
-  Reasoning: ${m.reasoning}`).join("\n\n")}
+${matchedMoments.map((m, i) => `
+Moment ${i + 1}: "${m.promptName}"
+Timestamp: ${m.approximateTimestamp}
+Quote: "${m.quote}"
+Why it matters: ${m.reasoning}
+`).join("\n")}
 
 ---` : ""}
 
@@ -199,17 +202,22 @@ ${matchedMoments.map((m) => `• Topic: ${m.promptName}
 
 ${titleInstruction}
 
-DESCRIPTION: Follow the ${format} DESCRIPTION STRUCTURE RULES and TAKEAWAY RULES exactly.
+DESCRIPTION: Follow the ${format} DESCRIPTION STRUCTURE RULES and TAKEAWAY RULES exactly as defined in the channel guidelines.
 - Pull semantic phrases from the transcript — do not invent them.
 ${isWebinar && data.takeaways?.trim()
   ? `- TAKEAWAYS: Use the provided takeaways EXACTLY as written — do not rewrite or replace them.`
   : `- TAKEAWAYS: Generate takeaways from the transcript following the ${format} TAKEAWAY RULES.`}
 - Embed takeaways within the description body before the CTA.
 - No filler language. Active voice. Sentence case.
+- Tone must match the ${format} VOICE defined in the channel guidelines.
 - End description with exactly one CTA using recap URL: ${recapUrl}
 
-CHAPTERS: Follow the ${format} TIMESTAMP RULES exactly.
-- WEBINAR only: Include timestamped chapters in the chapters field.
+CHAPTERS: Follow the ${format} TIMESTAMP RULES exactly as defined in the channel guidelines.
+- WEBINAR only: Generate chapters by actually reading the transcript and identifying real topic shifts.
+- Each chapter title must describe what is ACTUALLY discussed at that moment — use the speaker's real language and specific topics.
+- Timestamps must be estimated from actual position in the transcript (~130 words per minute).
+- Minimum 8 chapters for a full webinar. Cover the full arc of the conversation.
+- NEVER use generic chapter titles like "Introduction", "Tactical breakdown", "Q&A and closing thoughts" unless those exact words appear in the transcript.
 - CLIPS and SHORTS: Return an empty string "" for chapters. Never generate timestamps for clips or shorts.
 
 PINNED COMMENT (written as AirOps — follow PINNED COMMENT RULES from channel guidelines):
