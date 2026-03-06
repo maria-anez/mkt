@@ -11,7 +11,7 @@ export type TonePreference =
 export interface FormData {
   videoType: VideoType;
   videoTitle?: string;
-  primaryKeyword: string;
+  primaryKeyword?: string;
   guestName: string;
   guestRole: string;
   guestCompany?: string;
@@ -48,8 +48,21 @@ export interface ClipMoment {
   timestampEnd: string;
   summary: string;
   rationale: string;
-  insightType: string;
+  insightType: "reframe" | "tactical" | "data" | "revelation" | "contrarian" | "story";
   score: number;
+}
+
+export interface YouTubeVideo {
+  title: string;
+  url: string;
+  guest: string;
+  topics: string[];
+}
+
+export interface CardSuggestion {
+  video: YouTubeVideo;
+  reason: string;
+  matchType: "topic" | "guest" | "both";
 }
 
 export interface GenerateResult {
@@ -60,4 +73,5 @@ export interface GenerateResult {
   pinnedComment: string;
   matchedMoments?: MatchedMoment[];
   clipMoments?: ClipMoment[];
+  cardSuggestions?: CardSuggestion[];
 }
