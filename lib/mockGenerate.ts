@@ -5,95 +5,134 @@ import type { FormData, GenerateResult } from "./types";
  * Swap with real AirOps API call in app/api/generate/route.ts.
  */
 export function mockGenerate(data: FormData): GenerateResult {
-  const kw = data.primaryKeyword;
-  const guest = data.guestName;
-  const role = data.guestRole || "expert";
+  const kw      = data.primaryKeyword;
+  const guest   = data.guestName;
+  const role    = data.guestRole    || "expert";
   const company = data.guestCompany || "their company";
-  const isShort = data.videoType === "short";
-  const count = data.titleCount || 5;
+  const count   = data.titleCount   || 5;
 
-  // ─── Titles ───────────────────────────────────────────────────────────────
+  // ─── WEBINAR ─────────────────────────────────────────────────────────────
+  if (data.videoType === "webinar") {
+    const officialTitle = data.videoTitle?.trim() || `${kw} | AirOps & ${guest}`;
+
+    const description =
+`${guest} (${role} at ${company}) joined us to break down how ${kw} is reshaping the way teams think about content, visibility, and long-term authority — revealing what needs to change before the window closes.
+
+- ${kw} is no longer just a channel strategy. It's a systems problem.
+- Authority signals matter more than volume in AI-first discovery.
+- The teams winning now built infrastructure before it was obvious.
+- Measurement frameworks haven't caught up — most teams are flying blind.
+- Speed of iteration separates leaders from laggards.
+
+Get all of the takeaways:
+https://www.airops.com/blog/webinar-recap`;
+
+    const chapters =
+`00:00 Introduction and why ${kw} is the defining shift right now
+04:20 Who is ${guest} and what makes their vantage point different
+11:00 The core tension: why standard approaches to ${kw} break down
+19:30 The framework ${company} uses to think about ${kw} at scale
+28:15 Tactical breakdown — what actually works and what doesn't
+36:40 Measuring what matters when traditional metrics don't apply
+44:10 Where ${kw} is headed and how to position your team now
+51:00 Q&A and closing thoughts`;
+
+    const pinnedComment =
+`This session with ${guest} covers ground most teams aren't thinking about yet.
+
+The point about ${kw} being an infrastructure problem — not a content volume problem — is something we keep coming back to at AirOps. ${role} at ${company} has rare firsthand perspective on this at scale.
+
+What's your team's current approach to ${kw}? Are you building systems, or still optimizing tactics?`;
+
+    return {
+      titles: [officialTitle],
+      description,
+      descriptionCharCount: description.length,
+      chapters,
+      pinnedComment,
+    };
+  }
+
+  // ─── CLIP ─────────────────────────────────────────────────────────────────
+  if (data.videoType === "clip") {
+    const allTitles = [
+      `How does ${kw} affect AI search rankings? | AirOps`,
+      `What does ${kw} actually change about content strategy? | AirOps`,
+      `Why are teams that invest in ${kw} outperforming their peers? | AirOps`,
+      `What signals determine ${kw} visibility in AI results? | AirOps`,
+      `Can ${kw} predict citation likelihood in LLMs? | AirOps`,
+      `What does ${guest} say is the biggest ${kw} mistake teams make? | AirOps`,
+      `How do you measure ${kw} impact before clicks disappear? | AirOps`,
+      `What's the real cost of ignoring ${kw}? | AirOps`,
+      `Why is ${kw} now a systems problem, not a content problem? | AirOps`,
+      `What does ${kw} optimization look like in practice? | AirOps`,
+    ].slice(0, count);
+
+    const description =
+`${allTitles[0].replace(" | AirOps", "")}
+
+${guest} (${role} at ${company}) explains the direct relationship between ${kw} and AI citation behavior — and why teams that understand this dynamic are building durable visibility while others lose ground.
+
+Learn:
+• Why ${kw} signals matter more than page-level optimization
+• How to build content that earns citations, not just clicks
+• The cause-and-effect logic behind AI-first discovery
+
+Includes real examples and citation data from ${company}.`;
+
+    const chapters =
+`00:00 The question: how does ${kw} change the game?
+00:45 ${guest}'s direct answer and the evidence behind it
+02:10 What this means for your content and visibility strategy`;
+
+    const pinnedComment =
+`${guest}'s answer here cuts through a lot of the noise around ${kw}.
+
+The cause-and-effect logic — ${kw} as a citation signal, not just a ranking factor — is something we think about constantly at AirOps. ${role} at ${company} is one of the few people making this case with real data behind it.
+
+Where's your team on this? Still optimizing for clicks, or starting to build for citations?`;
+
+    return {
+      titles: allTitles,
+      description,
+      descriptionCharCount: description.length,
+      chapters,
+      pinnedComment,
+    };
+  }
+
+  // ─── SHORT ────────────────────────────────────────────────────────────────
   const allTitles = [
-    `${kw}: what actually moves the needle in ${new Date().getFullYear()}`,
-    `The ${kw} playbook nobody is talking about`,
-    `${guest} on why most teams get ${kw} wrong`,
-    `${kw} isn't what you think — here's the real strategy`,
-    `How to win at ${kw} without starting from scratch`,
-    `${guest}'s ${kw} framework that changed how we think`,
-    `The truth about ${kw} from someone who's done it`,
-    `Why ${kw} matters more than ever (and what to do about it)`,
-    `${kw} explained in plain terms by ${guest} of ${company}`,
-    `Stop guessing at ${kw} — do this instead`,
-  ]
-    .map((t) => t.charAt(0).toUpperCase() + t.slice(1))
-    .slice(0, count);
+    `${kw.charAt(0).toUpperCase() + kw.slice(1)} changes everything. Here's how`,
+    `The ${kw} mistake most teams are still making`,
+    `Why ${kw} is the wrong thing to optimize for`,
+    `${guest} on ${kw}: the take nobody wants to hear`,
+    `You're measuring ${kw} wrong`,
+    `${kw.charAt(0).toUpperCase() + kw.slice(1)} isn't a content problem`,
+    `What ${kw} actually requires (most teams aren't ready)`,
+    `Stop guessing at ${kw}. Do this instead`,
+    `${kw.charAt(0).toUpperCase() + kw.slice(1)}: the signal that changes everything`,
+    `The ${kw} playbook nobody is following`,
+  ].slice(0, count);
 
-  const titles = allTitles;
+  const description =
+`${guest} (${role}, ${company}) explains why ${kw} is the signal most teams are still underestimating — and what to do about it.
 
-  // ─── Description ─────────────────────────────────────────────────────────
-  let description: string;
+Watch the full session:
+https://www.airops.com/blog/webinar-recap`;
 
-  if (isShort) {
-    description = `Most people approach ${kw} backwards. Here's what actually works.
+  const chapters =
+`00:00 The insight on ${kw}
+00:25 Why it matters right now
+00:55 The one thing to change`;
 
-${guest}, ${role} at ${company}, breaks down the core insight in under 60 seconds.
+  const pinnedComment =
+`${guest} packs a lot into a short window here. The ${kw} point is one we keep referencing internally at AirOps.
 
-Key takeaway: ${kw} isn't about volume — it's about signal quality and strategic positioning.
-
-→ Subscribe for more ${kw} breakdowns every week.
-
-#${kw.replace(/\s+/g, "")} #YouTube #ContentStrategy #AEO #CreatorTips`;
-  } else {
-    description = `${kw} is changing faster than most creators realize — and ${guest} has the receipts.
-
-In this conversation, ${guest} (${role} at ${company}) unpacks the frameworks behind effective ${kw} strategy: what's working now, what's broken, and how to close the gap.
-
-What we cover:
-— Why most approaches to ${kw} stall out at the same point
-— The authority signals that actually drive discoverability
-— How to build a ${kw} system that compounds over time
-— The tactical shift that separates high-visibility content from everything else
-
-If you're serious about ${kw}, this one is worth your full attention.
-
-→ Subscribe for weekly deep-dives on ${kw}, AEO, and content visibility.
-
-#${kw.replace(/\s+/g, "")} #YouTubeStrategy #ContentEngineering #AEO #Discoverability #CreatorGrowth #${guest.split(" ")[0]}`;
-  }
-
-  // ─── Chapters ────────────────────────────────────────────────────────────
-  let chapters: string;
-
-  if (isShort) {
-    chapters = [
-      `00:00 The ${kw} mistake most people make`,
-      `00:20 What ${guest} does differently`,
-      `00:50 The one thing to change today`,
-    ].join("\n");
-  } else {
-    chapters = [
-      `00:00 Introduction — why ${kw} is the conversation right now`,
-      `02:30 Who is ${guest} and what makes their perspective on ${kw} different`,
-      `07:15 The core tension: why standard ${kw} approaches break down`,
-      `13:40 The framework: how ${company} thinks about ${kw} at scale`,
-      `21:00 Tactical breakdown — the moves that actually work`,
-      `28:30 What most teams get wrong about ${kw} signals`,
-      `35:10 Where ${kw} is headed and how to position now`,
-      `41:00 Rapid-fire questions and closing thoughts`,
-    ].join("\n");
-  }
-
-  // ─── Pinned Comment ───────────────────────────────────────────────────────
-  const pinnedComment = `This one with ${guest} cuts through a lot of the noise around ${kw}.
-
-The point about ${kw} being a signal quality problem — not a volume problem — is something we think about constantly at AirOps. ${role} at ${company} is one of the few people who's actually stress-tested this in the wild.
-
-What's your current approach to ${kw}? Where are you stuck — or what's working better than expected?
-
-${isShort ? `Full breakdown in the long-form version if you want to go deeper →` : `Drop your biggest ${kw} challenge below — we read every comment.`}`;
+What's your read — is your team already thinking this way, or is this a new frame?`;
 
   return {
-    titles,
+    titles: allTitles,
     description,
     descriptionCharCount: description.length,
     chapters,

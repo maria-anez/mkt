@@ -1,4 +1,4 @@
-export type VideoType = "short" | "long-form";
+export type VideoType = "webinar" | "clip" | "short";
 
 export type TonePreference =
   | "engagement"
@@ -9,8 +9,9 @@ export type TonePreference =
   | "executive-authority";
 
 export interface FormData {
-  primaryKeyword: string;
   videoType: VideoType;
+  videoTitle?: string;       // Required for webinars (official name); optional for clips/shorts
+  primaryKeyword: string;
   guestName: string;
   guestRole: string;
   guestCompany: string;
