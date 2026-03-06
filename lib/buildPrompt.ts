@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import type { FormData } from "./types";
+import type { FormData, TranscriptAnalysis } from "./types";
 
 function loadChannelGuidelines(): string {
   const filePath = path.join(process.cwd(), "channel-guidelines.md");
@@ -28,7 +28,7 @@ const toneInstructions: Record<string, string> = {
     "Executive-level authority. Emphasize expertise, outcomes, and strategic implications. Professional and precise.",
 };
 
-export function buildPrompt(data: FormData): string {
+export function buildPrompt(data: FormData, analysis?: TranscriptAnalysis | null): string {
   const guidelines = loadChannelGuidelines();
   const format = formatLabel[data.videoType] ?? "CLIPS";
   const tone = toneInstructions[data.tonePreference] ?? toneInstructions["engagement"];
@@ -80,6 +80,24 @@ Title variations requested: ${data.titleCount}
 
 TRANSCRIPT:
 ${transcriptPreview}
+
+${analysis ? `---
+
+# PRE-EXTRACTED TRANSCRIPT INSIGHTS
+
+The following analysis was run on the full transcript before this prompt. Use it to inform all outputs — do not repeat or restate it literally, but let it shape phrasing, framing, and emphasis.
+
+Core themes:
+${analysis.coreThemes.map((t) => `• ${t}`).join("\n")}
+
+High-intent commercial phrases:
+${analysis.commercialPhrases.map((p) => `• ${p}`).join("\n")}
+
+Strategic shifts:
+${analysis.strategicShifts.map((s) => `• ${s}`).join("\n")}
+
+Authority signals:
+${analysis.authoritySignals.map((a) => `• ${a}`).join("\n")}` : ""}
 
 ---
 

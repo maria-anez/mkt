@@ -1,35 +1,44 @@
 import { NextRequest, NextResponse } from "next/server";
 import { buildPrompt } from "@/lib/buildPrompt";
 import { mockGenerate } from "@/lib/mockGenerate";
-import type { FormData, GenerateResult } from "@/lib/types";
+import { analyzeTranscript } from "@/lib/analyzeTranscript";
+import type { FormData, GenerateResult, TranscriptAnalysis } from "@/lib/types";
 
 export async function POST(req: NextRequest) {
   try {
     const data: FormData = await req.json();
 
-    if (
-      !data.primaryKeyword ||
-      !data.guestName ||
-      !data.transcript ||
-      !data.videoType
-    ) {
+    if (!data.primaryKeyword || !data.guestName || !data.transcript || !data.videoType) {
       return NextResponse.json(
         { error: "Missing required fields: primaryKeyword, guestName, transcript, videoType" },
         { status: 400 }
       );
     }
 
-    // Ensure titleCount is valid
     data.titleCount = Math.min(Math.max(Number(data.titleCount) || 5, 1), 10);
 
-    const apiKey = process.env.AIR_OPS_API_KEY;
+    // ── Step 1: Analyze transcript with Claude ────────────────────────────
+    // Runs when ANTHROPIC_API_KEY is set. Falls back to null gracefully —
+    // the prompt still works without pre-extracted insights.
+    let analysis: TranscriptAnalysis | null = null;
+
+    if (process.env.ANTHROPIC_API_KEY) {
+      try {
+        analysis = await analyzeTranscript(data.transcript);
+      } catch (e) {
+        console.warn("[/api/generate] transcript analysis failed, continuing without it:", e);
+      }
+    }
+
+    // ── Step 2: Build prompt with channel guidelines + analysis ──────────
+    const prompt = buildPrompt(data, analysis);
+
+    // ── Step 3: Generate outputs ──────────────────────────────────────────
+    const airOpsKey = process.env.AIR_OPS_API_KEY;
     let result: GenerateResult;
 
-    if (apiKey && apiKey !== "your_airops_api_key_here") {
-      // ─── Real AirOps integration ───────────────────────────────────────
-      // Uncomment and configure when AirOps endpoint is ready:
-      //
-      // const prompt = buildPrompt(data);
+    if (airOpsKey && airOpsKey !== "your_airops_api_key_here") {
+      // ─── Real AirOps integration ────────────────────────────────────────
       //
       // const response = await fetch(
       //   "https://api.airops.com/public_api/agent/YOUR_AGENT_ID/execute",
@@ -37,7 +46,7 @@ export async function POST(req: NextRequest) {
       //     method: "POST",
       //     headers: {
       //       "Content-Type": "application/json",
-      //       Authorization: `Bearer ${apiKey}`,
+      //       Authorization: `Bearer ${airOpsKey}`,
       //     },
       //     body: JSON.stringify({ inputs: { prompt } }),
       //   }
@@ -55,12 +64,12 @@ export async function POST(req: NextRequest) {
       //   pinnedComment: parsed.pinnedComment,
       // };
       //
-      // ─── End AirOps integration ────────────────────────────────────────
+      // ─── End AirOps integration ─────────────────────────────────────────
 
-      void buildPrompt(data); // keep import live until real integration
+      void prompt; // keep buildPrompt call live
       result = mockGenerate(data);
     } else {
-      void buildPrompt(data);
+      void prompt;
       result = mockGenerate(data);
     }
 

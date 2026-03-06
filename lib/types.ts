@@ -20,6 +20,13 @@ export interface FormData {
   titleCount: number;
 }
 
+export interface TranscriptAnalysis {
+  coreThemes:        string[];
+  commercialPhrases: string[];
+  strategicShifts:   string[];
+  authoritySignals:  string[];
+}
+
 export interface GenerateResult {
   titles: string[];
   description: string;
