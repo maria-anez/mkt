@@ -33,6 +33,7 @@ const defaultForm: FormData = {
   transcript:       "",
   tonePreference:   "engagement",
   titleCount:       5,
+  recapUrl:         "",
 };
 
 export default function GeneratorForm({ onSubmit, loading }: Props) {
@@ -229,6 +230,22 @@ export default function GeneratorForm({ onSubmit, loading }: Props) {
               />
             </div>
           )}
+        </div>
+
+        <div style={{ marginTop: 12 }}>
+          <label className="field-label">
+            Recap blog URL
+            <span style={{ color: "var(--text-tertiary)", marginLeft: 6, textTransform: "none", letterSpacing: 0, fontFamily: "var(--font-sans)", fontSize: 11 }}>
+              — used in CTA; defaults to {"{{WEBINAR_RECAP_URL}}"} if blank
+            </span>
+          </label>
+          <input
+            className="field-input"
+            type="url"
+            placeholder="https://www.airops.com/blog/webinar-recap-..."
+            value={form.recapUrl ?? ""}
+            onChange={(e) => set("recapUrl", e.target.value)}
+          />
         </div>
 
         {/* Submit */}

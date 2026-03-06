@@ -18,6 +18,7 @@ export interface FormData {
   transcript: string;
   tonePreference: TonePreference;
   titleCount: number;
+  recapUrl?: string;         // Webinar recap blog URL; falls back to {{WEBINAR_RECAP_URL}}
 }
 
 export interface TranscriptAnalysis {

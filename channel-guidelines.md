@@ -81,6 +81,18 @@ DESCRIPTION STRUCTURE RULES
 VOICE
 Strategic. Authoritative. Editorial.
 
+CTA RULES
+• Include exactly one CTA linking to the webinar recap blog.
+• Place CTA at the end of the description.
+• If recap URL is provided, use it.
+• If recap URL is not provided, use: {{WEBINAR_RECAP_URL}}
+• Do not include multiple CTAs.
+
+TAKEAWAY RULES
+• Include 3–5 concise, insight-led takeaways.
+• Each takeaway should be 1–2 sentences.
+• Avoid repeating description copy.
+
 ---
 
 ### WEBINAR EXAMPLES
@@ -173,6 +185,22 @@ DESCRIPTION STRUCTURE RULES
 VOICE
 Analytical. Evidence-driven. Precise.
 
+TIMESTAMP RULES
+• Include 3–5 timestamped chapters.
+• Format strictly as: 00:00 – Topic Name
+• Chapters must reflect meaningful topic shifts.
+
+TAKEAWAY RULES
+• Include exactly 3 concise takeaways.
+• Each takeaway must be 1–2 sentences.
+• Focus on tactical or strategic insights.
+
+CTA RULES
+• Include exactly one CTA linking to the webinar recap blog.
+• Place CTA at the end of the description.
+• If recap URL is provided, use it.
+• If recap URL is not provided, use: {{WEBINAR_RECAP_URL}}
+
 ---
 
 ### CLIP EXAMPLES
@@ -241,6 +269,20 @@ DESCRIPTION STRUCTURE RULES
 
 VOICE
 High-energy. Tight. Credible.
+
+TIMESTAMP RULES
+• Do NOT include timestamps.
+
+TAKEAWAY RULES
+• Include 2–3 concise takeaways.
+• Each takeaway should be 1 sentence.
+• Reinforce the main insight without over-teaching.
+
+CTA RULES
+• Include exactly one CTA linking to the webinar recap blog.
+• Keep CTA neutral and concise.
+• If recap URL is provided, use it.
+• If recap URL is not provided, use: {{WEBINAR_RECAP_URL}}
 
 ---
 
