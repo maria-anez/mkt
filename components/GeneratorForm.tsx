@@ -16,26 +16,33 @@ const videoTypeOptions: { value: VideoType; label: string; hint: string }[] = [
 ];
 
 const toneOptions: { value: TonePreference; label: string }[] = [
-  { value: "empowering",           label: "Empowering (default)" },
-  { value: "functional-data",      label: "Functional + Data"    },
-  { value: "collaborative",        label: "Collaborative"        },
-  { value: "aspirational",         label: "Aspirational"         },
-  { value: "witty-clever",         label: "Witty + Clever"       },
+  { value: "empowering",      label: "Empowering (default)" },
+  { value: "functional-data", label: "Functional + Data"    },
+  { value: "collaborative",   label: "Collaborative"        },
+  { value: "aspirational",    label: "Aspirational"         },
+  { value: "witty-clever",    label: "Witty + Clever"       },
 ];
 
 const defaultForm: FormData = {
-  videoType:        "clip",
-  videoTitle:       "",
-  primaryKeyword:   "",
-  guestName:        "",
-  guestRole:        "",
-  guestCompany:     "",
-  transcript:       "",
-  tonePreference:   "empowering",
-  titleCount:       5,
-  recapUrl:         "",
-  takeaways:        "",
+  videoType:      "clip",
+  videoTitle:     "",
+  primaryKeyword: "",
+  guestName:      "",
+  guestRole:      "",
+  guestCompany:   "",
+  transcript:     "",
+  tonePreference: "empowering",
+  titleCount:     5,
+  recapUrl:       "",
+  takeaways:      "",
 };
+
+// Small helper for the required asterisk
+function Req() {
+  return (
+    <span style={{ color: "var(--accent)", marginLeft: 3, fontWeight: 700 }}>*</span>
+  );
+}
 
 export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
   const [form, setForm] = useState<FormData>(defaultForm);
@@ -58,7 +65,7 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
     onClear();
   }
 
-  const isWebinar = form.videoType === "webinar";
+  const isWebinar    = form.videoType === "webinar";
   const isClipOrShort = form.videoType === "clip" || form.videoType === "short";
 
   const isValid =
@@ -70,7 +77,8 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
   return (
     <form onSubmit={handleSubmit}>
       <div className="card" style={{ padding: 24 }}>
-        {/* Required */}
+
+        {/* ── Required section ─────────────────────────────────────── */}
         <div style={{ marginBottom: 20 }}>
           <span className="pill">Required</span>
         </div>
@@ -79,7 +87,9 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
 
           {/* Video type */}
           <div>
-            <label className="field-label">Video type</label>
+            <label className="field-label">
+              Video type <Req />
+            </label>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
               {videoTypeOptions.map((opt) => (
                 <button
@@ -117,11 +127,11 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
             </div>
           </div>
 
-          {/* Official title — required for Webinar only */}
+          {/* Official webinar title — required for webinars only */}
           {isWebinar && (
             <div>
               <label className="field-label">
-                Official webinar title
+                Official webinar title <Req />
                 <span style={{ color: "var(--text-tertiary)", marginLeft: 6, textTransform: "none", letterSpacing: 0, fontFamily: "var(--font-sans)", fontSize: 11 }}>
                   — used exactly, not rewritten
                 </span>
@@ -137,10 +147,12 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
             </div>
           )}
 
-          {/* Primary keyword — required for Webinar only */}
+          {/* Primary keyword — webinar only */}
           {isWebinar && (
             <div>
-              <label className="field-label">Primary keyword</label>
+              <label className="field-label">
+                Primary keyword <Req />
+              </label>
               <input
                 className="field-input"
                 type="text"
@@ -152,9 +164,11 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
             </div>
           )}
 
-          {/* Guest info */}
+          {/* Guest name */}
           <div>
-            <label className="field-label">Guest name</label>
+            <label className="field-label">
+              Guest name <Req />
+            </label>
             <input
               className="field-input"
               type="text"
@@ -165,6 +179,7 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
             />
           </div>
 
+          {/* Guest role + company */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
             <div>
               <label className="field-label">Guest role</label>
@@ -186,7 +201,7 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
               <input
                 className="field-input"
                 type="text"
-                placeholder="leave blank if freelancer"
+                placeholder="AirOps"
                 value={form.guestCompany ?? ""}
                 onChange={(e) => set("guestCompany", e.target.value)}
               />
@@ -195,7 +210,9 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
 
           {/* Transcript */}
           <div>
-            <label className="field-label">Full transcript</label>
+            <label className="field-label">
+              Full transcript <Req />
+            </label>
             <textarea
               className="field-input"
               style={{ minHeight: 220, resize: "vertical", lineHeight: 1.6 }}
@@ -205,9 +222,29 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
               required
             />
           </div>
+
+          {/* Takeaways — webinar only, placed right after transcript */}
+          {isWebinar && (
+            <div>
+              <label className="field-label">
+                Takeaways
+                <span style={{ color: "var(--text-tertiary)", marginLeft: 6, textTransform: "none", letterSpacing: 0, fontFamily: "var(--font-sans)", fontSize: 11 }}>
+                  — paste yours to keep consistent across publications; leave blank to auto-generate
+                </span>
+              </label>
+              <textarea
+                className="field-input"
+                style={{ minHeight: 120, resize: "vertical", lineHeight: 1.6 }}
+                placeholder={`e.g.\n• AI search is reshaping how buyers discover tools\n• Brand mentions matter more than backlinks now\n• Content freshness is a citation signal`}
+                value={form.takeaways ?? ""}
+                onChange={(e) => set("takeaways", e.target.value)}
+              />
+            </div>
+          )}
+
         </div>
 
-        {/* Optional */}
+        {/* ── Optional section ──────────────────────────────────────── */}
         <div
           style={{
             borderTop: "1px solid var(--stroke-primary)",
@@ -234,8 +271,9 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
               ))}
             </select>
           </div>
-          {/* Title count only relevant for Clip / Short */}
-          {!isWebinar && (
+
+          {/* Title count — clips and shorts only */}
+          {isClipOrShort && (
             <div>
               <label className="field-label">Title variations</label>
               <input
@@ -266,25 +304,7 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
           />
         </div>
 
-        {isWebinar && (
-          <div style={{ marginTop: 12 }}>
-            <label className="field-label">
-              Takeaways
-              <span style={{ color: "var(--text-tertiary)", marginLeft: 6, textTransform: "none", letterSpacing: 0, fontFamily: "var(--font-sans)", fontSize: 11 }}>
-                — paste yours to keep consistent; leave blank to auto-generate
-              </span>
-            </label>
-            <textarea
-              className="field-input"
-              style={{ minHeight: 120, resize: "vertical", lineHeight: 1.6 }}
-              placeholder={"e.g.\n• AI search is reshaping how buyers discover tools\n• Brand mentions matter more than backlinks now"}
-              value={form.takeaways ?? ""}
-              onChange={(e) => set("takeaways", e.target.value)}
-            />
-          </div>
-        )}
-
-        {/* Actions */}
+        {/* ── Actions ───────────────────────────────────────────────── */}
         <div style={{ marginTop: 24 }}>
           <button
             type="submit"
@@ -316,6 +336,7 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
             </button>
           </div>
         </div>
+
       </div>
     </form>
   );
