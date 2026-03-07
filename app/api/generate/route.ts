@@ -96,11 +96,14 @@ export async function POST(req: NextRequest) {
     if (process.env.ANTHROPIC_API_KEY) {
       try {
         result = await generateOutput(prompt);
+        console.log("[/api/generate] SUCCESS — real generation completed");
       } catch (e) {
-        console.warn("[/api/generate] generateOutput failed, falling back to mock:", e);
+        const msg = e instanceof Error ? e.message : String(e);
+        console.error("[/api/generate] FAILED — falling back to mock. Error:", msg);
         result = mockGenerate(data);
       }
     } else {
+      console.warn("[/api/generate] NO API KEY — using mock");
       result = mockGenerate(data);
     }
 
