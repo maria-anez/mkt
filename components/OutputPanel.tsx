@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import type { GenerateResult } from "@/lib/types";
 
 interface Props {
@@ -11,290 +10,331 @@ interface Props {
   onClear: () => void;
 }
 
-function CopyButton({ text, label = "Copy" }: { text: string; label?: string }) {
-  const [copied, setCopied] = useState(false);
-
+function CopyButton({ text }: { text: string }) {
   function handleCopy() {
-    navigator.clipboard.writeText(text).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
+    navigator.clipboard.writeText(text);
   }
-
   return (
     <button
-      className={`btn-ghost${copied ? " copied" : ""}`}
       onClick={handleCopy}
+      style={{
+        fontSize: 11,
+        fontFamily: "var(--font-mono)",
+        letterSpacing: "0.05em",
+        textTransform: "uppercase",
+        padding: "3px 8px",
+        border: "1px solid var(--stroke-primary)",
+        background: "transparent",
+        color: "var(--text-tertiary)",
+        cursor: "pointer",
+        borderRadius: 0,
+      }}
     >
-      {copied ? "Copied" : label}
+      Copy
     </button>
   );
 }
 
-function SectionHeader({
+function Section({
   label,
+  children,
   copyText,
 }: {
   label: string;
-  copyText: string;
+  children: React.ReactNode;
+  copyText?: string;
 }) {
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        marginBottom: 12,
-      }}
-    >
-      <span className="pill">{label}</span>
-      <CopyButton text={copyText} />
-    </div>
-  );
-}
-
-function LoadingShimmer() {
-  return (
-    <div className="card" style={{ padding: 24 }}>
-      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        {[80, 60, 100, 55, 70].map((w, i) => (
-          <div
-            key={i}
-            className="shimmer"
-            style={{ height: 14, width: `${w}%` }}
-          />
-        ))}
-        <div style={{ height: 24 }} />
-        {[100, 90, 95, 85, 100, 80].map((w, i) => (
-          <div
-            key={i}
-            className="shimmer"
-            style={{ height: 13, width: `${w}%` }}
-          />
-        ))}
-        <div style={{ height: 24 }} />
-        {[55, 50, 60, 45, 55].map((w, i) => (
-          <div
-            key={i}
-            className="shimmer"
-            style={{ height: 13, width: `${w}%` }}
-          />
-        ))}
-        <div style={{ height: 24 }} />
-        {[100, 90, 70, 85].map((w, i) => (
-          <div
-            key={i}
-            className="shimmer"
-            style={{ height: 13, width: `${w}%` }}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function EmptyState() {
-  return (
-    <div
-      className="card"
-      style={{
-        padding: 48,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 12,
-        minHeight: 320,
-        background: "var(--white)",
-      }}
-    >
-      <div
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: 10,
-          fontWeight: 500,
-          letterSpacing: "0.1em",
-          textTransform: "uppercase",
-          color: "var(--text-tertiary)",
-          textAlign: "center",
-        }}
-      >
-        Output will appear here
-      </div>
-      <div
-        style={{
-          fontSize: 13,
-          color: "var(--text-tertiary)",
-          textAlign: "center",
-          lineHeight: 1.6,
-          maxWidth: 260,
-        }}
-      >
-        Fill in the form and click Generate to see your titles, description,
-        chapters, and pinned comment.
-      </div>
-    </div>
-  );
-}
-
-export default function OutputPanel({
-  result,
-  loading,
-  error,
-  onRegenerate,
-  onClear,
-}: Props) {
-  if (loading) return <LoadingShimmer />;
-  if (!result && !error) return <EmptyState />;
-
-  if (error) {
-    return (
-      <div
-        className="card"
-        style={{
-          padding: 20,
-          background: "#fff8f8",
-          border: "1px solid #fca5a5",
-          color: "#b91c1c",
-          fontSize: 14,
-          fontFamily: "var(--font-sans)",
-        }}
-      >
-        {error}
-      </div>
-    );
-  }
-
-  if (!result) return null;
-
-  const titlesText = result.titles
-    .map((t, i) => `${i + 1}. ${t}`)
-    .join("\n");
-
-  const allText = `=== TITLE OPTIONS ===\n${titlesText}\n\n=== DESCRIPTION ===\n${result.description}\n\n=== CHAPTERS ===\n${result.chapters}\n\n=== PINNED COMMENT ===\n${result.pinnedComment}`;
-
-  const contentStyle: React.CSSProperties = {
-    fontFamily: "var(--font-sans)",
-    fontSize: 14,
-    lineHeight: 1.65,
-    color: "var(--text-primary)",
-    whiteSpace: "pre-wrap",
-    wordBreak: "break-word",
-  };
-
-  const monoStyle: React.CSSProperties = {
-    fontFamily: "var(--font-mono)",
-    fontSize: 13,
-    lineHeight: 1.8,
-    color: "var(--text-primary)",
-    whiteSpace: "pre-wrap",
-  };
-
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-      {/* Top action bar */}
+    <div style={{ marginBottom: 24 }}>
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          gap: 8,
-          marginBottom: 16,
-          flexWrap: "wrap",
+          justifyContent: "space-between",
+          marginBottom: 8,
         }}
       >
-        <CopyButton text={allText} label="Copy all" />
-        <button
-          className="btn-ghost"
-          onClick={onRegenerate}
+        <span
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: 10,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            color: "var(--text-tertiary)",
+            fontWeight: 600,
+          }}
         >
+          {label}
+        </span>
+        {copyText && <CopyButton text={copyText} />}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+const insightTypeColors: Record<string, string> = {
+  reframe:     "#6366f1",
+  tactical:    "#0ea5e9",
+  data:        "#10b981",
+  revelation:  "#f59e0b",
+  contrarian:  "#ef4444",
+  story:       "#8b5cf6",
+};
+
+const matchTypeColors: Record<string, string> = {
+  topic: "#10b981",
+  guest: "#6366f1",
+  both:  "#f59e0b",
+};
+
+export default function OutputPanel({ result, loading, error, onRegenerate, onClear }: Props) {
+  if (loading) {
+    return (
+      <div className="card" style={{ padding: 24, minHeight: 300, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ textAlign: "center" }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--text-tertiary)", marginBottom: 8 }}>
+            Generating
+          </div>
+          <div style={{ fontSize: 13, color: "var(--text-secondary)" }}>
+            Reading transcript and building output…
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="card" style={{ padding: 24 }}>
+        <div style={{ color: "#ef4444", fontSize: 13, marginBottom: 16 }}>{error}</div>
+        <button className="btn-primary" onClick={onRegenerate} style={{ fontSize: 13, padding: "8px 16px" }}>
+          Try again
+        </button>
+      </div>
+    );
+  }
+
+  if (!result) {
+    return (
+      <div className="card" style={{ padding: 24, minHeight: 300, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ textAlign: "center", color: "var(--text-tertiary)", fontSize: 13 }}>
+          Fill in the form and hit Generate to see your YouTube copy here.
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="card" style={{ padding: 24 }}>
+
+      {/* Actions */}
+      <div style={{ display: "flex", gap: 8, marginBottom: 24 }}>
+        <button className="btn-primary" onClick={onRegenerate} style={{ flex: 1, padding: "9px 0", fontSize: 13 }}>
           Regenerate
         </button>
-        <button
-          className="btn-ghost"
-          onClick={onClear}
-        >
+        <button className="btn-ghost" onClick={onClear} style={{ flex: 1, padding: "9px 0", fontSize: 13 }}>
           Clear
         </button>
       </div>
 
-      {/* ── Title Options ── */}
-      <div className="card" style={{ padding: 20, marginBottom: 12 }}>
-        <SectionHeader label="Title options" copyText={titlesText} />
-        <ol
-          style={{
-            listStyle: "none",
-            display: "flex",
-            flexDirection: "column",
-            gap: 10,
-          }}
-        >
-          {result.titles.map((title, i) => (
-            <li
+      {/* Titles */}
+      <Section label="Titles" copyText={result.titles.join("\n")}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          {result.titles.map((t, i) => (
+            <div
               key={i}
               style={{
+                padding: "10px 12px",
+                background: "var(--off-white)",
+                border: "1px solid var(--stroke-primary)",
+                fontSize: 13,
+                lineHeight: 1.5,
                 display: "flex",
-                gap: 10,
+                justifyContent: "space-between",
                 alignItems: "flex-start",
+                gap: 8,
               }}
             >
-              <span
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 10,
-                  fontWeight: 500,
-                  letterSpacing: "0.06em",
-                  color: "var(--text-tertiary)",
-                  paddingTop: 2,
-                  minWidth: 16,
-                  flexShrink: 0,
-                }}
-              >
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <span style={{ fontSize: 14, lineHeight: 1.5, fontWeight: 500 }}>
-                {title}
-              </span>
-              <CopyButton text={title} />
-            </li>
+              <span>{t}</span>
+              <CopyButton text={t} />
+            </div>
           ))}
-        </ol>
-      </div>
+        </div>
+      </Section>
 
-      {/* ── Description ── */}
-      <div className="card" style={{ padding: 20, marginBottom: 12 }}>
-        <SectionHeader label="Description" copyText={result.description} />
+      {/* Description */}
+      <Section
+        label={`Description · ${result.descriptionCharCount} chars`}
+        copyText={result.description}
+      >
         <div
           style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            marginBottom: 10,
+            padding: "12px",
+            background: "var(--off-white)",
+            border: "1px solid var(--stroke-primary)",
+            fontSize: 13,
+            lineHeight: 1.7,
+            whiteSpace: "pre-wrap",
           }}
         >
-          <span
+          {result.description}
+        </div>
+      </Section>
+
+      {/* Chapters */}
+      {result.chapters && (
+        <Section label="Chapters" copyText={result.chapters}>
+          <div
             style={{
+              padding: "12px",
+              background: "var(--off-white)",
+              border: "1px solid var(--stroke-primary)",
+              fontSize: 13,
+              lineHeight: 1.8,
+              whiteSpace: "pre-wrap",
               fontFamily: "var(--font-mono)",
-              fontSize: 10,
-              color: "var(--text-tertiary)",
-              letterSpacing: "0.06em",
             }}
           >
-            {result.descriptionCharCount} characters
-          </span>
+            {result.chapters}
+          </div>
+        </Section>
+      )}
+
+      {/* Pinned comment */}
+      <Section label="Pinned comment" copyText={result.pinnedComment}>
+        <div
+          style={{
+            padding: "12px",
+            background: "var(--off-white)",
+            border: "1px solid var(--stroke-primary)",
+            fontSize: 13,
+            lineHeight: 1.7,
+            whiteSpace: "pre-wrap",
+          }}
+        >
+          {result.pinnedComment}
         </div>
-        <div style={contentStyle}>{result.description}</div>
-      </div>
+      </Section>
 
-      {/* ── Chapters ── */}
-      <div className="card" style={{ padding: 20, marginBottom: 12 }}>
-        <SectionHeader label="Chapters" copyText={result.chapters} />
-        <div style={monoStyle}>{result.chapters}</div>
-      </div>
+      {/* Card & end screen suggestions */}
+      {result.cardSuggestions && result.cardSuggestions.length > 0 && (
+        <Section label="Cards & end screens">
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {result.cardSuggestions.map((s, i) => (
+              <div
+                key={i}
+                style={{
+                  padding: "12px",
+                  background: "var(--off-white)",
+                  border: "1px solid var(--stroke-primary)",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 6,
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8 }}>
+                  <span style={{ fontSize: 13, fontWeight: 600, lineHeight: 1.4 }}>
+                    {s.video?.title ?? "Unknown video"}
+                  </span>
+                  <span
+                    style={{
+                      fontSize: 10,
+                      fontFamily: "var(--font-mono)",
+                      letterSpacing: "0.05em",
+                      textTransform: "uppercase",
+                      padding: "2px 6px",
+                      background: matchTypeColors[s.matchType] + "20",
+                      color: matchTypeColors[s.matchType],
+                      whiteSpace: "nowrap",
+                      flexShrink: 0,
+                    }}
+                  >
+                    {s.matchType}
+                  </span>
+                </div>
+                <div style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.5 }}>
+                  {s.reason}
+                </div>
+                <a
+                  href={s.video?.url ?? "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ fontSize: 11, color: "var(--accent)", fontFamily: "var(--font-mono)", textDecoration: "none" }}
+                >
+                  View on YouTube ↗
+                </a>
+              </div>
+            ))}
+          </div>
+        </Section>
+      )}
 
-      {/* ── Pinned Comment ── */}
-      <div className="card" style={{ padding: 20 }}>
-        <SectionHeader label="Pinned comment" copyText={result.pinnedComment} />
-        <div style={contentStyle}>{result.pinnedComment}</div>
-      </div>
+      {/* Clip recommendations — webinar only */}
+      {result.clipMoments && result.clipMoments.length > 0 && (
+        <Section label="Clip recommendations">
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {result.clipMoments.map((c, i) => (
+              <div
+                key={i}
+                style={{
+                  padding: "12px",
+                  background: "var(--off-white)",
+                  border: "1px solid var(--stroke-primary)",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 6,
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+                  <span
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: 12,
+                      fontWeight: 700,
+                      color: "var(--near-black)",
+                    }}
+                  >
+                    {c.timestampStart} – {c.timestampEnd}
+                  </span>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <span
+                      style={{
+                        fontSize: 10,
+                        fontFamily: "var(--font-mono)",
+                        letterSpacing: "0.05em",
+                        textTransform: "uppercase",
+                        padding: "2px 6px",
+                        background: (insightTypeColors[c.insightType] ?? "#888") + "20",
+                        color: insightTypeColors[c.insightType] ?? "#888",
+                      }}
+                    >
+                      {c.insightType}
+                    </span>
+                    <span
+                      style={{
+                        fontSize: 11,
+                        fontFamily: "var(--font-mono)",
+                        fontWeight: 700,
+                        color: c.score >= 9 ? "#10b981" : c.score >= 7 ? "#f59e0b" : "var(--text-tertiary)",
+                      }}
+                    >
+                      {c.score}/10
+                    </span>
+                  </div>
+                </div>
+                <div style={{ fontSize: 13, fontWeight: 600, lineHeight: 1.4 }}>
+                  {c.summary}
+                </div>
+                <div style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.5 }}>
+                  {c.rationale}
+                </div>
+              </div>
+            ))}
+          </div>
+        </Section>
+      )}
+
     </div>
   );
 }

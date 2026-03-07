@@ -1,7 +1,3 @@
-/**
- * Calls the Anthropic Claude API with a plain text prompt.
- * Uses native fetch — no SDK dependency required.
- */
 export async function callClaude(prompt: string): Promise<string> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error("ANTHROPIC_API_KEY is not set");
