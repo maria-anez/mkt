@@ -1,26 +1,45 @@
+/**
+ * Calls Claude via an AirOps workflow.
+ * Uses AirOps enterprise Claude access — no personal Anthropic credits needed.
+ * Requires AIROPS_API_KEY and AIROPS_WORKFLOW_UUID env vars.
+ */
 export async function callClaude(prompt: string): Promise<string> {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) throw new Error("ANTHROPIC_API_KEY is not set");
+  const airOpsKey = process.env.AIROPS_API_KEY;
+  const workflowUuid = process.env.AIROPS_WORKFLOW_UUID;
 
-  const response = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": apiKey,
-      "anthropic-version": "2023-06-01",
-    },
-    body: JSON.stringify({
-      model: "claude-sonnet-4-6",
-      max_tokens: 4096,
-      messages: [{ role: "user", content: prompt }],
-    }),
-  });
+  if (!airOpsKey || !workflowUuid) {
+    throw new Error("AIROPS_API_KEY and AIROPS_WORKFLOW_UUID must be set");
+  }
+
+  const response = await fetch(
+    `https://api.airops.com/public_api/airops_apps/${workflowUuid}/execute`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${airOpsKey}`,
+      },
+      body: JSON.stringify({
+        inputs: { prompt },
+      }),
+    }
+  );
 
   if (!response.ok) {
     const body = await response.text();
-    throw new Error(`Claude API error ${response.status}: ${body}`);
+    throw new Error(`AirOps API error ${response.status}: ${body}`);
   }
 
   const data = await response.json();
-  return data.content[0].text as string;
+
+  const text =
+    data.output?.response ||
+    data.output?.text ||
+    data.output ||
+    data.result ||
+    "";
+
+  if (!text) throw new Error("Empty response from AirOps workflow");
+
+  return typeof text === "string" ? text : JSON.stringify(text);
 }
