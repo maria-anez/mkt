@@ -39,6 +39,11 @@ export async function callClaude(prompt: string): Promise<string> {
     data.result ||
     "";
 
+  console.log("[callClaude] raw response keys:", Object.keys(data));
+  console.log("[callClaude] data.output type:", typeof data.output);
+  console.log("[callClaude] data.output value:", JSON.stringify(data.output)?.slice(0, 200));
+  console.log("[callClaude] text result length:", String(text).length);
+
   if (!text) throw new Error("Empty response from AirOps workflow");
 
   return typeof text === "string" ? text : JSON.stringify(text);
