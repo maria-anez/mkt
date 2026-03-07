@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     let clipMoments: ClipMoment[] = [];
     let cardSuggestions: CardSuggestion[] = [];
 
-    if (process.env.ANTHROPIC_API_KEY) {
+    if (process.env.AIROPS_WORKFLOW_UUID || process.env.ANTHROPIC_API_KEY) {
       try {
         analysis = await analyzeTranscript(data.transcript);
       } catch (e) {
@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
 
     let result: GenerateResult;
 
-    if (process.env.ANTHROPIC_API_KEY) {
+    if (process.env.AIROPS_WORKFLOW_UUID || process.env.ANTHROPIC_API_KEY) {
       try {
         result = await generateOutput(prompt);
         console.log("[/api/generate] SUCCESS — real generation completed");
@@ -103,7 +103,7 @@ export async function POST(req: NextRequest) {
         result = mockGenerate(data);
       }
     } else {
-      console.warn("[/api/generate] NO API KEY — using mock");
+      console.warn("[/api/generate] NO WORKFLOW UUID OR API KEY — using mock");
       result = mockGenerate(data);
     }
 
