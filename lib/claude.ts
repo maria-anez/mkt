@@ -32,19 +32,26 @@ export async function callClaude(prompt: string): Promise<string> {
 
   const data = await response.json();
 
+  console.log("[callClaude] response keys:", Object.keys(data));
+
+  // AirOps wraps the execution in airops_app_execution
+  const execution = data.airops_app_execution ?? data;
+  const output = execution.output;
+
+  console.log("[callClaude] output type:", typeof output);
+  console.log("[callClaude] output value:", JSON.stringify(output)?.slice(0, 300));
+
+  // Output can be a string directly, or an object with a text/response field
   const text =
-    data.output?.response ||
-    data.output?.text ||
-    data.output ||
-    data.result ||
-    "";
+    typeof output === "string"
+      ? output
+      : output?.response ||
+        output?.text ||
+        output?.result ||
+        output?.content ||
+        (typeof output === "object" ? JSON.stringify(output) : "");
 
-  console.log("[callClaude] raw response keys:", Object.keys(data));
-  console.log("[callClaude] data.output type:", typeof data.output);
-  console.log("[callClaude] data.output value:", JSON.stringify(data.output)?.slice(0, 200));
-  console.log("[callClaude] text result length:", String(text).length);
+  if (!text) throw new Error(`Empty response from AirOps workflow. Raw: ${JSON.stringify(data).slice(0, 200)}`);
 
-  if (!text) throw new Error("Empty response from AirOps workflow");
-
-  return typeof text === "string" ? text : JSON.stringify(text);
+  return text;
 }
