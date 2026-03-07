@@ -48,43 +48,68 @@ export default function Home() {
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--off-white)" }}>
-      {/* Header */}
+
+      {/* ── Header — dark forest style ── */}
       <header
         style={{
-          borderBottom: "1px solid var(--stroke-primary)",
-          background: "var(--white)",
-          padding: "0 24px",
-          height: 48,
+          background: "var(--forest)",
+          borderBottom: "1px solid #013a1a",
+          padding: "0 32px",
+          height: 52,
           display: "flex",
           alignItems: "center",
-          gap: 10,
+          justifyContent: "space-between",
           position: "sticky",
           top: 0,
           zIndex: 50,
         }}
       >
-        <span
-          style={{
-            fontFamily: "var(--font-serif)",
-            fontSize: 15,
-            fontWeight: 400,
-            letterSpacing: "-0.02em",
-            color: "var(--near-black)",
-          }}
-        >
-          YouTube Optimization Generator
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          {/* AirOps wordmark */}
+          <span
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: 18,
+              fontWeight: 400,
+              letterSpacing: "-0.03em",
+              color: "var(--off-white)",
+              lineHeight: 1,
+            }}
+          >
+            AirOps
+          </span>
+          <span
+            style={{
+              width: 1,
+              height: 16,
+              background: "#013a1a",
+              display: "inline-block",
+            }}
+          />
+          <span
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: 10,
+              fontWeight: 500,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              color: "#6aad88",
+            }}
+          >
+            YouTube Generator
+          </span>
+        </div>
+
+        <span className="pill pill-dark">
+          Internal Tool
         </span>
-        <span className="pill">Powered by AirOps</span>
       </header>
 
-      {/* Two-column layout */}
+      {/* ── Two-column layout ── */}
       <div className="generator-layout">
-        {/* Left — Input */}
         <div>
           <GeneratorForm onSubmit={handleSubmit} onClear={handleClear} loading={loading} />
         </div>
-
-        {/* Right — Output */}
         <div>
           <OutputPanel
             result={result}
