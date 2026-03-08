@@ -2,12 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { mockGenerate } from "@/lib/mockGenerate";
 import type { FormData, GenerateResult, ClipMoment, CardSuggestion, AEOMatch } from "@/lib/types";
 
-function parseOutputBlob(blob: unknown): Record<string, unknown> {
+function parseJsonBlob(blob: unknown): Record<string, unknown> {
   if (!blob) return {};
-  if (typeof blob === "object") return blob as Record<string, unknown>;
+  if (typeof blob === "object" && !Array.isArray(blob)) return blob as Record<string, unknown>;
   if (typeof blob === "string") {
     try {
-      // Strip markdown code fences if present
       const clean = blob
         .replace(/^```json\s*/i, "")
         .replace(/^```\s*/i, "")
@@ -68,23 +67,42 @@ async function callAirOpsWorkflow(data: FormData): Promise<GenerateResult | null
 
     console.log("[callAirOpsWorkflow] output keys:", Object.keys(output));
 
-    // Each output key points to a blob — parse each one
-    const mainCopy = parseOutputBlob(output.titles ?? output.description ?? output);
-    const clipData = parseOutputBlob(output.moments);
-    const cardData = parseOutputBlob(output.cards);
-    const aeoData  = parseOutputBlob(output.aeo_matches);
+    // The End node has all 4 main copy outputs pointing to the same blob
+    // So titles, description, chapters, pinnedComment all contain the full JSON
+    // Parse the first one we find to get all main copy fields
+    const mainCopy = parseJsonBlob(
+      output.titles ?? output.description ?? output.chapters ?? output.pinnedComment
+    );
 
-    // If titles is a separate key pointing to the full JSON blob
-    // (because all 4 outputs point to the same Generate YouTube Copy output)
-    // mainCopy will have titles, description, chapters, pinnedComment
-    const titles      = mainCopy.titles ?? output.titles ?? [];
-    const description = mainCopy.description ?? output.description ?? "";
-    const chapters    = mainCopy.chapters ?? output.chapters ?? "";
-    const pinnedComment = mainCopy.pinnedComment ?? output.pinnedComment ?? "";
+    const titles = Array.isArray(mainCopy.titles)
+      ? mainCopy.titles
+      : Array.isArray(output.titles)
+        ? output.titles
+        : [];
 
-    console.log("[callAirOpsWorkflow] titles:", titles);
+    const description = typeof mainCopy.description === "string"
+      ? mainCopy.description
+      : typeof output.description === "string"
+        ? output.description
+        : "";
+
+    const chapters = typeof mainCopy.chapters === "string"
+      ? mainCopy.chapters
+      : typeof output.chapters === "string"
+        ? output.chapters
+        : "";
+
+    const pinnedComment = typeof mainCopy.pinnedComment === "string"
+      ? mainCopy.pinnedComment
+      : typeof output.pinnedComment === "string"
+        ? output.pinnedComment
+        : "";
+
+    console.log("[callAirOpsWorkflow] titles parsed:", titles);
+    console.log("[callAirOpsWorkflow] description length:", description.length);
 
     // Parse clip moments
+    const clipData = parseJsonBlob(output.moments);
     const momentsArray = Array.isArray(clipData.moments)
       ? clipData.moments
       : Array.isArray(output.moments)
@@ -111,6 +129,7 @@ async function callAirOpsWorkflow(data: FormData): Promise<GenerateResult | null
     }));
 
     // Parse card suggestions
+    const cardData = parseJsonBlob(output.cards);
     const cardsArray = Array.isArray(cardData.cards)
       ? cardData.cards
       : Array.isArray(output.cards)
@@ -133,6 +152,7 @@ async function callAirOpsWorkflow(data: FormData): Promise<GenerateResult | null
     }));
 
     // Parse AEO matches
+    const aeoData = parseJsonBlob(output.aeo_matches);
     const aeoArray = Array.isArray(aeoData.aeo_matches)
       ? aeoData.aeo_matches
       : Array.isArray(output.aeo_matches)
@@ -151,14 +171,12 @@ async function callAirOpsWorkflow(data: FormData): Promise<GenerateResult | null
       why: m.why ?? "",
     }));
 
-    const descriptionStr = typeof description === "string" ? description : String(description);
-
     return {
-      titles: Array.isArray(titles) ? titles : [String(titles)],
-      description: descriptionStr,
-      descriptionCharCount: descriptionStr.length,
-      chapters: typeof chapters === "string" ? chapters : "",
-      pinnedComment: typeof pinnedComment === "string" ? pinnedComment : "",
+      titles,
+      description,
+      descriptionCharCount: description.length,
+      chapters,
+      pinnedComment,
       clipMoments,
       cardSuggestions,
       aeoMatches,
