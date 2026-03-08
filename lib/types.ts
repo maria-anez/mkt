@@ -42,6 +42,13 @@ export interface MatchedMoment {
   reasoning: string;
 }
 
+export interface AEOMatch {
+  prompt: string;        // The AirOps target prompt text
+  quote: string;         // Verbatim excerpt from transcript
+  timestamp: string;     // MM:SS
+  why: string;           // Why this moment is relevant
+}
+
 export interface ClipMoment {
   timestampStart: string;
   timestampEnd: string;
@@ -49,6 +56,8 @@ export interface ClipMoment {
   rationale: string;
   insightType: "reframe" | "tactical" | "data" | "revelation" | "contrarian" | "story";
   score: number;
+  suggestedTitle?: string;
+  format?: string;
 }
 
 export interface YouTubeVideo {
@@ -73,4 +82,5 @@ export interface GenerateResult {
   matchedMoments?: MatchedMoment[];
   clipMoments?: ClipMoment[];
   cardSuggestions?: CardSuggestion[];
+  aeoMatches?: AEOMatch[];   // Organic transcript moments aligned to AirOps AEO target prompts
 }

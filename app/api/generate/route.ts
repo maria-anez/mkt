@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { mockGenerate } from "@/lib/mockGenerate";
-import type { FormData, GenerateResult, ClipMoment, CardSuggestion } from "@/lib/types";
+import type { FormData, GenerateResult, ClipMoment, CardSuggestion, AEOMatch } from "@/lib/types";
 
 async function callAirOpsWorkflow(data: FormData): Promise<GenerateResult | null> {
   const airOpsKey = process.env.AIROPS_API_KEY;
@@ -49,7 +49,7 @@ async function callAirOpsWorkflow(data: FormData): Promise<GenerateResult | null
 
     console.log("[callAirOpsWorkflow] SUCCESS — output keys:", Object.keys(output));
 
-    // Parse clip moments from Score Clip Moments step
+    // Parse clip moments
     let clipMoments: ClipMoment[] = [];
     if (Array.isArray(output.moments)) {
       clipMoments = output.moments.map((m: {
@@ -72,7 +72,7 @@ async function callAirOpsWorkflow(data: FormData): Promise<GenerateResult | null
       }));
     }
 
-    // Parse card suggestions from Suggest Cards step
+    // Parse card suggestions
     let cardSuggestions: CardSuggestion[] = [];
     if (Array.isArray(output.cards)) {
       cardSuggestions = output.cards.map((c: {
@@ -91,6 +91,22 @@ async function callAirOpsWorkflow(data: FormData): Promise<GenerateResult | null
       }));
     }
 
+    // Parse AEO matches
+    let aeoMatches: AEOMatch[] = [];
+    if (Array.isArray(output.aeo_matches)) {
+      aeoMatches = output.aeo_matches.map((m: {
+        prompt?: string;
+        quote?: string;
+        timestamp?: string;
+        why?: string;
+      }) => ({
+        prompt: m.prompt ?? "",
+        quote: m.quote ?? "",
+        timestamp: m.timestamp ?? "00:00",
+        why: m.why ?? "",
+      }));
+    }
+
     const description = output.description ?? "";
 
     return {
@@ -101,6 +117,7 @@ async function callAirOpsWorkflow(data: FormData): Promise<GenerateResult | null
       pinnedComment: output.pinnedComment ?? "",
       clipMoments,
       cardSuggestions,
+      aeoMatches,
     };
   } catch (e) {
     console.error("[callAirOpsWorkflow] failed:", e instanceof Error ? e.message : e);
@@ -121,7 +138,6 @@ export async function POST(req: NextRequest) {
 
     data.titleCount = Math.min(Math.max(Number(data.titleCount) || 5, 1), 10);
 
-    // Call AirOps workflow — handles generation, clip scoring, and card suggestions
     const result = await callAirOpsWorkflow(data);
 
     if (result) {
@@ -129,7 +145,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(result);
     }
 
-    // Fallback to mock if workflow fails
     console.warn("[/api/generate] workflow failed — using mock");
     return NextResponse.json(mockGenerate(data));
 
