@@ -133,10 +133,13 @@ export default function Home() {
     setEnriching(true);
 
     try {
-      const res  = await fetch("/api/enrich", {
-        method:  "POST",
+      const res = await fetch("/api/enrich", {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify(lastFormData),
+        body: JSON.stringify({
+          ...lastFormData,
+          transcript: lastFormData.transcript.slice(0, 25000),
+        }),
       });
       const json = await res.json();
 
