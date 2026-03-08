@@ -2,6 +2,25 @@ import { NextRequest, NextResponse } from "next/server";
 import { mockGenerate } from "@/lib/mockGenerate";
 import type { FormData, GenerateResult, ClipMoment, CardSuggestion, AEOMatch } from "@/lib/types";
 
+function parseOutputBlob(blob: unknown): Record<string, unknown> {
+  if (!blob) return {};
+  if (typeof blob === "object") return blob as Record<string, unknown>;
+  if (typeof blob === "string") {
+    try {
+      // Strip markdown code fences if present
+      const clean = blob
+        .replace(/^```json\s*/i, "")
+        .replace(/^```\s*/i, "")
+        .replace(/```\s*$/i, "")
+        .trim();
+      return JSON.parse(clean);
+    } catch {
+      return {};
+    }
+  }
+  return {};
+}
+
 async function callAirOpsWorkflow(data: FormData): Promise<GenerateResult | null> {
   const airOpsKey = process.env.AIROPS_API_KEY;
   const workflowUuid = process.env.AIROPS_WORKFLOW_UUID;
@@ -47,74 +66,99 @@ async function callAirOpsWorkflow(data: FormData): Promise<GenerateResult | null
       return null;
     }
 
-    console.log("[callAirOpsWorkflow] SUCCESS — output keys:", Object.keys(output));
+    console.log("[callAirOpsWorkflow] output keys:", Object.keys(output));
+
+    // Each output key points to a blob — parse each one
+    const mainCopy = parseOutputBlob(output.titles ?? output.description ?? output);
+    const clipData = parseOutputBlob(output.moments);
+    const cardData = parseOutputBlob(output.cards);
+    const aeoData  = parseOutputBlob(output.aeo_matches);
+
+    // If titles is a separate key pointing to the full JSON blob
+    // (because all 4 outputs point to the same Generate YouTube Copy output)
+    // mainCopy will have titles, description, chapters, pinnedComment
+    const titles      = mainCopy.titles ?? output.titles ?? [];
+    const description = mainCopy.description ?? output.description ?? "";
+    const chapters    = mainCopy.chapters ?? output.chapters ?? "";
+    const pinnedComment = mainCopy.pinnedComment ?? output.pinnedComment ?? "";
+
+    console.log("[callAirOpsWorkflow] titles:", titles);
 
     // Parse clip moments
-    let clipMoments: ClipMoment[] = [];
-    if (Array.isArray(output.moments)) {
-      clipMoments = output.moments.map((m: {
-        timestampStart?: string;
-        timestampEnd?: string;
-        format?: string;
-        summary?: string;
-        rationale?: string;
-        suggestedTitle?: string;
-        score?: number;
-      }) => ({
-        timestampStart: m.timestampStart ?? "00:00",
-        timestampEnd: m.timestampEnd ?? "00:00",
-        summary: m.summary ?? "",
-        rationale: m.rationale ?? "",
-        insightType: (m.format === "short" ? "story" : "tactical") as ClipMoment["insightType"],
-        score: m.score ?? 7,
-        suggestedTitle: m.suggestedTitle,
-        format: m.format,
-      }));
-    }
+    const momentsArray = Array.isArray(clipData.moments)
+      ? clipData.moments
+      : Array.isArray(output.moments)
+        ? output.moments
+        : [];
+
+    const clipMoments: ClipMoment[] = momentsArray.map((m: {
+      timestampStart?: string;
+      timestampEnd?: string;
+      format?: string;
+      summary?: string;
+      rationale?: string;
+      suggestedTitle?: string;
+      score?: number;
+    }) => ({
+      timestampStart: m.timestampStart ?? "00:00",
+      timestampEnd: m.timestampEnd ?? "00:00",
+      summary: m.summary ?? "",
+      rationale: m.rationale ?? "",
+      insightType: (m.format === "short" ? "story" : "tactical") as ClipMoment["insightType"],
+      score: m.score ?? 7,
+      suggestedTitle: m.suggestedTitle,
+      format: m.format,
+    }));
 
     // Parse card suggestions
-    let cardSuggestions: CardSuggestion[] = [];
-    if (Array.isArray(output.cards)) {
-      cardSuggestions = output.cards.map((c: {
-        title?: string;
-        reason?: string;
-        matchType?: string;
-      }) => ({
-        video: {
-          title: c.title ?? "",
-          url: `https://www.youtube.com/@AirOpsHQ`,
-          guest: "",
-          topics: [],
-        },
-        reason: c.reason ?? "",
-        matchType: (c.matchType ?? "topic") as CardSuggestion["matchType"],
-      }));
-    }
+    const cardsArray = Array.isArray(cardData.cards)
+      ? cardData.cards
+      : Array.isArray(output.cards)
+        ? output.cards
+        : [];
+
+    const cardSuggestions: CardSuggestion[] = cardsArray.map((c: {
+      title?: string;
+      reason?: string;
+      matchType?: string;
+    }) => ({
+      video: {
+        title: c.title ?? "",
+        url: `https://www.youtube.com/@AirOpsHQ`,
+        guest: "",
+        topics: [],
+      },
+      reason: c.reason ?? "",
+      matchType: (c.matchType ?? "topic") as CardSuggestion["matchType"],
+    }));
 
     // Parse AEO matches
-    let aeoMatches: AEOMatch[] = [];
-    if (Array.isArray(output.aeo_matches)) {
-      aeoMatches = output.aeo_matches.map((m: {
-        prompt?: string;
-        quote?: string;
-        timestamp?: string;
-        why?: string;
-      }) => ({
-        prompt: m.prompt ?? "",
-        quote: m.quote ?? "",
-        timestamp: m.timestamp ?? "00:00",
-        why: m.why ?? "",
-      }));
-    }
+    const aeoArray = Array.isArray(aeoData.aeo_matches)
+      ? aeoData.aeo_matches
+      : Array.isArray(output.aeo_matches)
+        ? output.aeo_matches
+        : [];
 
-    const description = output.description ?? "";
+    const aeoMatches: AEOMatch[] = aeoArray.map((m: {
+      prompt?: string;
+      quote?: string;
+      timestamp?: string;
+      why?: string;
+    }) => ({
+      prompt: m.prompt ?? "",
+      quote: m.quote ?? "",
+      timestamp: m.timestamp ?? "00:00",
+      why: m.why ?? "",
+    }));
+
+    const descriptionStr = typeof description === "string" ? description : String(description);
 
     return {
-      titles: Array.isArray(output.titles) ? output.titles : [output.titles ?? ""],
-      description,
-      descriptionCharCount: description.length,
-      chapters: output.chapters ?? "",
-      pinnedComment: output.pinnedComment ?? "",
+      titles: Array.isArray(titles) ? titles : [String(titles)],
+      description: descriptionStr,
+      descriptionCharCount: descriptionStr.length,
+      chapters: typeof chapters === "string" ? chapters : "",
+      pinnedComment: typeof pinnedComment === "string" ? pinnedComment : "",
       clipMoments,
       cardSuggestions,
       aeoMatches,
