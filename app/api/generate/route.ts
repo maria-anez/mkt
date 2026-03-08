@@ -44,8 +44,8 @@ async function callAirOpsWorkflow(data: FormData): Promise<GenerateResult | null
             guest_role: data.guestRole ?? "",
             guest_company: data.guestCompany ?? "",
             video_title: data.videoTitle ?? "",
-            recap_url: data.recapUrl ?? "",
-            takeaways: data.takeaways ?? "",
+            recap_url: data.recapUrl || "none",
+            takeaways: data.takeaways || "none",
           },
         }),
       }
