@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
             guest_name:         data.guestName,
             guest_role:         data.guestRole ?? "",
             guest_company:      data.guestCompany ?? "",
-            video_title:        data.videoTitle ?? "",
+            video_title:        data.videoTitle || "Untitled",
             recap_url:          data.recapUrl || "none",
             takeaways:          data.takeaways || "none",
           },
