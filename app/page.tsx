@@ -137,7 +137,15 @@ export default function Home() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...lastFormData,
+          videoType: lastFormData.videoType,
+          guestName: lastFormData.guestName,
+          guestRole: lastFormData.guestRole ?? "",
+          guestCompany: lastFormData.guestCompany ?? "",
+          videoTitle: lastFormData.videoTitle ?? "Untitled",
+          recapUrl: lastFormData.recapUrl || "none",
+          takeaways: lastFormData.takeaways || "none",
+          tonePreference: lastFormData.tonePreference,
+          titleCount: lastFormData.titleCount,
           transcript: lastFormData.transcript.slice(0, 25000),
         }),
       });
