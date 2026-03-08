@@ -1,0 +1,1614 @@
+WEBVTT
+
+1
+00:00:02.810 --> 00:00:06.389
+Josh Spilker: Yeah, we got recording going, and then I need Q&A up.
+
+2
+00:00:37.260 --> 00:00:38.730
+Josh Spilker: Can you see it from your side?
+
+3
+00:00:39.120 --> 00:00:39.790
+Lashay Lewis: Yep.
+
+4
+00:00:43.010 --> 00:00:49.940
+Josh Spilker: Can you see the screen share? Okay. And… We are recording…
+
+5
+00:00:50.800 --> 00:00:54.379
+Josh Spilker: And it is, 12 o'clock.
+
+6
+00:00:58.260 --> 00:01:02.330
+Josh Spilker: Alright, I'll give a quick intro to you, and I'll probably say, like, hey…
+
+7
+00:01:02.460 --> 00:01:16.620
+Josh Spilker: you know, and you can say, like, how you're doing or whatever, and then on slide 3, you know, if you want to give a little bit about yourself, but slide 2, I try to get people going in the chat just a bit, and then I get a CTA, and then we'll kind of launch into our agenda.
+
+8
+00:01:16.980 --> 00:01:19.230
+Josh Spilker: Alright.
+
+9
+00:01:21.750 --> 00:01:28.440
+Josh Spilker: Three… 3, 2… 3, 2, 1.
+
+10
+00:01:31.650 --> 00:01:41.990
+Josh Spilker: Hey everybody, this is Josh Booker. I am head of search marketing here at Air Ops, and it is my distinct pleasure to welcome Lachey Lewis. Lachey, how are you doing today?
+
+11
+00:01:42.250 --> 00:01:45.650
+Lashay Lewis: I'm good! I'm excited.
+
+12
+00:01:45.800 --> 00:01:52.269
+Lashay Lewis: No pressure, though, right? It's just, like, super big webinar for Air Ops, no pressure. No pressure. But no, I'm good.
+
+13
+00:01:52.760 --> 00:01:55.049
+Lashay Lewis: I'm excited, I hope people learn some stuff.
+
+14
+00:01:55.050 --> 00:01:55.880
+Josh Spilker: I…
+
+15
+00:01:56.750 --> 00:01:57.730
+Lashay Lewis: Yeah!
+
+16
+00:01:57.730 --> 00:02:07.790
+Josh Spilker: Yeah, for sure. I am excited, because we're going to be talking about the bottom funnel and what we need to do there, and so we've got a lot of info to send your way.
+
+17
+00:02:07.790 --> 00:02:28.649
+Josh Spilker: So if this is your first time joining us, we gotta warm up the chat here a bit. If this is your first webinar you've ever been to, leave a star in the chat, and if you have been here multiple times, put a rocket ship, and I know Lachey has actually been here before. She's been a guest here, I think was this back in, like, September or so? We had a really great webinar, with…
+
+18
+00:02:28.650 --> 00:02:46.310
+Josh Spilker: Ty from Animals, and Vivian from Webflow, and we shared so much on that, and it was actually one of our most successful webinars. So I was like, we've got to bring, Lachey back to talk about the bottom funnel, because we know that's, like, a super important topic that we all have questions about. So, yeah.
+
+19
+00:02:46.360 --> 00:03:04.650
+Josh Spilker: Happy to… go ahead and drop your name in there if you'd like to, where you're from, and where, maybe even your company. So there's Lachey's rocket ship. Costa, thanks for being here. Leanna, thanks. Tyler, glad you are here. Lachey, why don't you tell us a little bit about yourself before we get going?
+
+20
+00:03:05.720 --> 00:03:24.810
+Lashay Lewis: So, hey everybody, I'm some random girl that, you know, just talks about, like, AI on the internet. I don't really know what I'm talking about. But no, seriously, like, hi, my name is Lachey. I, specialize in bottom of funnel content. I work primarily with SaaS companies on their bottom-of-funnel content.
+
+21
+00:03:24.900 --> 00:03:29.439
+Lashay Lewis: not to bore you to death, I've been doing content maybe since I was, like.
+
+22
+00:03:29.580 --> 00:03:39.550
+Lashay Lewis: 15 or so, taught myself content strategy, late teens, early 20s, worked across a ton of different agencies, and then maybe, like.
+
+23
+00:03:39.610 --> 00:03:50.190
+Lashay Lewis: two and a half, three years ago, I started consulting for SaaS companies exclusively on their bottom-of-funnel content, mainly because that was the… it was difficult for them to nail, and it was also difficult
+
+24
+00:03:50.190 --> 00:04:01.820
+Lashay Lewis: for me to learn. So I was like, I wonder if I could help some other companies do some stuff, and like, I don't know, make a little bit of money, I don't know. Amazon affiliate commissions weren't cutting it. So I was like, I wonder if I could just, like, do this, and…
+
+25
+00:04:02.070 --> 00:04:07.149
+Lashay Lewis: you know, come to find out a pleasant surprise that people actually need this stuff done.
+
+26
+00:04:07.150 --> 00:04:08.759
+Josh Spilker: Oh my goodness, yes, for sure.
+
+27
+00:04:10.730 --> 00:04:30.099
+Josh Spilker: We're so glad you're here to share your expertise. This is gonna be really great. I love the note we put down here, too, Bofuqueen. Really glad that you made a note for your s- or name for yourself in that, and we are going to talk about all the different page types that you need, all that stuff. And, before we get going, though, if you want help turning your content into a system.
+
+28
+00:04:30.100 --> 00:04:35.140
+Josh Spilker: You can get, one-on-one, get a live demo with the AirOps team.
+
+29
+00:04:35.140 --> 00:04:51.140
+Josh Spilker: to, see how some of these strategies might fit into your own site. So, you can see how Deceibo, 2X their content velocity, see examples of proven AI search workflows, and you can learn more about AirOps off-site, which helps with your visibility and mentions. Feel free to drop us a line at…
+
+30
+00:04:51.140 --> 00:05:07.309
+Josh Spilker: growth at airups.com, and then just put webinar in the subject line. You can also scan that QR code, and we've got a few more goodies for you, after the fact, as well, as we get going. And yes, there will be a recording, we will be sending this out as a recap.
+
+31
+00:05:07.310 --> 00:05:11.570
+Josh Spilker: So, let me point us to where we're going here. Yes.
+
+32
+00:05:11.760 --> 00:05:26.430
+Josh Spilker: When I was talking to Lachey about this, I was like, you know what? What are the main pages we need to create, and what's a good time frame to do it? And we were like, we got these page types, 60 days is the way to do it, so we're gonna talk about why Bofu content is so important, the frameworks to help you
+
+33
+00:05:26.430 --> 00:05:32.390
+Josh Spilker: create it, then we have some real-world examples that Lachey is gonna send your way or share with us.
+
+34
+00:05:32.390 --> 00:05:51.690
+Josh Spilker: And then, we'll also discuss how to prove out the pipeline, how to mine your sales calls and things like that to help with your bottom funnel content. And so that is what we're gonna hit on today. We do have a lot of questions already submitted, thank you at the end, but if you do have something, feel free to drop it into the chat or, in the Q&A.
+
+35
+00:05:51.690 --> 00:05:53.460
+Josh Spilker: Alright, Lachey, you ready to go?
+
+36
+00:05:53.710 --> 00:05:55.570
+Lashay Lewis: I'm ready to do it, let's do it.
+
+37
+00:05:55.570 --> 00:06:07.160
+Josh Spilker: Let's do it, alright. Starting off here, we've all heard about the importance of AI search, we're all familiar with that. Why is Bofu content in particular super important for AI search?
+
+38
+00:06:08.580 --> 00:06:24.940
+Lashay Lewis: there's a couple different theories I have on this. So, for some reason right now, and I'd be lying if I told you, I know exactly why, but for some reason right now, AI is starting to, like, gain an interest in bottom-of-funnel, high-intent-style content, right? And…
+
+39
+00:06:25.070 --> 00:06:40.689
+Lashay Lewis: typically, like, best X for Y, best software for use case, competitor, alternative, you versus competitor, like, all those types of content pieces AI is really starting to take an interest in. And my thought.
+
+40
+00:06:41.660 --> 00:06:46.020
+Lashay Lewis: again, I have a couple different theories, but my thought is, like, since…
+
+41
+00:06:46.540 --> 00:06:56.860
+Lashay Lewis: the nature of AI search is so contextual, and I won't dive into that part here, because there's another section where we get into that, but because the nature of AI search is so deep and contextual.
+
+42
+00:06:57.180 --> 00:07:03.819
+Lashay Lewis: AI now has to go and parse through information to try to figure out, okay, How do I get…
+
+43
+00:07:04.270 --> 00:07:09.869
+Lashay Lewis: a solution that matches the query, right? So, typically, and I say, like.
+
+44
+00:07:10.090 --> 00:07:11.850
+Lashay Lewis: I, I, I like to say…
+
+45
+00:07:12.210 --> 00:07:16.340
+Lashay Lewis: not that I like it, but, like, this is how I like to refer to it.
+
+46
+00:07:16.750 --> 00:07:19.520
+Lashay Lewis: AI search is like eating top of funnel.
+
+47
+00:07:19.620 --> 00:07:21.969
+Lashay Lewis: And when I say eating, I mean, like.
+
+48
+00:07:22.180 --> 00:07:27.060
+Lashay Lewis: If you go to GPT and type in, like, what is project management? Just, like, what is it?
+
+49
+00:07:27.860 --> 00:07:31.720
+Lashay Lewis: GPT can answer that question without necessarily having to, like.
+
+50
+00:07:31.870 --> 00:07:41.759
+Lashay Lewis: refer to an external source. Like, it's just gonna tell you what it is. Versus if you go to GPT and be like, what's the best payroll management software?
+
+51
+00:07:42.120 --> 00:07:59.759
+Lashay Lewis: it has to surface you a solution. So, in order for it to do that, it needs to think through how it's gonna be able to, like, surface you those different solutions, and in order to think through that, it's gotta do external research on, well, what's the best payroll management software? You know, so it's like…
+
+52
+00:07:59.900 --> 00:08:04.159
+Lashay Lewis: I'm finding, at least over the past, I don't know, 6 months or so.
+
+53
+00:08:04.630 --> 00:08:23.429
+Lashay Lewis: AI has definitely taken an interest in more bottom-of-funnel content, and it also makes sense when people are like, well, the traffic that comes from AI search is more high intent. That kind of aligns with this, and again, like, the type of content that's, you know, being produced, or the type of content that AI search is running through.
+
+54
+00:08:23.520 --> 00:08:34.539
+Lashay Lewis: In order to be able to surface these results. So again, this is kind of, like, what I'm finding in terms of, like, what AI is kind of clinging to in terms of how it's surfacing its results for high-intent searches, yeah.
+
+55
+00:08:34.549 --> 00:08:50.889
+Josh Spilker: And then, like, jumping straight into it, are you trying to think through, with these pages, are we optimizing for traffic, are we optimizing for visibility, are we optimizing for conversions? Like, within those three, where are you seeing, like, bottom funnel pages, in particular, with LLMs?
+
+56
+00:08:51.550 --> 00:09:11.529
+Lashay Lewis: Both, right? All of it. So, it's not an either-or type of situation, it's an and. Like, how do we structure bottom-of-funnel content to not just drive the maximum amount of conversions, but to also make sure that LLMs can properly read it and make the proper associations? So, the thing is…
+
+57
+00:09:12.110 --> 00:09:23.400
+Lashay Lewis: it's more of, like, trying to convince executive leadership and things like that of, like, okay, here's how we optimize content for users, because the whole… from the beginning of Google, like.
+
+58
+00:09:23.500 --> 00:09:27.240
+Lashay Lewis: it's always been, like, how do we optimize for Google? Like, how do we…
+
+59
+00:09:27.380 --> 00:09:44.970
+Lashay Lewis: rank on the first page? Like, what do we need to do? How many keywords do we need to add in here? When sort of, like, the paradoxical nature of this is, like, the more you optimize for the customer, the better you will optimize for search engines. Now, when we're talking about AI search, this has become even more…
+
+60
+00:09:45.030 --> 00:09:55.269
+Lashay Lewis: Of the case. Like, the more you know and the better you know your customer, the more you're gonna show up in here. So there's a method to the madness, but just know that's, like, the overarching theme here.
+
+61
+00:09:55.270 --> 00:10:14.189
+Josh Spilker: Yeah, for sure. And I hope nobody's running late, because we are about to just go right into it with this framework-based prompting to help you create bottom funnel pages. We're getting value here right off the top, so why don't you just walk us through what your framework is here for creating some of those bottom funnel content, and we'll definitely share examples as we go along.
+
+62
+00:10:14.190 --> 00:10:16.190
+Lashay Lewis: Sure. So…
+
+63
+00:10:16.910 --> 00:10:28.140
+Lashay Lewis: I have a very different way of doing things, obviously, but when I think about bottom of funnel content, I try to modularize it as much as humanly possible. So…
+
+64
+00:10:28.630 --> 00:10:42.150
+Lashay Lewis: when I think about bottom-of-funnel content, it's a good mix between content marketing and product marketing. The problem with that is most internal teams are not cross-functional in nature.
+
+65
+00:10:42.150 --> 00:10:48.990
+Lashay Lewis: product doesn't talk to sales, sales doesn't talk to marketing, marketing doesn't talk to CS. So it's like…
+
+66
+00:10:49.140 --> 00:11:03.030
+Lashay Lewis: this information, or this very important information you need for bottom-of-funnel articles is siloed, and it's trapped within internal teams. So, because of that, the bottom of funnel content, at least a lot of it that I see that people make.
+
+67
+00:11:03.160 --> 00:11:04.480
+Lashay Lewis: is not…
+
+68
+00:11:04.940 --> 00:11:24.560
+Lashay Lewis: the best. I'll keep it cute. It's not the best that it can be, but this comes to pose a question, because I had people ask me, well, Lachey, like, what am I supposed to do about it? I mean, culture is dripped from the top down, not the bottom up. Us as content marketers, or the content marketers that are in here, if you are an executive leader in here.
+
+69
+00:11:25.700 --> 00:11:43.599
+Lashay Lewis: come on, we gotta do better. But also, like, if you are just a content marketer, we don't control culture. We are sucked into whatever culture the company has already, and cross-functional communication is a culture. And then I find, like, you know, as I was consulting, like, for the first, you know.
+
+70
+00:11:43.660 --> 00:12:01.949
+Lashay Lewis: two and a half years. I'm like, people don't have a bottom of funnel problem, they have, like, an internal communication issue. Because in order to fill these type of frameworks in, you have to be able to talk to different teams, because different teams has this information. And I'll go deeper in this a little bit later on, but for example, for pain points.
+
+71
+00:12:02.490 --> 00:12:14.510
+Lashay Lewis: who is it in the company that's talking to prospects all day long, right? Like, all day, all day. Sales team. Nobody is gonna know the pain points better than somebody from sales.
+
+72
+00:12:14.540 --> 00:12:27.529
+Lashay Lewis: So, in order to inject pain points into the content, this is, like, super important, you have to know what pains the prospects are facing. The way you know that is through talking to somebody from the sales team, or…
+
+73
+00:12:27.930 --> 00:12:37.829
+Lashay Lewis: Getting sales call transcripts. This one is, like, super… this is gold. Like, if you are not recording your sales calls, or if somebody in the org, whoever's responsible, is not recording those calls.
+
+74
+00:12:37.960 --> 00:12:44.919
+Lashay Lewis: you are missing a heap load of information. So… and again, I don't have any, like…
+
+75
+00:12:46.300 --> 00:13:02.470
+Lashay Lewis: crazy, wild moment when I came up with this. Bottom of funnel content was just hard, like, I didn't know how to do it. I lost my shot at working with this agency I really wanted to work with, because I did not know how to do this. And so this was just me, like, trying to reverse engineer the process a little bit, like.
+
+76
+00:13:02.640 --> 00:13:06.070
+Lashay Lewis: Because… and I hate to go down a rabbit hole with this, but like…
+
+77
+00:13:06.540 --> 00:13:25.989
+Lashay Lewis: Most writers, or at least traditionally, were taught to Google a keyword, go into Google, smash the top 10 results together, and call that an article. Translate that to what we're doing today with AI search. It's like, okay, go to GBT and type in, hey, I want to create an article around so-and-so keyword, give me an outline.
+
+78
+00:13:26.250 --> 00:13:32.370
+Lashay Lewis: But I don't do things that way. Like, with bottom of funnel content, the framework is the outline. So…
+
+79
+00:13:32.820 --> 00:13:46.919
+Lashay Lewis: when you're building an internal knowledge base, this information gets pulled directly into the content. Luckily with AI, because to… in order to do this before, I would have to hold, like, subject matter expert interviews, that took forever.
+
+80
+00:13:46.940 --> 00:13:59.330
+Lashay Lewis: But again, if you have, like, that internal documentation that's used to be able to fill this in in a very, like, programmatic way. Because when I think about programmatic, typically it's like, oh, how can we create 1,000 pages that scales across
+
+81
+00:13:59.440 --> 00:14:06.210
+Lashay Lewis: I don't think about it… that way, I think about it more of, like, how can we scale nuance?
+
+82
+00:14:06.800 --> 00:14:07.600
+Lashay Lewis: Right.
+
+83
+00:14:07.840 --> 00:14:09.099
+Lashay Lewis: You know? Yeah.
+
+84
+00:14:09.240 --> 00:14:25.899
+Josh Spilker: Yeah, yeah, and I mean, these are all really important points. At AirOps, we have, like, a knowledge base that you can add this stuff to, and a style guide, or I'm sorry, a brand kit that can include your style guide and things like that. But as I'm looking at this page right here, this is kind of like the pre-work, right? Like, this is not necessarily an article that you would publish.
+
+85
+00:14:26.500 --> 00:14:30.290
+Josh Spilker: This is to, like, get the information to then create the articles.
+
+86
+00:14:30.290 --> 00:14:30.929
+Lashay Lewis: Yeah, so…
+
+87
+00:14:30.930 --> 00:14:31.900
+Josh Spilker: Okay, okay.
+
+88
+00:14:31.900 --> 00:14:47.119
+Lashay Lewis: Essentially, this is what I call, like, framework-based prompting. Like, this is the prompt. It's not like, hey, I'm targeting, huh, best payroll management software, can you create me an outline? Like, this is the prompt, this is the general outline. Yes.
+
+89
+00:14:47.320 --> 00:15:02.119
+Josh Spilker: Gotcha, gotcha. And, using tools like Claude, MCP, and stuff like that, it's really easy to create this if it's, like, connected to, like, your product information, your knowledge base, those things as well. So this is a really helpful framework. We're going to be sharing out parts of this.
+
+90
+00:15:02.130 --> 00:15:09.240
+Josh Spilker: soon to follow, but I did want to get to some examples that were created… that you created using that… that framework.
+
+91
+00:15:10.090 --> 00:15:13.470
+Lashay Lewis: For sure. So, these two examples are…
+
+92
+00:15:13.730 --> 00:15:24.680
+Lashay Lewis: Obviously, two bottom-of-funnel examples, but typically, again, the way I do bottom-of-funnel content is different than how I've seen a lot of other people do it, so what I'm gonna do is I'm gonna share…
+
+93
+00:15:24.790 --> 00:15:28.790
+Lashay Lewis: my screen and kind of walk you quickly through how I put this together.
+
+94
+00:15:28.940 --> 00:15:36.030
+Lashay Lewis: And kind of, like, how I think about structuring this. So… let me do this… Okay.
+
+95
+00:15:37.200 --> 00:15:41.380
+Lashay Lewis: So, again, if you think about that modular breakdown I just showed you.
+
+96
+00:15:41.630 --> 00:15:48.809
+Lashay Lewis: All of that is in here. So when you look at this, you see, hopefully, what looks to be a good finished piece.
+
+97
+00:15:49.110 --> 00:16:01.140
+Lashay Lewis: When I look at this, I see that modular breakdown that I just showed you, right? So immediately, when we're doing bottom-of-funnel content, what I like to do is start off with pain points. Typically because…
+
+98
+00:16:01.500 --> 00:16:14.250
+Lashay Lewis: I see this mistake a lot. When it comes to bottom of funnel content, I'll see, like, what is so-and-so? And, you know, in today's current landscape, and blah blah blah blah, like, you don't need all that. If somebody is searching…
+
+99
+00:16:14.450 --> 00:16:15.890
+Lashay Lewis: Bottom of funnel.
+
+100
+00:16:16.060 --> 00:16:34.880
+Lashay Lewis: they're already problem-aware, they're solution-aware, you just need to give them what they're looking for. So the first thing I do is, like, start this off with pain points. A little bit of an introduction, then I have a call to action right underneath of it, just an inline call to action. Then I start going in-depth into the actual product.
+
+101
+00:16:34.980 --> 00:16:39.279
+Lashay Lewis: Couple notes on this, like… I see companies all the time, they say, well.
+
+102
+00:16:39.850 --> 00:16:42.080
+Lashay Lewis: We don't want to seem biased, like…
+
+103
+00:16:42.240 --> 00:16:51.530
+Lashay Lewis: We don't wanna, you know, come off as biased. Like, you have to assume, like, if the person is on your website, they know it's your product. You know, they're not dumb.
+
+104
+00:16:51.580 --> 00:17:04.550
+Lashay Lewis: you need to assume that they have two to three tabs open at one time, and they're comparing solutions together. If, you know, if that's the case, maybe they're in GPT or Perplexity comparing solutions together, but don't…
+
+105
+00:17:05.260 --> 00:17:06.809
+Lashay Lewis: I don't think it's worth…
+
+106
+00:17:07.290 --> 00:17:23.309
+Lashay Lewis: kind of fretting over, like, oh, well, we're the first to be included, like, include yourself first. Not just that, but your section should be the longest, mainly because you don't have a ton of competitor information, at least internal information. So, obviously, naturally, your piece is gonna be the longest, so…
+
+107
+00:17:23.490 --> 00:17:28.869
+Lashay Lewis: One thing that I do that I see not being done from a lot of other people.
+
+108
+00:17:29.050 --> 00:17:36.290
+Lashay Lewis: is, typically, when I see bottom of funnel articles, they'll go over the features, and it's, like, 3 bullet points. And…
+
+109
+00:17:36.490 --> 00:17:46.600
+Lashay Lewis: That's the feature section. But what I like to do is I like to dive deep into each feature and capability. So, again, going back to that modular framework, when you saw…
+
+110
+00:17:47.050 --> 00:17:58.320
+Lashay Lewis: capability, and product, and feature. Again, this is just all filled in, right? Also, notice with H2s, I do not include keywords in H2s.
+
+111
+00:17:59.060 --> 00:18:15.139
+Lashay Lewis: Very… not traditional. But again, if we're optimizing this for conversions, I'm not… I'm not necessarily trying to include a certain amount of keywords in here. I'm not looking at an SEO score, I'm not doing any of that. I'm trying to…
+
+112
+00:18:15.330 --> 00:18:28.590
+Lashay Lewis: Again, optimize for the conversion, and also optimize for AI search. And again, we go further down, key feature number 2, capability screenshot, key feature number 3, capability screenshot, number 4, so on and so forth.
+
+113
+00:18:29.100 --> 00:18:31.120
+Lashay Lewis: One thing I want to mention with this, though.
+
+114
+00:18:31.550 --> 00:18:35.150
+Lashay Lewis: is… I'm not just listing random features here.
+
+115
+00:18:35.490 --> 00:18:54.449
+Lashay Lewis: So, two things. Number one, the features that I mentioned in here are in line with the use case that we're targeting. That's number one. Your product could have dozens of different features. We're not trying to include every single one in the article, because not all of them are relevant to the specific use case you are targeting. That's number one. Number two.
+
+116
+00:18:54.880 --> 00:18:59.700
+Lashay Lewis: Each one of these features, Solves this pain point.
+
+117
+00:18:59.810 --> 00:19:11.220
+Lashay Lewis: So, there's a logical string behind how this stuff was put together. So, for this pain point, this feature solves it, so on and so forth, right? For…
+
+118
+00:19:11.220 --> 00:19:11.810
+Josh Spilker: Right.
+
+119
+00:19:12.050 --> 00:19:18.259
+Lashay Lewis: And I think, just to cover one more really quick, same thing with… Another previous client, right?
+
+120
+00:19:18.410 --> 00:19:25.719
+Lashay Lewis: this is what we're going after, like, this is what the person that's looking at this needs to look for. This is more like…
+
+121
+00:19:26.240 --> 00:19:41.110
+Lashay Lewis: benefit-driven than pain point-driven, because I like to start the intro in two ways, either pain points or benefits. This is more benefit-driven. We go down, again, key feature one, we're diving in. Notice how it's not 3 bullet points, and then we're moving on. See how, like, we're diving deep into the product?
+
+122
+00:19:41.240 --> 00:19:56.320
+Lashay Lewis: Key feature two, dive deep, with GIFs and screenshots and just a ton of information in here, right? So again, when I think about the depth of how far I like to go into this, this is the contextual type of content.
+
+123
+00:19:56.390 --> 00:20:09.330
+Lashay Lewis: I mean, at least for me, it's working. It's starting to show up in AI Search in terms of when somebody types in a related phrase to this, they're starting to show up for this, and I believe it's because of the deep contextual nature of the content itself. Yes.
+
+124
+00:20:09.330 --> 00:20:13.440
+Josh Spilker: So, let's just stay here for a minute, because this is, what, Resi Alternatives, is that right?
+
+125
+00:20:13.880 --> 00:20:17.480
+Lashay Lewis: So this one is… Lupio Alternatives.
+
+126
+00:20:17.480 --> 00:20:17.950
+Josh Spilker: Okay, yeah.
+
+127
+00:20:17.950 --> 00:20:20.180
+Lashay Lewis: And the other one is Resi Alternatives.
+
+128
+00:20:20.400 --> 00:20:32.910
+Josh Spilker: So you… are you seeing this being surfaced in AI search just when somebody's, like, resi alternatives, or… or something like that, or are you also seeing it surfaced when they're, like, looking for certain features
+
+129
+00:20:33.050 --> 00:20:35.279
+Josh Spilker: For their resume builder.
+
+130
+00:20:36.510 --> 00:20:37.380
+Lashay Lewis: Both.
+
+131
+00:20:37.590 --> 00:20:42.279
+Lashay Lewis: Okay. Yeah, yeah, yeah. So if somebody goes into GBT and types, like.
+
+132
+00:20:43.140 --> 00:20:53.249
+Lashay Lewis: it might be a little bit longer than this, but just for the sake of example, if they type in, I'm looking for a resi alternative I've been using and I'm not happy with, so on and so forth.
+
+133
+00:20:53.260 --> 00:21:03.740
+Lashay Lewis: Seeing it show up for that, at least at the time of searching, but also if they're looking for specific features and capabilities of a product, too, tends to show up there as well, yeah.
+
+134
+00:21:03.930 --> 00:21:14.760
+Josh Spilker: So if they're typing in, like, I need an AI-generated resume builder, and I know that's just a really quick summary, this page could also potentially surface for that, too.
+
+135
+00:21:14.760 --> 00:21:23.829
+Lashay Lewis: Yep. And here's the thing, it's not necessarily the page itself that surfaces, but Teal as a solution itself surfaces. Yeah.
+
+136
+00:21:23.830 --> 00:21:29.380
+Josh Spilker: Yep, yep. I think that's an important note to remember there. I…
+
+137
+00:21:30.230 --> 00:21:39.589
+Josh Spilker: Actually, yeah, I'm gonna share something that we've worked on a little bit, too, if you're wondering how you can do, some of this at scale. So, let me share my screen again.
+
+138
+00:21:39.590 --> 00:21:48.140
+Josh Spilker: And within Air Ops, we have, I'm doing some competitor research myself, and one of the things I do is I have, like, the competitor name, and then I have, like.
+
+139
+00:21:48.140 --> 00:22:12.079
+Josh Spilker: Do I know the pricing? What's the G2 URL to get some of that? And then I have, like, a competitor research summary. So it's, like, pulling all of that stuff in, some of the research, like Lachey was showing earlier. And then I have my own fact sheet, where I'm also pulling in product info about Aerops and what we do well. And then this helps me create pages like the alternatives or bottom funnel one as well. I have my battle card there, too.
+
+140
+00:22:12.080 --> 00:22:30.690
+Josh Spilker: So, I'm also, as you can see, like, running, like, different alternatives, versus TypePost, on some of the competitors, and so the AirOps is a great place to be able to run a lot of those workflows at scale, as well. Let me get back to our deck here quickly.
+
+141
+00:22:32.750 --> 00:22:34.849
+Josh Spilker: Let me stop my share…
+
+142
+00:22:35.070 --> 00:22:41.829
+Josh Spilker: But, Lachey, can you just speak maybe for a minute about, like, how important it is to maybe have some of those things in one place?
+
+143
+00:22:44.850 --> 00:22:46.689
+Josh Spilker: It's everything. As far as… yeah.
+
+144
+00:22:46.690 --> 00:22:53.629
+Lashay Lewis: I mean, it's everything. Like, I mean, in terms of if you're wanting to start to surface in AI,
+
+145
+00:22:54.360 --> 00:22:58.770
+Lashay Lewis: You need to know your customer, again, because the thought is… if…
+
+146
+00:22:59.530 --> 00:23:13.460
+Lashay Lewis: they are saying these specific things on sales calls. Again, if you have the transcripts, you know what they're saying. 9 times out of 10, they're searching that on the internet in a very similar way. So the thought is to try to…
+
+147
+00:23:14.550 --> 00:23:19.600
+Lashay Lewis: kind of reverse engineer, but also kind of match up, like, okay, if they're saying this on the sales calls.
+
+148
+00:23:19.650 --> 00:23:38.529
+Lashay Lewis: what are they searching in AI search, and how can I potentially match those two things up together? So I kind of look at it like that, just to kind of, like, dumb it down some. But essentially, yes, how close can we get to what our customers are actually looking for? So yes, having that together is everything.
+
+149
+00:23:39.230 --> 00:23:53.810
+Josh Spilker: Yeah, and then, say we get all our product information, we're using your framework, we want to start building out these pages, how do we start prioritizing and then, like, sequencing the pages that we should… we should do? What's our, kind of, framework, our timeline here?
+
+150
+00:23:54.100 --> 00:23:55.190
+Lashay Lewis: So…
+
+151
+00:23:55.410 --> 00:24:02.689
+Lashay Lewis: I mean, at least for me, I like to spend the first two weeks doing customer and product research. Again, this is, like.
+
+152
+00:24:03.040 --> 00:24:13.339
+Lashay Lewis: going through the sales call transcripts, if they have Gong, Fireflies, whatever it is, like, going through that information, parsing through that info.
+
+153
+00:24:13.340 --> 00:24:28.180
+Lashay Lewis: And then what I like to do is I like to create artifacts in Claude for this information. So I have an artifact called Customer Language that extracts verbatim what comes out of this, you know, what comes out of the sales calls and things like that, and it saves it in there for me.
+
+154
+00:24:28.430 --> 00:24:30.499
+Lashay Lewis: And then, competitor research.
+
+155
+00:24:30.620 --> 00:24:34.720
+Lashay Lewis: I'd like to spend about a week or so diving into that again. I…
+
+156
+00:24:34.900 --> 00:24:38.899
+Lashay Lewis: Tend to get very granular with this type of research, because
+
+157
+00:24:39.170 --> 00:24:43.480
+Lashay Lewis: typically, I work with SaaS companies that have, like, a suite of different products,
+
+158
+00:24:44.520 --> 00:25:03.940
+Lashay Lewis: It could be on a per-product basis, where maybe one product, it has a certain amount of competitors, and this product serves a different set of use cases, so the competitors are slightly different. It gets very nuanced and granular very quickly, but that's why I like to spend a good amount of time on just the research portion. And then after that.
+
+159
+00:25:04.420 --> 00:25:07.269
+Lashay Lewis: Keyword research and content strategy, so…
+
+160
+00:25:07.450 --> 00:25:14.290
+Lashay Lewis: I say keyword research lightly. At least what I'm finding as I'm, like, in here testing.
+
+161
+00:25:15.540 --> 00:25:20.159
+Lashay Lewis: AI is less about keywords, and more about persona.
+
+162
+00:25:20.450 --> 00:25:21.590
+Lashay Lewis: So…
+
+163
+00:25:21.800 --> 00:25:33.469
+Lashay Lewis: that's kind of trying to, like, how I'm optimizing the content now to be very, like, let's think about the persona first versus the keyboard, but all of that is in here within the keyword research and content strategy.
+
+164
+00:25:33.560 --> 00:25:43.270
+Lashay Lewis: And then content production, after… and again, notice how, like, all the research comes first, and then the content production is afterward. You know, so it's like…
+
+165
+00:25:43.950 --> 00:25:50.680
+Lashay Lewis: again, with content production, I'm not thinking about scale, and I know a lot of other, you know, companies, agencies, all that stuff.
+
+166
+00:25:50.960 --> 00:25:57.370
+Lashay Lewis: how can we scale? How many articles can we get out per week? And again, pressure from executive leadership. A lot of the time, we're like, how can we scale?
+
+167
+00:25:57.570 --> 00:26:10.710
+Lashay Lewis: I don't think about scale in that way, I think about how can we take one performing asset and repurpose it to be another performing asset? How do we test this? Which leads into the tracking and optimizing, like, being able to attribute
+
+168
+00:26:10.710 --> 00:26:19.289
+Lashay Lewis: That content back to revenue, and again, seeing what works, seeing what doesn't, and then kind of doubling down and creating frameworks on what does work.
+
+169
+00:26:19.670 --> 00:26:42.239
+Josh Spilker: Yeah, I love this timeline a lot, so if you're, just joining us or trying to follow here a bit, what we started with was, like, a framework to help you build out your information, like, kind of all the product information that you needed to do it, then we showed you some examples, and now this is, like, the timeline to start really building that out. One question I do have on here, and there's
+
+170
+00:26:42.240 --> 00:26:45.040
+Josh Spilker: Point number 3 here, refresh triggers.
+
+171
+00:26:45.490 --> 00:26:55.380
+Josh Spilker: if I have all of my type of content out there, how often do I need to, like, update it, or kind of what's your cadence for thinking about that? Like, those resi pages that you just showed, or those teal pages you just showed?
+
+172
+00:26:55.530 --> 00:27:02.450
+Lashay Lewis: I mean, if you could… and again, I'm trying to be realistic. If you could update it maybe, like, once every…
+
+173
+00:27:03.080 --> 00:27:08.229
+Lashay Lewis: 6 months, and again, I'm trying to be realistic, I know people have, like, heap loads of content, I mean…
+
+174
+00:27:09.080 --> 00:27:14.320
+Lashay Lewis: I don't see this be a huge deal, at least for my clients, but typically they're up refreshing
+
+175
+00:27:14.530 --> 00:27:24.880
+Lashay Lewis: once every 6 months, 6 to 9 months, somewhere in there. Maybe some clients do once a year, if they're just… if it's just a lot of content that they need to go through. But I definitely…
+
+176
+00:27:24.880 --> 00:27:39.830
+Lashay Lewis: like, refreshing is something you need to do, especially if you've created content pre-AI search, and maybe the content is not structured in a way right now for AI search to be able to properly pick it up, for sure. So I say, like.
+
+177
+00:27:40.220 --> 00:27:52.580
+Lashay Lewis: If I could give you a range, maybe, like, 6 to 9 months, 6 to 12 months, somewhere in there. Again, it depends on the company and, like, what their priorities are to be able to, like, execute and do this, but yeah, 6 to 12 months, somewhere in there.
+
+178
+00:27:53.230 --> 00:28:07.039
+Josh Spilker: Yeah, we're finding it on our end that it really depends on the industry that you're in. In some industries demand, like, every quarter or so, like, a refresh, some it'd be a little bit more than 6 months, so I would also take that into consideration.
+
+179
+00:28:07.040 --> 00:28:17.890
+Josh Spilker: like she said, your company, your industry, what your competitors are doing, how often they're refreshing. I see a few notes in the comments, too, about people seeing success.
+
+180
+00:28:17.890 --> 00:28:36.550
+Josh Spilker: from frequent refreshes, and that's something that AirOps does really well. You can put in your URLs, create a refresh workflow, and then really start to add in, that new information from, like, your brand kit, from your knowledge base, as your product also changes, because you're also going to have to refresh if you have a lot of product updates, too.
+
+181
+00:28:36.840 --> 00:28:44.870
+Lashay Lewis: Yep, yep, yep, yep. And again, just trying to keep it realistic, because again, lots of companies… so us as the content team, we are…
+
+182
+00:28:45.060 --> 00:29:03.940
+Lashay Lewis: pressured quite a bit to produce, because now AI can do it. You know, so now that puts a level of expectation on us to be able to produce quicker and faster, but that's not necessarily always the best way to do things. Again, using AI for nuance versus using it for scale.
+
+183
+00:29:05.670 --> 00:29:08.140
+Josh Spilker: Yes, love that.
+
+184
+00:29:08.750 --> 00:29:17.330
+Josh Spilker: Now, let's think about some of the page types that you might suggest folks build. So, we have all of our product knowledge on our knowledge base.
+
+185
+00:29:17.330 --> 00:29:31.360
+Josh Spilker: We're starting to take these pages in multiple different directions. You saw the competitor research that I had done in our grid. So then you can start to use that in multiple different page types. So what are you seeing as some of the best page types to build?
+
+186
+00:29:32.250 --> 00:29:39.350
+Lashay Lewis: So… There's a couple different page types in here, but typically anything that is…
+
+187
+00:29:39.620 --> 00:29:44.469
+Lashay Lewis: I mean, I don't say there's, like, a best type, but, like, anything that's more so high intent.
+
+188
+00:29:44.480 --> 00:30:03.800
+Lashay Lewis: If, again, if you're trying to surface for high-intent queries within AI search, these are some of the best types to build, so best of, competitor comparison, use case pages, integration, product solution, and then case studies. So I have SEO style next to case studies because I have a certain way I like to do case study style content.
+
+189
+00:30:03.800 --> 00:30:08.860
+Lashay Lewis: But just to, like, show you here a couple examples of what works well…
+
+190
+00:30:09.880 --> 00:30:11.860
+Lashay Lewis: And Josh, I'm sending you a request for that.
+
+191
+00:30:12.790 --> 00:30:13.730
+Lashay Lewis: Okay.
+
+192
+00:30:14.510 --> 00:30:15.380
+Lashay Lewis: Alright.
+
+193
+00:30:16.510 --> 00:30:20.369
+Lashay Lewis: So, just to show you here some examples, so, like.
+
+194
+00:30:21.350 --> 00:30:37.759
+Lashay Lewis: competitor comparisons, right? So it's not always alternatives. I like alternatives because those convert the fastest for me and my clients. I like alternatives, but something I don't see a lot of people doing is doing multiple, competitor comparisons.
+
+195
+00:30:37.960 --> 00:30:45.509
+Lashay Lewis: So, your company versus another company versus another company. And the reason I like this strategy is because you can take search volume.
+
+196
+00:30:45.790 --> 00:30:47.200
+Lashay Lewis: From two different…
+
+197
+00:30:47.730 --> 00:31:02.520
+Lashay Lewis: solutions that are not yours, and then insert yourself in that conversation. That's one reason I like this, but I'm gonna have all the links to all these articles that you can kind of go and dissect a little bit, but this is one in terms of comparison.
+
+198
+00:31:02.520 --> 00:31:09.279
+Josh Spilker: In terms of integration pages, I really like what HubSpot has done in terms of integration pages. They get deep with it.
+
+199
+00:31:09.280 --> 00:31:15.440
+Lashay Lewis: here's how you do it step-by-step by step. So I like what HubSpot has going on there.
+
+200
+00:31:15.660 --> 00:31:23.990
+Lashay Lewis: In terms of product pages, and use case pages more specifically. Gotta shout out Air Ops, right?
+
+201
+00:31:24.380 --> 00:31:31.350
+Lashay Lewis: What you guys have done with these pages is phenomenal, and even more specifically, it's like.
+
+202
+00:31:32.060 --> 00:31:40.779
+Lashay Lewis: the structure, but not just that. Something I want to call out that Vivian actually called out in the last session that we did together, and shout out to Vivian,
+
+203
+00:31:41.040 --> 00:31:45.670
+Lashay Lewis: having FAQs on these style pages, right?
+
+204
+00:31:45.860 --> 00:32:05.760
+Lashay Lewis: even better, again, you know, I talked to you about, like, sales call transcripts and stuff like that. Even better if these questions are actual live questions from your prospects, versus you trying to figure out, oh, well, maybe they're asking this question, or probably having first-party data that lets you know that, you know.
+
+205
+00:32:05.850 --> 00:32:22.780
+Lashay Lewis: these are the questions that are actually being asked from our prospects and putting them in the FAQs. I find to work well in terms of citation increase. Vivian also has a little case study on LinkedIn that she did on that as well. Highly recommend you check it out. Alternatives.
+
+206
+00:32:23.240 --> 00:32:27.499
+Lashay Lewis: Again, same thing we went over. Again, I'll have a link for you to kind of dissect this, but…
+
+207
+00:32:28.110 --> 00:32:44.049
+Lashay Lewis: one of my favorite types of articles to create, because it converts the quickest that I have seen. Just to give you a little bit of a idea, one of my clients is a business-to-government type of client. Super long sales cycle, super complicated product.
+
+208
+00:32:44.090 --> 00:32:54.430
+Lashay Lewis: One of these alternative articles has generated them $140,000 in closed one deals. Mind you, that's just one. We've done, like, 30 plus at this point, you know?
+
+209
+00:32:54.470 --> 00:33:02.810
+Lashay Lewis: So, alternatives for the win. And then, here's another alternative. Again, I'll give you the link for you to dive through that.
+
+210
+00:33:02.810 --> 00:33:15.569
+Lashay Lewis: And then, in terms of product pages, again, I have to shout out Webflow. And I'm here at the frequently asked questions because, again, this is something that I've seen, also other people, for, example, again.
+
+211
+00:33:15.840 --> 00:33:30.029
+Lashay Lewis: Lead SEO at Webflow Vivian has a case study on this, of how this increases citations. I've seen it with my clients. She has a case study. This is something that should be included. In terms of the bottom of funnel content.
+
+212
+00:33:31.440 --> 00:33:33.710
+Lashay Lewis: I do the same thing, right?
+
+213
+00:33:33.760 --> 00:33:47.080
+Lashay Lewis: And again, just one more point on this, just to, like, kind of, like, reiterate it. If you can get this information from first-party data, the better. The less you assume that this is what your audience wants.
+
+214
+00:33:47.080 --> 00:33:55.670
+Lashay Lewis: the better off you're gonna be. So again, I'll have links to all this stuff in here, but these are, like, some pretty good examples of what you would want these pages to look like.
+
+215
+00:33:56.490 --> 00:34:07.420
+Josh Spilker: I… I love all of these examples. Thank you for shouting out our pages as well, didn't know that was coming, honestly. But one question that came in is… is you did the…
+
+216
+00:34:07.530 --> 00:34:18.079
+Josh Spilker: 3 comparison, like, verses versus, which is something I'm working on as well. Should we do versus versus versus? Like, how many… how many comparisons should we have there?
+
+217
+00:34:18.080 --> 00:34:18.479
+Lashay Lewis: Yeah, yeah, yeah.
+
+218
+00:34:18.480 --> 00:34:21.319
+Josh Spilker: That was a good question from, from Donna.
+
+219
+00:34:21.320 --> 00:34:37.000
+Lashay Lewis: I haven't done more than 4. So if anybody wants to test it and do, like, five, you know, more power to you. I haven't done that as of yet, so the highest I'll go is our competitor versus, versus, versus.
+
+220
+00:34:37.110 --> 00:34:39.320
+Lashay Lewis: And I left it… I leave it right there.
+
+221
+00:34:39.480 --> 00:34:39.940
+Josh Spilker: Okay.
+
+222
+00:34:39.949 --> 00:34:41.069
+Lashay Lewis: So, no more than 4.
+
+223
+00:34:41.330 --> 00:34:57.239
+Josh Spilker: If somebody wants to run that out there, let us know how that works. One question I forgot to ask you at the top was, how do you think about middle funnel content versus bottom funnel content? I think of some of these as more middle funnel, but would love your take.
+
+224
+00:34:57.710 --> 00:35:01.619
+Lashay Lewis: There's some overlap there, so middle of funnel tends to be a little bit more…
+
+225
+00:35:02.330 --> 00:35:09.000
+Lashay Lewis: nuanced. It's not as straightforward as, like, best versus an alternative.
+
+226
+00:35:09.120 --> 00:35:25.030
+Lashay Lewis: It's… it's… it's more demonstrational, where it's, like, how to do use case. So, like, jobs to be done sort of content. And again, if you create it right, it does drive conversions, from what I've seen. But it… it…
+
+227
+00:35:25.570 --> 00:35:27.880
+Lashay Lewis: And some people might go back and forth with me on this.
+
+228
+00:35:28.150 --> 00:35:32.840
+Lashay Lewis: I do feel like middle funnel content can and should be product-led.
+
+229
+00:35:35.680 --> 00:35:54.150
+Lashay Lewis: And again, there's like a… I don't want to go down a rabbit hole with this, but it's like, there are two different ways you can kind of, like, structure that middle funnel content. You can do a walkthrough with your product, and explain how your product solves the job to be done, or you can just walk them through the actual job to be done without your product, and then slide in and say, hey, you know, instead of doing all that.
+
+230
+00:35:54.300 --> 00:35:58.490
+Lashay Lewis: Come to our product, and we can do this in half the time, or whatever that benefit is.
+
+231
+00:35:58.600 --> 00:36:14.580
+Lashay Lewis: And we can get it done quicker, faster, better, what have you. But yeah, middle of funnel content, again, it's more nuanced. I take the same approach with middle funnel content as I do bottom of funnel in terms of that modular build-out, again, because it's still…
+
+232
+00:36:14.580 --> 00:36:14.940
+Josh Spilker: Hmm.
+
+233
+00:36:14.940 --> 00:36:25.360
+Lashay Lewis: product led to me, and that's how I write it. But for sure, it's a little bit more nuanced. And I see somebody asking about the case studies SEO style. Okay.
+
+234
+00:36:25.580 --> 00:36:26.730
+Lashay Lewis: So…
+
+235
+00:36:27.380 --> 00:36:36.969
+Lashay Lewis: when I think about case studies, and I'm gonna have to, like, just for the sake of time, I'm gonna have to leave a link to a LinkedIn post, a carousel that I did, like, deep diving into this.
+
+236
+00:36:37.270 --> 00:36:37.960
+Josh Spilker: Yeah.
+
+237
+00:36:37.960 --> 00:36:56.549
+Lashay Lewis: But typically when people do case studies, sorry if I'm taking a shot at you, Aerops. I don't know if y'all do this or not, I'm just saying. But typically how some people do case studies is, like, there's a tab on the website that says case studies, and they will do a drop-down, and there's, like, case studies under there, there's a page of case studies. What I like to do…
+
+238
+00:36:56.760 --> 00:37:01.619
+Lashay Lewis: is I like to… Tie my case studies to a keyword.
+
+239
+00:37:01.890 --> 00:37:03.740
+Lashay Lewis: So, if the keyword is, like.
+
+240
+00:37:03.910 --> 00:37:11.179
+Lashay Lewis: again, going back to that, you know, payroll management example. Best payroll management software for enterprise companies.
+
+241
+00:37:11.810 --> 00:37:28.220
+Lashay Lewis: here's how 4 companies did benefit in X amount of time, or achieved benefit in X amount of time. And that article will just be 4 different case studies that relates to the use case that we're targeting, right? So again, when I say relates to the use case, I mean, like.
+
+242
+00:37:28.690 --> 00:37:34.129
+Lashay Lewis: If the keyword is, like, best payroll management software for enterprise companies, don't talk about a small business.
+
+243
+00:37:34.320 --> 00:37:48.239
+Lashay Lewis: You know what I mean? Like, matching the use case. So that's how I like to do SE… you know, like, sort of SEO-style case studies. Not saying you shouldn't do case studies the other way, too, but this is kind of a way to have, like, an always-on…
+
+244
+00:37:48.390 --> 00:37:49.910
+Lashay Lewis: asset that's…
+
+245
+00:37:50.060 --> 00:38:01.169
+Lashay Lewis: appearing in LLMs, that's showing up in Google. Again, tying that case study to a keyword versus putting it under a tab on the website that says case studies where somebody kind of has to, like, find their way to it.
+
+246
+00:38:01.390 --> 00:38:11.060
+Josh Spilker: Yeah. I think I might take a little different approach, where I would be, like, how to do X, Y, and Z, and then, like, link… like, do a deep link to a case study, but that's, like, a really…
+
+247
+00:38:11.240 --> 00:38:20.719
+Josh Spilker: interesting approach I hadn't quite… quite thought about. I like that. Let's move on a little bit here. If… if you don't mind, I'll reshare.
+
+248
+00:38:20.850 --> 00:38:30.470
+Josh Spilker: So we… we kind of stay on track. So, we did talk about, the different page types that we could build, and then let's jump into…
+
+249
+00:38:31.040 --> 00:38:43.320
+Josh Spilker: when we are going to, extract product knowledge, this really helps to, like, kind of streamline the process from, like, the product marketing managers and all of that, too.
+
+250
+00:38:44.070 --> 00:38:57.500
+Lashay Lewis: For sure, so again, a lot of… just a lot of what I've been saying, right? Sales call transcripts, if you have customer support tickets, whatever internal information that you have that describes what the product is, what it does, and who it serves.
+
+251
+00:38:57.540 --> 00:39:10.950
+Lashay Lewis: is essentially what you want to put in a knowledge base. Again, I like to use Claude for this, mainly because within Claude projects, you can start different chats within the same project, and you can have
+
+252
+00:39:12.090 --> 00:39:30.869
+Lashay Lewis: And I know this is like… but you can… let's say I have 4 chats in one project, and I'm in chat 5. I can reference chat 2, right? Everything doesn't have to be necessarily all put together. So I can reference different chats within the same project. That's why I really like Claude, and again.
+
+253
+00:39:31.030 --> 00:39:35.269
+Lashay Lewis: kind of like how I do this is creating artifacts for all this stuff, so again.
+
+254
+00:39:35.470 --> 00:39:40.080
+Lashay Lewis: with my modular process of bottom of funnel and kind of how I put it together and things like that.
+
+255
+00:39:40.190 --> 00:39:50.339
+Lashay Lewis: That isn't the only thing I modularize, and I won't get too deep into that, but like, again, if I find a bottom-of-funnel article that's con- that's converting, how do I take that and turn it into a sales one-pager?
+
+256
+00:39:50.340 --> 00:39:51.490
+Josh Spilker: Right, like… Right.
+
+257
+00:39:51.610 --> 00:39:57.180
+Lashay Lewis: So I kind of think about it in that sort of way, too. And I think…
+
+258
+00:39:58.830 --> 00:40:01.219
+Lashay Lewis: More people should think about it that way.
+
+259
+00:40:02.080 --> 00:40:08.589
+Josh Spilker: Kind of, like, jumping ahead here a bit to, like, how you might format some of that content for AI search.
+
+260
+00:40:09.350 --> 00:40:15.670
+Lashay Lewis: So… when I think about… AI search, and I think about a Google search.
+
+261
+00:40:16.260 --> 00:40:18.920
+Lashay Lewis: Obviously, the two are very different in nature.
+
+262
+00:40:19.210 --> 00:40:25.590
+Lashay Lewis: So, typically, when you think about Google, somebody types in, like, you know, best AI visibility software.
+
+263
+00:40:26.220 --> 00:40:34.499
+Lashay Lewis: But when you have AI search, again, the nature of the search is deep and contextual. So it's more of like…
+
+264
+00:40:35.370 --> 00:40:43.639
+Lashay Lewis: I'm an SEO manager at an enterprise company. I'm looking to do X, Y, and Z. Can you recommend a solution for me?
+
+265
+00:40:44.250 --> 00:40:49.370
+Lashay Lewis: The searches tend to be more along those lines than it is, like, best X for Y.
+
+266
+00:40:49.520 --> 00:40:55.750
+Lashay Lewis: So now comes the question of, like, okay, since the searches are, like, longer and contextual like that, how do we optimize for that?
+
+267
+00:40:55.910 --> 00:41:07.890
+Lashay Lewis: And, again, I try to modularize everything, because that's just how I learn. So when I'm thinking about the nature of a contextual search, I'm like, okay, me using the example for Teal here.
+
+268
+00:41:08.010 --> 00:41:09.830
+Lashay Lewis: I'm looking for a job.
+
+269
+00:41:10.100 --> 00:41:21.779
+Lashay Lewis: That's the persona. I don't have it highlighted in the… in the first screenshot, but you can see, like, literally the first words in the article are job seekers. That's the persona, that's who we're talking to.
+
+270
+00:41:22.070 --> 00:41:26.529
+Lashay Lewis: And I need a resume builder. That's the category that we sit in.
+
+271
+00:41:26.690 --> 00:41:32.549
+Lashay Lewis: I'm struggling to show the impact of my work in managing my multiple resumes. That's the pain points they're dealing with.
+
+272
+00:41:32.650 --> 00:41:48.730
+Lashay Lewis: I need a tool that lets me edit and manage in one place. That's the capability. Can you recommend me a resume builder that can help me with this? That's more along the lines what an AI search would look like versus, again, a Google search that's more of, like, best AI resume builder.
+
+273
+00:41:48.890 --> 00:41:53.870
+Lashay Lewis: You know, and Josh, if you move to the next one, I've got a couple different…
+
+274
+00:41:54.000 --> 00:42:03.569
+Lashay Lewis: examples of here. So, a search I did for this in Perplexity, Teal had came up first, but at least at the time of me doing it, and…
+
+275
+00:42:04.080 --> 00:42:09.569
+Lashay Lewis: the thought I was kind of thinking behind this, or kind of what I'm theorizing behind this, is…
+
+276
+00:42:09.880 --> 00:42:17.569
+Lashay Lewis: I don't know if you can see it from here, but even the articles that Perplexity is pulling from are bottom-of-funnel articles. So that's one thing.
+
+277
+00:42:17.740 --> 00:42:19.220
+Lashay Lewis: Another thing is…
+
+278
+00:42:21.010 --> 00:42:26.269
+Lashay Lewis: The goal is to try to match up what's in your article to the query that's going to be searched.
+
+279
+00:42:26.700 --> 00:42:41.859
+Lashay Lewis: So, when I type in what's the best resume builder if I have multiple resumes, Teal shows up first, because if you see in that first screenshot, one of the pain points that I have in the introduction is managing multiple resumes. Well, how do we know that's a pain point? Well, because we got it from…
+
+280
+00:42:42.150 --> 00:42:56.910
+Lashay Lewis: got it from the sales team. In this case, Teal did not have a sales team, it was very, like, product-led. So we have other ways of going about getting that information, which I just captured from the team, but we have that information directly in the introduction of the article.
+
+281
+00:42:56.960 --> 00:43:02.260
+Lashay Lewis: So that's one example. Moving on to another example,
+
+282
+00:43:02.920 --> 00:43:05.070
+Lashay Lewis: It's the same thing, right? So…
+
+283
+00:43:05.340 --> 00:43:07.550
+Lashay Lewis: Except this time the search is different.
+
+284
+00:43:08.280 --> 00:43:17.989
+Lashay Lewis: I'm having trouble keeping track of my resumes across different platforms. What tool would be best to help me with this? Notice how the question is completely different, but Teal still shows up
+
+285
+00:43:18.140 --> 00:43:19.349
+Lashay Lewis: For that query.
+
+286
+00:43:19.520 --> 00:43:20.810
+Josh Spilker: And…
+
+287
+00:43:20.860 --> 00:43:26.630
+Lashay Lewis: The reason I think that is, again, is because we're capturing on those pain points.
+
+288
+00:43:26.670 --> 00:43:41.390
+Lashay Lewis: Now, you might say, I already know the skeptics are gonna be like, well, how do you know that's what they're gonna type in specifically? Like, we don't have any data on that. You know, companies like OpenAI and Anthropic have not yet monetized us seeing search volume around specific queries.
+
+289
+00:43:41.480 --> 00:43:44.400
+Lashay Lewis: Also, to kind of touch on that, I don't know how…
+
+290
+00:43:45.160 --> 00:43:58.200
+Lashay Lewis: possible it is to see something like that. I think queries are now gonna become one of one. The odds of somebody typing this in the exact same way, more than one time, is probably, like, slim to none.
+
+291
+00:43:58.490 --> 00:44:05.230
+Lashay Lewis: So now that begs the question of, like, okay, if we don't know what they're gonna type in, how do we optimize for it? Like, how can we show up for it?
+
+292
+00:44:05.530 --> 00:44:09.460
+Lashay Lewis: And what I'm finding is that AI understands synonymous search.
+
+293
+00:44:09.930 --> 00:44:14.629
+Lashay Lewis: Meaning that… You don't have to get the query exactly right.
+
+294
+00:44:15.150 --> 00:44:33.079
+Lashay Lewis: as long as you are topically relevant to what pane they would be searching for, or kind of have an idea of what that looks like, you will surface for it. And again, because it's not like we can go to a tool like Ahrefs or SEMrush or what have you, and say, you know, how many searches a month does this query get?
+
+295
+00:44:33.200 --> 00:44:52.010
+Lashay Lewis: A query this long with multiple words and multiple characters and just a ton of different stuff in it, the odds of it being searched more than once are low. So now, instead of trying to target a specific keyword, we need to be trying to look at this from a more… we need to back it up a little bit. Like, how do we cover more surface area around
+
+296
+00:44:52.220 --> 00:44:58.029
+Lashay Lewis: topical pain points versus, like, okay, here's an exact search term that I'm trying to go after.
+
+297
+00:44:58.590 --> 00:45:05.940
+Josh Spilker: I love this term, synonymous search, like, that makes a lot of sense to me, and I mean, if we're being honest with ourselves, I mean, I know some people would type in, like.
+
+298
+00:45:06.100 --> 00:45:13.179
+Josh Spilker: best payroll management software, but sometimes people would have longer ones. We've always had the longer tail, so I really like this framing of, like.
+
+299
+00:45:13.280 --> 00:45:24.580
+Josh Spilker: synonymous search, you're kind of getting at the intent of what the person's going after, and so then, if you include that within your article, you're more likely to surface for that. This is… this is really great stuff, for sure.
+
+300
+00:45:24.780 --> 00:45:25.500
+Lashay Lewis: Yeah.
+
+301
+00:45:26.940 --> 00:45:32.260
+Josh Spilker: And then, what are you thinking about for matching the website context to the query context here?
+
+302
+00:45:33.950 --> 00:45:35.789
+Lashay Lewis: kind of think about it the same way, right? So again.
+
+303
+00:45:35.790 --> 00:45:36.330
+Josh Spilker: Okay.
+
+304
+00:45:37.180 --> 00:45:40.079
+Lashay Lewis: Let's think about it from the sales call level.
+
+305
+00:45:40.520 --> 00:45:49.040
+Lashay Lewis: When a prospect comes in for a sales call, they're telling you what their pains are on the sales call. If we think and say, okay.
+
+306
+00:45:49.890 --> 00:45:57.149
+Lashay Lewis: If they describe the pain like this on a sales call, how would they describe it if they're searching in an LLM?
+
+307
+00:45:57.260 --> 00:46:01.520
+Lashay Lewis: How close can we get to that? Again, because you do not have to have it spot on.
+
+308
+00:46:01.740 --> 00:46:12.870
+Lashay Lewis: Right. You just have to be kind of, again, topically relevant. So this query, I've been using Lupio for questionnaire automation, but I'm not happy with it. Can you recommend me an alternative? And then, for this one.
+
+309
+00:46:13.300 --> 00:46:19.690
+Lashay Lewis: conveyor comes up. Again, if you look at the websites that were being pulled in here,
+
+310
+00:46:19.730 --> 00:46:24.379
+Lashay Lewis: I think, like, 3 out of 4 are bottom of funnel, you know?
+
+311
+00:46:24.420 --> 00:46:32.879
+Lashay Lewis: So, again, I think… I think it's just about context matching and semantic relation. Like, that's… that's what we really get into here.
+
+312
+00:46:32.890 --> 00:46:44.439
+Lashay Lewis: And how we optimize for AI search is nothing but a repositioning of what we've always done. So, when I think about on-page SEO and what that used to be, including keywords in the H2 and how it used to be back in the day.
+
+313
+00:46:44.580 --> 00:46:51.640
+Lashay Lewis: This has sort of replaced that, or evolved that, rather, when it comes to showing up in AI search. Yeah.
+
+314
+00:46:51.640 --> 00:47:09.540
+Josh Spilker: Yeah. I… I mean, these examples are, like, spot on. Everyone, get the recording, go back, check each of these elements that we've just been through, because she's really showing you the way to match. Like, I love that slide a little earlier here. This is the one I'm gonna go back to.
+
+315
+00:47:10.100 --> 00:47:22.819
+Josh Spilker: right here, like, I'm breaking it down by persona, category, pain points, capability, matching your content to that is essentially what these other slides are showing, through here.
+
+316
+00:47:23.130 --> 00:47:33.689
+Josh Spilker: kind of to move on a little bit, just to, like, kind of summarize that point, what elements should all of your Bofu content cover? I mean, these are kind of, like, our key takeaways for this.
+
+317
+00:47:34.160 --> 00:47:47.709
+Lashay Lewis: Yeah, so, again, I like to modularize a lot of different things. So, originally, when I first started doing this, I was following the guys over at Fletch. Shout out to Fletch.
+
+318
+00:47:47.710 --> 00:48:03.670
+Lashay Lewis: And kind of how they break down content. So they are product marketers, naturally. I'm a content marketer. So I was thinking, like, okay, what would happen if I bought these two processes together? So essentially, to break down the core elements of what bottom of funnel articles should have.
+
+319
+00:48:03.670 --> 00:48:10.709
+Lashay Lewis: Should be pain points, benefits, features, capabilities, current ways they're doing things, and use cases. Again, because, again.
+
+320
+00:48:10.910 --> 00:48:19.159
+Lashay Lewis: this is how it was easier for me to learn, because the learning curve with bottom of funnel is steep, especially if you're doing it the right way. If you're just…
+
+321
+00:48:19.530 --> 00:48:38.389
+Lashay Lewis: putting shit in the GPT and like, hey, scale this, that's a different story. But what we're talking about here, like, the depth and the nuance of what we're doing, it's complicated. So in order to just, like, kind of bring that down a little bit, this is kind of how I kind of broke that out. And I think…
+
+322
+00:48:38.950 --> 00:48:45.380
+Lashay Lewis: again, this is kind of the middle ground I've found when it comes to optimizing for AI search, but also…
+
+323
+00:48:45.380 --> 00:49:01.190
+Lashay Lewis: Or rather, should I say, optimizing for conversions, but also optimizing for AI search, because we always want to put the customer first. Like, that's… that needs to be our number one priority. Again, the paradoxical nature of all this is if you put the customer first and know your customer.
+
+324
+00:49:01.330 --> 00:49:03.130
+Lashay Lewis: you will surface in AI.
+
+325
+00:49:03.670 --> 00:49:19.150
+Josh Spilker: Yeah. I really like, I would say, pain points we've already discussed a lot, current methods, like, how are people currently doing this that they need to change? And then your use cases really help show how people are now using this, like, other way or new way.
+
+326
+00:49:19.150 --> 00:49:37.569
+Josh Spilker: beyond what the current ways is… what they're currently doing. So, this is a really good framework to match to the content types. So it's like, is it fair to say that your best of, your versus page, your solution pages should have some form of this on all of them, no matter what kind of page type it is?
+
+327
+00:49:37.570 --> 00:49:40.980
+Lashay Lewis: I… I would say… Mmm.
+
+328
+00:49:41.210 --> 00:49:41.680
+Josh Spilker: Okay.
+
+329
+00:49:41.680 --> 00:49:48.440
+Lashay Lewis: I think there's some nuance there, but generally, yes. Because again, if we're talking about high-intent searches.
+
+330
+00:49:48.800 --> 00:50:07.469
+Lashay Lewis: These… this is what people care about. They care about the pains, they care about the benefit that your product gives them, they care about the features that are gonna give them that benefit. They care about the capabilities that power the features, right? So it's like, all of this is strung together. Nothing is in isolation. Like, all of this is… is…
+
+331
+00:50:07.470 --> 00:50:11.989
+Lashay Lewis: uniquely strung together in a way, again, where we're optimizing for LLM
+
+332
+00:50:11.990 --> 00:50:21.159
+Lashay Lewis: we're, you know, to be able to surface in LLMs, but also, make sure we're hitting on real pain points when our prospects read these articles. Yeah.
+
+333
+00:50:21.160 --> 00:50:36.829
+Josh Spilker: Yeah. As we're moving into the homestretch, I don't want to forget, we are going to get to our questions, but we also want to talk about pipeline attribution and what that means. That's a question that everybody has. So, what are your recommendations for setting up attribution to some of that bottom funnel content?
+
+334
+00:50:36.830 --> 00:50:40.280
+Lashay Lewis: There are some good tools out there that can help with this,
+
+335
+00:50:40.900 --> 00:50:53.800
+Lashay Lewis: quite a few of my clients use HubSpot to do this. I know it is possible in HubSpot. A couple other tools that are good, too, is Lead Feeder. Lead Feeder is another great tool because it tells you who's…
+
+336
+00:50:53.800 --> 00:51:05.730
+Lashay Lewis: exactly who's coming into the article, like, what company they're from, where they're located, it gets very, very deep with that. And also, Dream Data is another one that's good at being able to
+
+337
+00:51:05.820 --> 00:51:13.029
+Lashay Lewis: get granular on the tracking and being able to attribute this piece of content to this revenue. Yeah.
+
+338
+00:51:14.250 --> 00:51:31.550
+Josh Spilker: And then, kind of that final piece is, like, we're all seeing, for the most part, organic traffic being a little bit lower than maybe a few years ago. Those conversions could be up, so how are we… what are your tips for educating leadership on, like, why they should invest more in bottom funnel content, even if, like, the traffic numbers aren't quite there?
+
+339
+00:51:32.220 --> 00:51:36.940
+Lashay Lewis: I could… I could have a whole webinar on this alone.
+
+340
+00:51:36.940 --> 00:51:39.419
+Josh Spilker: We'll mark that down for next time.
+
+341
+00:51:39.420 --> 00:51:44.319
+Lashay Lewis: Yeah, we'll go put it down for next time. If you guys want, that's if we give the people what they want, but…
+
+342
+00:51:44.320 --> 00:51:44.720
+Josh Spilker: Yeah.
+
+343
+00:51:44.720 --> 00:51:46.499
+Lashay Lewis: Also, it's like…
+
+344
+00:51:47.640 --> 00:52:07.190
+Lashay Lewis: I have dealt with this so much since being a consultant, especially since I'm niched around high intent and bottom of funnel. The best way to show executive leadership results is to… and it sucks, but is to tie it to money. Like, that's literally…
+
+345
+00:52:07.340 --> 00:52:22.160
+Lashay Lewis: And again, I wish it wasn't like that. I wish executive leadership would just respect the craft of the content marketer. I wish they would understand that we could put a piece of content out in January, and it would start making money in August. Like, I wish they knew that. But in order to make…
+
+346
+00:52:22.260 --> 00:52:32.900
+Lashay Lewis: a good business case for this, you have to show them how it connects to revenue, whether that be somebody else publicly talking about it, like, I've got content all on my page that talks about this stuff.
+
+347
+00:52:33.150 --> 00:52:49.249
+Lashay Lewis: You know, so I think also showing them keywords that they should be ranking for, that your competitors are ranking for. So, you know, take one of your highest top priority competitors, and do a, you know, search term, whatever, and then show them, like.
+
+348
+00:52:49.530 --> 00:53:01.709
+Lashay Lewis: our competitors here, and we're nowhere to be found. So, you know, they're probably capturing up on demos from people that search this. Also, I think coming at it from the narrative perspective helps a little bit, too. So.
+
+349
+00:53:01.710 --> 00:53:02.170
+Josh Spilker: Hmm.
+
+350
+00:53:02.170 --> 00:53:19.929
+Lashay Lewis: Writing bottom-of-funnel content is not just, oh, we're writing comparison pages. Like, that's not all it is. It's you controlling your narrative. Because the thing is, if you don't write the content, somebody's gonna write it. And if you have a competitor saying, well, you know, this company does… AirOps does this thing, this thing, and this thing, they don't…
+
+351
+00:53:19.930 --> 00:53:31.549
+Lashay Lewis: they don't have access to your internal documentation. They only know what you do from an outward-facing perspective. So for you to be able to effectively control your narrative, this is the content that helps with that. Yeah.
+
+352
+00:53:31.550 --> 00:53:32.210
+Josh Spilker: Yeah.
+
+353
+00:53:32.400 --> 00:53:42.259
+Josh Spilker: I love those points, that is really good. I see a couple notes about, yes, 1000% to an exact buy-in, so we'll have to…
+
+354
+00:53:42.260 --> 00:54:01.850
+Josh Spilker: We'll have to investigate that a bit. We will get to your questions here in a minute. I did want to mention that with AirOps, you can refresh a lot of your content and keep that up to date, so if you have these bottom funnel pages, you have these solution pages, you have your middle funnel content, Chime is a really good example of how they 3X'd their citation increases for high priority queries.
+
+355
+00:54:01.850 --> 00:54:05.280
+Josh Spilker: It had a big reduction in their refresh time.
+
+356
+00:54:05.280 --> 00:54:10.650
+Josh Spilker: So this is a really, great example. You can find this case study on, the AROPS website.
+
+357
+00:54:10.650 --> 00:54:35.629
+Josh Spilker: And we're seeing a lot of… a lot of teams do this. So a lot of AI search tools, they're only about visibility and prioritization. At AirOps, we kind of bring it all together, including that context management piece, which is what we talked about at the beginning. Those knowledge bases, style guides, that product info, to then build that content on top of it. So if you're interested in learning more about what you can do with AirOps, see examples of proven AI search workflows.
+
+358
+00:54:35.700 --> 00:54:44.500
+Josh Spilker: Feel free to drop us a line at growth at airapps.com and put webinar in the subject line. That would be great.
+
+359
+00:54:44.500 --> 00:55:03.819
+Josh Spilker: webinar in the subject line, dropping that in the chat right there. Thank you, Maria, for adding that. And then I think we had one other thing. We are going to have some takeaways in recording, and then we're gonna share this complete AI search playbook to help you show how teams like RAMP and Carta have also embraced AI search.
+
+360
+00:55:03.820 --> 00:55:17.259
+Josh Spilker: So, really great resources, emails at growth at air ops.com to see what you can do with Air Ops, and then we'll also be sending out this resource with, the recap to Lachey's presentation.
+
+361
+00:55:17.320 --> 00:55:32.259
+Josh Spilker: And now I'm looking at the time for Q&A, and lachey, I have an idea. We're gonna get on some of these, but I would love to be able to send you these questions. Maybe you can do a guest post for us, a collaboration, something like that, if we don't hit all these? Okay, great. That would be great.
+
+362
+00:55:32.440 --> 00:55:35.309
+Josh Spilker: So Olga's gonna start us off.
+
+363
+00:55:35.460 --> 00:55:46.740
+Josh Spilker: how can this content… bottom funnel content models be adapted for industries with stricter regulations, like healthcare, for example? I think that's a really great question that a lot of folks may have.
+
+364
+00:55:47.800 --> 00:55:48.779
+Lashay Lewis: I mean…
+
+365
+00:55:49.090 --> 00:56:03.279
+Lashay Lewis: So, if I'm thinking about myself, like, again, I use the same modular process across everybody that I work with. I think this is more of just getting aligned, again, with internal teams to understand, like, okay, first of all, what can we… and can, like.
+
+366
+00:56:03.530 --> 00:56:18.459
+Lashay Lewis: what do we talk about? What are we not allowed to talk about? What are we allowed to talk about? And I think it's just having an understanding of the industry in general. Like, what are we not allowed to touch on? I think, in terms of the modular breakdown and what I touched on in here.
+
+367
+00:56:18.460 --> 00:56:35.800
+Lashay Lewis: it's not so much external information that you have to worry about, again, because everything is coming internal, the benefits and the pain points and the features, so all of that is coming from internal perspective. I think in terms of external, I think it's just… it's just good to know
+
+368
+00:56:36.060 --> 00:56:48.630
+Lashay Lewis: what you can and cannot talk about in your specific industry. Now, I would ask… I would ask a follow-up question, like, do you mean in terms of our product? Like, what can we, you know.
+
+369
+00:56:48.800 --> 00:57:08.139
+Lashay Lewis: not talk about, what can we talk about, but I think in terms of regulations, I think it's just understanding what those regulations are, and maybe, like, when you're producing the content, say, in something like a Claude, updating Claude on those regulations. So maybe you have an artifact that's just all about the regulations, and when it produces this content, it takes that into account.
+
+370
+00:57:08.140 --> 00:57:13.820
+Lashay Lewis: And, and kind of so… not so you don't have to think about it, so at first pass.
+
+371
+00:57:13.820 --> 00:57:19.580
+Lashay Lewis: when the article is produced, it's taking those regulations into account.
+
+372
+00:57:20.130 --> 00:57:25.270
+Lashay Lewis: It says, in your case studies, what were the biggest turning points where Bofu content shifted from driving
+
+373
+00:57:25.420 --> 00:57:27.309
+Lashay Lewis: death. Like…
+
+374
+00:57:27.440 --> 00:57:35.399
+Lashay Lewis: I've had companies come to me where other agencies have done their bottom of funnel content. They're like, hey, can we do something with this? And immediately…
+
+375
+00:57:35.550 --> 00:57:46.309
+Lashay Lewis: conversions shoot up, because it's always gonna be easier to refresh something than it is to create something new. The turning point is when we got deep with the content, and when we got contextual. Like, that's…
+
+376
+00:57:46.540 --> 00:57:58.440
+Lashay Lewis: when I see, oh, okay, not only are we getting traffic, but now we're generating conversions, it's being attributed in HubSpot, Lead Feeder, whatever tool we're using,
+
+377
+00:57:58.610 --> 00:58:03.339
+Lashay Lewis: that's when I started to see that, like, when we started to go deep with the content, for sure.
+
+378
+00:58:03.340 --> 00:58:14.170
+Josh Spilker: Right, right. And that answers, Roxanne's question here as well, about refreshing existing pages or creating new, specific pages. I think what you said there was to create some new ones, right?
+
+379
+00:58:14.930 --> 00:58:20.280
+Lashay Lewis: For sure. Refresh what you have, right? So if…
+
+380
+00:58:20.280 --> 00:58:20.930
+Josh Spilker: Okay.
+
+381
+00:58:20.930 --> 00:58:26.149
+Lashay Lewis: If what you have is not optimized for AI visibility, whatever that means to you.
+
+382
+00:58:26.150 --> 00:58:45.540
+Lashay Lewis: you probably follow multiple people, that says what it should and should look like. Again, what I'm giving you is just, like, core foundational, this is what needs to be included in the content. Whether you do it my modular way or not, like, this is what needs to be included. So I'm always gonna say refresh first, because that's usually easier and could give you
+
+383
+00:58:45.540 --> 00:59:03.339
+Lashay Lewis: more of an impact quicker, because the article's already indexed, it's already probably ranking somewhere, you know, so I would say refresh. And then what signals make AI systems like GPT or Perplexity trust and cite a pay? Death! Like, I'm gonna keep saying it over and over. Like, so you can do, like, more technical things, like…
+
+384
+00:59:03.610 --> 00:59:07.459
+Lashay Lewis: txt files and all this other stuff, but…
+
+385
+00:59:07.620 --> 00:59:15.019
+Lashay Lewis: Honestly, when I work with clients, I do less of that, and more of what I talked about today. That's why what I talked about today was less like.
+
+386
+00:59:15.290 --> 00:59:22.140
+Lashay Lewis: how do we get as many citations as possible? And more of, like, how do we speak to our customer to make sure we arise in AI search?
+
+387
+00:59:22.280 --> 00:59:24.649
+Lashay Lewis: So I, I, I would definitely like…
+
+388
+00:59:24.950 --> 00:59:31.629
+Lashay Lewis: prioritize that a little bit, maybe not… and I don't want to say don't focus on citations, but, like, let's focus on customer first.
+
+389
+00:59:31.720 --> 00:59:34.600
+Josh Spilker: And then we can, like, tackle everything else afterward.
+
+390
+00:59:35.040 --> 00:59:52.080
+Josh Spilker: I love that. Focus on customer first, and then we can tackle everything after it. I wanted to ask this very specific question before we sign off here, because I know there's some, like, changes around it. Do you have any ideas or best practices around, like, calling yourself, like, best in a category, or anything like that?
+
+391
+00:59:52.220 --> 01:00:06.730
+Lashay Lewis: Okay, to answer Stephanie's question, I have never seen this become a legal matter. Like, I've been doing this for years at this point. This has never been a legal concern. Because in retrospect, all this is subjective anyway, right? Anybody could think they're the best at something. It's all subjective.
+
+392
+01:00:06.730 --> 01:00:15.280
+Lashay Lewis: So I have not seen anything legal come from calling yourself a best in a category, nothing legal from including competitors, none of that.
+
+393
+01:00:15.280 --> 01:00:19.360
+Lashay Lewis: And then what are the best practices for creating listicle content that mentions your competitors?
+
+394
+01:00:20.340 --> 01:00:39.640
+Lashay Lewis: The number one thing I say about this, including competitors, like, don't talk shit about your competitors. The reason I say that is because when deep diving into all of this information, listicles are being pulled to figure out what to surface into AI search. I've seen my clients get referenced on competitors' websites, and that referenced
+
+395
+01:00:39.640 --> 01:00:52.840
+Lashay Lewis: was used to surface them in AI search. So, just making sure you maintain a good relationship with competitors, because you never know, LLMs could be going through their content to pull information about you.
+
+396
+01:00:53.650 --> 01:01:09.999
+Josh Spilker: That's a really good point. You would get mentioned on that as well. Again, feel free to email us at growth at airapps.com, webinar in the subject line if you're interested in learning more, but also follow Lachey. Lachey, thank you so much for your time today. You have a substack now, as well, and Bofu.ai.
+
+397
+01:01:10.250 --> 01:01:20.480
+Lashay Lewis: Yes, yes, yes, yes. If you want to learn more about this stuff, like, I'm a nerd, I just geek out on this stuff all day long, feel free to follow me. I actually feel like I put out useful content.
+
+398
+01:01:20.480 --> 01:01:21.039
+Josh Spilker: Yes, for sure.
+
+399
+01:01:21.040 --> 01:01:27.370
+Lashay Lewis: To be determined by everybody else, but I feel like my stuff is kind of good, so… would love to have you follow.
+
+400
+01:01:27.370 --> 01:01:38.730
+Josh Spilker: Thank you, yes, find her there, I'm sure she'll reply to you on LinkedIn as well. And, we'll be back here in a couple weeks with, Kyle Polloar from Growth Unhinged. He'll be talking about the GTM
+
+401
+01:01:38.890 --> 01:01:54.199
+Josh Spilker: Research and buyer signals are changing, and how that can drive revenue. That's also a must-watch. Everybody will get this recap, and takeaways and a recording. Thanks, everybody, for joining us. Lachey, see you, see you soon, hopefully. Thanks again for…
+
+402
+01:01:54.200 --> 01:01:56.219
+Lashay Lewis: Thank you, everybody!
+
+403
+01:01:56.730 --> 01:01:57.550
+Josh Spilker: Bye.
+

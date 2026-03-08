@@ -7,7 +7,14 @@ function parseJsonBlob(blob: unknown): Record<string, unknown> {
   if (typeof blob === "object" && !Array.isArray(blob)) return blob as Record<string, unknown>;
   if (typeof blob === "string") {
     try {
-      const clean = blob
+      // Try direct JSON parse first
+      const trimmed = blob.trim();
+      if (trimmed.startsWith("{")) return JSON.parse(trimmed);
+      // Find the first ```json ... ``` block anywhere in the string
+      const fenceMatch = blob.match(/```(?:json)?\s*([\s\S]*?)```/);
+      if (fenceMatch) return JSON.parse(fenceMatch[1].trim());
+      // Fallback: strip leading fence markers
+      const clean = trimmed
         .replace(/^```json\s*/i, "")
         .replace(/^```\s*/i, "")
         .replace(/```\s*$/i, "")

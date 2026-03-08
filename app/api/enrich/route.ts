@@ -6,12 +6,15 @@ function parseJsonBlob(blob: unknown): Record<string, unknown> {
   if (typeof blob === "object" && !Array.isArray(blob)) return blob as Record<string, unknown>;
   if (typeof blob === "string") {
     try {
-      let clean = blob.trim()
+      const trimmed = blob.trim();
+      if (trimmed.startsWith("{")) return JSON.parse(trimmed);
+      const fenceMatch = blob.match(/```(?:json)?\s*([\s\S]*?)```/);
+      if (fenceMatch) return JSON.parse(fenceMatch[1].trim());
+      const clean = trimmed
         .replace(/^```json\s*/i, "")
         .replace(/^```\s*/i, "")
         .replace(/```\s*$/i, "")
         .trim();
-      if (clean.startsWith('"') && clean.endsWith('"')) clean = JSON.parse(clean);
       return JSON.parse(clean);
     } catch { return {}; }
   }
