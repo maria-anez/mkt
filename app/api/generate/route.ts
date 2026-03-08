@@ -7,34 +7,43 @@ function parseJsonBlob(blob: unknown): Record<string, unknown> {
   if (typeof blob === "object" && !Array.isArray(blob)) return blob as Record<string, unknown>;
   if (typeof blob === "string") {
     try {
-      // Try direct JSON parse first
       const trimmed = blob.trim();
       if (trimmed.startsWith("{")) return JSON.parse(trimmed);
-      // Find the first ```json ... ``` block anywhere in the string
       const fenceMatch = blob.match(/```(?:json)?\s*([\s\S]*?)```/);
       if (fenceMatch) return JSON.parse(fenceMatch[1].trim());
-      // Fallback: strip leading fence markers
       const clean = trimmed
         .replace(/^```json\s*/i, "")
         .replace(/^```\s*/i, "")
         .replace(/```\s*$/i, "")
         .trim();
       return JSON.parse(clean);
-    } catch {
-      return {};
-    }
+    } catch { return {}; }
   }
   return {};
 }
 
-async function callAirOpsWorkflow(data: FormData): Promise<GenerateResult | null> {
-  const airOpsKey = process.env.AIROPS_API_KEY;
-  const workflowUuid = process.env.AIROPS_WORKFLOW_UUID;
+async function executeWorkflow(
+  workflowUuid: string,
+  airOpsKey: string,
+  inputs: Record<string, string>
+): Promise<Record<string, unknown> | null> {
 
-  if (!airOpsKey || !workflowUuid) return null;
+  // Step 1 — fire async execute
+  const startRes = await fetch(
+    `https://api.airops.com/public_api/airops_apps/${workflowUuid}/async_execute`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${airOpsKey}`,
+      },
+      body: JSON.stringify({ inputs }),
+    }
+  );
 
-  try {
-    const response = await fetch(
+  if (!startRes.ok) {
+    // Fallback to sync execute if async not available
+    const syncRes = await fetch(
       `https://api.airops.com/public_api/airops_apps/${workflowUuid}/execute`,
       {
         method: "POST",
@@ -42,160 +51,106 @@ async function callAirOpsWorkflow(data: FormData): Promise<GenerateResult | null
           "Content-Type": "application/json",
           "Authorization": `Bearer ${airOpsKey}`,
         },
-        body: JSON.stringify({
-          inputs: {
-            video_type: data.videoType,
-            transcript: data.transcript,
-            transcript_summary: data.transcript.split(/\s+/).slice(0, 2000).join(" "),
-            guest_name: data.guestName,
-            guest_role: data.guestRole ?? "",
-            guest_company: data.guestCompany ?? "",
-            video_title: data.videoTitle ?? "",
-            recap_url: data.recapUrl || "none",
-            takeaways: data.takeaways || "none",
-          },
-        }),
+        body: JSON.stringify({ inputs }),
+      }
+    );
+    if (!syncRes.ok) return null;
+    const syncData = await syncRes.json();
+    const syncExec = syncData.airops_app_execution ?? syncData;
+    return syncExec.output ?? null;
+  }
+
+  const startData = await startRes.json();
+  const executionId = startData.airops_app_execution?.id ?? startData.id;
+
+  if (!executionId) return null;
+
+  console.log("[executeWorkflow] async execution started:", executionId);
+
+  // Step 2 — poll for result
+  const maxAttempts = 20;
+  const intervalMs = 3000;
+
+  for (let i = 0; i < maxAttempts; i++) {
+    await new Promise(r => setTimeout(r, intervalMs));
+
+    const pollRes = await fetch(
+      `https://api.airops.com/public_api/airops_apps/executions/${executionId}`,
+      {
+        headers: {
+          "Authorization": `Bearer ${airOpsKey}`,
+          "Content-Type": "application/json",
+        },
       }
     );
 
-    if (!response.ok) {
-      const body = await response.text();
-      console.error("[callAirOpsWorkflow] API error:", response.status, body);
-      return null;
-    }
+    if (!pollRes.ok) continue;
 
-    const json = await response.json();
-    const execution = json.airops_app_execution ?? json;
-    const output = execution.output;
+    const pollData = await pollRes.json();
+    const execution = pollData.airops_app_execution ?? pollData;
+    const status = execution.status;
+
+    console.log(`[executeWorkflow] poll ${i + 1} — status: ${status}`);
+
+    if (status === "success") return execution.output ?? null;
+    if (status === "error" || status === "cancelled") return null;
+  }
+
+  return null;
+}
+
+async function callAirOpsWorkflow(data: FormData): Promise<GenerateResult | null> {
+  const airOpsKey   = process.env.AIROPS_API_KEY;
+  const workflowUuid = process.env.AIROPS_WORKFLOW_UUID;
+
+  if (!airOpsKey || !workflowUuid) return null;
+
+  try {
+    const inputs = {
+      video_type:           data.videoType,
+      transcript:           data.transcript,
+      transcript_summary:   data.transcript.split(/\s+/).slice(0, 2000).join(" "),
+      guest_name:           data.guestName,
+      guest_role:           data.guestRole ?? "",
+      guest_company:        data.guestCompany ?? "",
+      video_title:          data.videoTitle ?? "",
+      recap_url:            data.recapUrl || "none",
+      takeaways:            data.takeaways || "none",
+    };
+
+    const output = await executeWorkflow(workflowUuid, airOpsKey, inputs);
 
     if (!output) {
-      console.error("[callAirOpsWorkflow] no output in response");
+      console.error("[callAirOpsWorkflow] no output returned");
       return null;
     }
 
-    console.log("[callAirOpsWorkflow] output keys:", Object.keys(output));
+    console.log("[callAirOpsWorkflow] SUCCESS — output keys:", Object.keys(output));
 
-    // All 4 main copy fields point to the same JSON blob in the End node
-    // Try each one until we get a parseable object
+    // Parse main copy — all 4 fields point to same JSON blob
     let mainCopy: Record<string, unknown> = {};
     for (const key of ["titles", "description", "chapters", "pinnedComment"]) {
       const parsed = parseJsonBlob(output[key]);
-      if (parsed.titles || parsed.description) {
-        mainCopy = parsed;
-        break;
-      }
+      if (parsed.titles || parsed.description) { mainCopy = parsed; break; }
     }
-    // If still empty, try parsing the whole output as the blob
-    if (!mainCopy.titles && !mainCopy.description) {
-      mainCopy = parseJsonBlob(output);
-    }
+    if (!mainCopy.titles && !mainCopy.description) mainCopy = parseJsonBlob(output);
 
-    const titles = Array.isArray(mainCopy.titles)
-      ? mainCopy.titles
-      : Array.isArray(output.titles)
-        ? output.titles
-        : [];
+    const titles        = Array.isArray(mainCopy.titles) ? mainCopy.titles : Array.isArray(output.titles) ? output.titles : [];
+    const description   = typeof mainCopy.description === "string" ? mainCopy.description : "";
+    const chapters      = typeof mainCopy.chapters === "string" ? mainCopy.chapters : "";
+    const pinnedComment = typeof mainCopy.pinnedComment === "string" ? mainCopy.pinnedComment : "";
 
-    const description = typeof mainCopy.description === "string"
-      ? mainCopy.description
-      : typeof output.description === "string"
-        ? output.description
-        : "";
-
-    const chapters = typeof mainCopy.chapters === "string"
-      ? mainCopy.chapters
-      : typeof output.chapters === "string"
-        ? output.chapters
-        : "";
-
-    const pinnedComment = typeof mainCopy.pinnedComment === "string"
-      ? mainCopy.pinnedComment
-      : typeof output.pinnedComment === "string"
-        ? output.pinnedComment
-        : "";
-
-    console.log("[callAirOpsWorkflow] titles parsed:", titles);
-    console.log("[callAirOpsWorkflow] description length:", description.length);
-
-    // Parse clip moments
-    const clipData = parseJsonBlob(output.moments);
-    const momentsArray = Array.isArray(clipData.moments)
-      ? clipData.moments
-      : Array.isArray(output.moments)
-        ? output.moments
-        : [];
-
-    const clipMoments: ClipMoment[] = momentsArray.map((m: {
-      timestampStart?: string;
-      timestampEnd?: string;
-      format?: string;
-      summary?: string;
-      rationale?: string;
-      suggestedTitle?: string;
-      score?: number;
-    }) => ({
-      timestampStart: m.timestampStart ?? "00:00",
-      timestampEnd: m.timestampEnd ?? "00:00",
-      summary: m.summary ?? "",
-      rationale: m.rationale ?? "",
-      insightType: (m.format === "short" ? "story" : "tactical") as ClipMoment["insightType"],
-      score: m.score ?? 7,
-      suggestedTitle: m.suggestedTitle,
-      format: m.format,
-    }));
-
-    // Parse card suggestions
-    const cardData = parseJsonBlob(output.cards);
-    const cardsArray = Array.isArray(cardData.cards)
-      ? cardData.cards
-      : Array.isArray(output.cards)
-        ? output.cards
-        : [];
-
-    const cardSuggestions: CardSuggestion[] = cardsArray.map((c: {
-      title?: string;
-      reason?: string;
-      matchType?: string;
-    }) => ({
-      video: {
-        title: c.title ?? "",
-        url: `https://www.youtube.com/@AirOpsHQ`,
-        guest: "",
-        topics: [],
-      },
-      reason: c.reason ?? "",
-      matchType: (c.matchType ?? "topic") as CardSuggestion["matchType"],
-    }));
-
-    // Parse AEO matches
-    const aeoData = parseJsonBlob(output.aeo_matches);
-    const aeoArray = Array.isArray(aeoData.aeo_matches)
-      ? aeoData.aeo_matches
-      : Array.isArray(output.aeo_matches)
-        ? output.aeo_matches
-        : [];
-
-    const aeoMatches: AEOMatch[] = aeoArray.map((m: {
-      prompt?: string;
-      quote?: string;
-      timestamp?: string;
-      why?: string;
-    }) => ({
-      prompt: m.prompt ?? "",
-      quote: m.quote ?? "",
-      timestamp: m.timestamp ?? "00:00",
-      why: m.why ?? "",
-    }));
+    console.log("[callAirOpsWorkflow] titles:", titles);
 
     return {
-      titles,
+      titles: Array.isArray(titles) ? titles : [String(titles)],
       description,
       descriptionCharCount: description.length,
       chapters,
       pinnedComment,
-      clipMoments,
-      cardSuggestions,
-      aeoMatches,
+      clipMoments: [],
+      cardSuggestions: [],
+      aeoMatches: [],
     };
   } catch (e) {
     console.error("[callAirOpsWorkflow] failed:", e instanceof Error ? e.message : e);
