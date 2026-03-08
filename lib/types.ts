@@ -12,7 +12,7 @@ export interface FormData {
   videoTitle?: string;
   primaryKeyword?: string;
   guestName: string;
-  guestRole: string;
+  guestRole?: string;
   guestCompany?: string;
   transcript: string;
   tonePreference: TonePreference;
@@ -43,10 +43,10 @@ export interface MatchedMoment {
 }
 
 export interface AEOMatch {
-  prompt: string;        // The AirOps target prompt text
-  quote: string;         // Verbatim excerpt from transcript
-  timestamp: string;     // MM:SS
-  why: string;           // Why this moment is relevant
+  prompt: string;
+  quote: string;
+  timestamp: string;
+  why: string;
 }
 
 export interface ClipMoment {
@@ -82,5 +82,5 @@ export interface GenerateResult {
   matchedMoments?: MatchedMoment[];
   clipMoments?: ClipMoment[];
   cardSuggestions?: CardSuggestion[];
-  aeoMatches?: AEOMatch[];   // Organic transcript moments aligned to AirOps AEO target prompts
+  aeoMatches?: AEOMatch[];
 }

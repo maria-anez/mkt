@@ -9,6 +9,12 @@ interface Props {
   loading: boolean;
 }
 
+interface Guest {
+  name: string;
+  role: string;
+  company: string;
+}
+
 const videoTypeOptions: { value: VideoType; label: string; hint: string }[] = [
   { value: "webinar", label: "Webinar",  hint: "45–60 min · landscape" },
   { value: "clip",    label: "Clip",     hint: "2–5 min · landscape"   },
@@ -23,54 +29,100 @@ const toneOptions: { value: TonePreference; label: string }[] = [
   { value: "witty-clever",    label: "Witty + Clever"       },
 ];
 
-const defaultForm: FormData = {
-  videoType:      "clip",
-  videoTitle:     "",
-  primaryKeyword: "",
-  guestName:      "",
-  guestRole:      "",
-  guestCompany:   "",
+const defaultGuest: Guest = { name: "", role: "", company: "" };
+
+const defaultForm = {
+  videoType:      "clip" as VideoType,
   transcript:     "",
-  tonePreference: "empowering",
+  tonePreference: "empowering" as TonePreference,
   titleCount:     5,
   recapUrl:       "",
   takeaways:      "",
 };
 
 function Req() {
+  return <span style={{ color: "var(--accent)", marginLeft: 3, fontWeight: 700 }}>*</span>;
+}
+
+function Opt() {
   return (
-    <span style={{ color: "var(--accent)", marginLeft: 3, fontWeight: 700 }}>*</span>
+    <span style={{ color: "var(--text-tertiary)", marginLeft: 6, textTransform: "none", letterSpacing: 0, fontFamily: "var(--font-sans)", fontSize: 11 }}>
+      — optional
+    </span>
   );
 }
 
 export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
-  const [form, setForm] = useState<FormData>(defaultForm);
+  const [videoType, setVideoType]         = useState<VideoType>("clip");
+  const [transcript, setTranscript]       = useState("");
+  const [tonePreference, setTone]         = useState<TonePreference>("empowering");
+  const [titleCount, setTitleCount]       = useState(5);
+  const [recapUrl, setRecapUrl]           = useState("");
+  const [takeaways, setTakeaways]         = useState("");
+  const [guests, setGuests]               = useState<Guest[]>([{ ...defaultGuest }]);
 
-  function set<K extends keyof FormData>(field: K, value: FormData[K]) {
-    setForm((prev) => ({ ...prev, [field]: value }));
+  const isWebinar     = videoType === "webinar";
+  const isClipOrShort = videoType === "clip" || videoType === "short";
+
+  const isValid =
+    transcript.trim() !== "" &&
+    guests[0].name.trim() !== "";
+
+  function updateGuest(index: number, field: keyof Guest, value: string) {
+    setGuests(prev => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], [field]: value };
+      return updated;
+    });
+  }
+
+  function addGuest() {
+    if (guests.length < 4) {
+      setGuests(prev => [...prev, { ...defaultGuest }]);
+    }
+  }
+
+  function removeGuest(index: number) {
+    setGuests(prev => prev.filter((_, i) => i !== index));
   }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    onSubmit(form);
-  }
 
-  function handleRegenerate() {
-    onSubmit(form);
+    // Build guest string for the workflow
+    const guestName    = guests.map(g => g.name).filter(Boolean).join(", ");
+    const guestRole    = guests.map(g => g.role).filter(Boolean).join(", ");
+    const guestCompany = guests.map(g => g.company).filter(Boolean).join(", ");
+
+    const data: FormData = {
+      videoType,
+      guestName,
+      guestRole,
+      guestCompany,
+      transcript,
+      tonePreference,
+      titleCount,
+      recapUrl: recapUrl || undefined,
+      takeaways: takeaways || undefined,
+    };
+
+    onSubmit(data);
   }
 
   function handleClear() {
-    setForm(defaultForm);
+    setVideoType("clip");
+    setTranscript("");
+    setTone("empowering");
+    setTitleCount(5);
+    setRecapUrl("");
+    setTakeaways("");
+    setGuests([{ ...defaultGuest }]);
     onClear();
   }
 
-  const isWebinar     = form.videoType === "webinar";
-  const isClipOrShort = form.videoType === "clip" || form.videoType === "short";
-
-  const isValid =
-    form.guestName.trim() !== "" &&
-    form.transcript.trim() !== "" &&
-    (!isWebinar || (form.videoTitle ?? "").trim() !== "");
+  function handleRegenerate() {
+    handleSubmit({ preventDefault: () => {} } as React.FormEvent);
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -91,12 +143,12 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
                 <button
                   key={opt.value}
                   type="button"
-                  onClick={() => set("videoType", opt.value)}
+                  onClick={() => setVideoType(opt.value)}
                   style={{
                     padding: "10px 12px",
-                    border: `1px solid ${form.videoType === opt.value ? "var(--near-black)" : "var(--stroke-green)"}`,
-                    background: form.videoType === opt.value ? "var(--near-black)" : "var(--white)",
-                    color: form.videoType === opt.value ? "#fff" : "var(--text-secondary)",
+                    border: `1px solid ${videoType === opt.value ? "var(--near-black)" : "var(--stroke-green)"}`,
+                    background: videoType === opt.value ? "var(--near-black)" : "var(--white)",
+                    color: videoType === opt.value ? "#fff" : "var(--text-secondary)",
                     cursor: "pointer",
                     fontFamily: "var(--font-sans)",
                     textAlign: "left",
@@ -113,65 +165,67 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
             </div>
           </div>
 
-          {/* Official webinar title — webinar only */}
-          {isWebinar && (
-            <div>
-              <label className="field-label">
-                Official webinar title <Req />
-                <span style={{ color: "var(--text-tertiary)", marginLeft: 6, textTransform: "none", letterSpacing: 0, fontFamily: "var(--font-sans)", fontSize: 11 }}>
-                  — used exactly, not rewritten
-                </span>
-              </label>
-              <input
-                className="field-input"
-                type="text"
-                placeholder="e.g. The Dark SEO Funnel | AirOps & Gaetano DiNardi"
-                value={form.videoTitle ?? ""}
-                onChange={(e) => set("videoTitle", e.target.value)}
-                required={isWebinar}
-              />
-            </div>
-          )}
-
-          {/* Guest name */}
+          {/* Guests — up to 4 */}
           <div>
-            <label className="field-label">Guest name <Req /></label>
-            <input
-              className="field-input"
-              type="text"
-              placeholder="Jane Smith"
-              value={form.guestName}
-              onChange={(e) => set("guestName", e.target.value)}
-              required
-            />
-          </div>
-
-          {/* Guest role + company */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-            <div>
-              <label className="field-label">Guest role</label>
-              <input
-                className="field-input"
-                type="text"
-                placeholder="VP of Growth"
-                value={form.guestRole}
-                onChange={(e) => set("guestRole", e.target.value)}
-              />
-            </div>
-            <div>
-              <label className="field-label">
-                Guest company
-                <span style={{ color: "var(--text-tertiary)", marginLeft: 6, textTransform: "none", letterSpacing: 0, fontFamily: "var(--font-sans)", fontSize: 11 }}>
-                  — optional
-                </span>
-              </label>
-              <input
-                className="field-input"
-                type="text"
-                placeholder="AirOps"
-                value={form.guestCompany ?? ""}
-                onChange={(e) => set("guestCompany", e.target.value)}
-              />
+            <label className="field-label">
+              Guests <Req />
+              <span style={{ color: "var(--text-tertiary)", marginLeft: 6, textTransform: "none", letterSpacing: 0, fontFamily: "var(--font-sans)", fontSize: 11 }}>
+                — up to 4
+              </span>
+            </label>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {guests.map((guest, index) => (
+                <div key={index} style={{ display: "flex", flexDirection: "column", gap: 6, padding: 12, border: "1px solid var(--stroke-green)", background: "var(--off-white)" }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 2 }}>
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--text-tertiary)" }}>
+                      Guest {index + 1}
+                    </span>
+                    {index > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => removeGuest(index)}
+                        style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: "0.06em", textTransform: "uppercase", color: "#ef4444" }}
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+                  <input
+                    className="field-input"
+                    type="text"
+                    placeholder="Full name *"
+                    value={guest.name}
+                    onChange={(e) => updateGuest(index, "name", e.target.value)}
+                    required={index === 0}
+                  />
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                    <input
+                      className="field-input"
+                      type="text"
+                      placeholder="Role (optional)"
+                      value={guest.role}
+                      onChange={(e) => updateGuest(index, "role", e.target.value)}
+                    />
+                    <input
+                      className="field-input"
+                      type="text"
+                      placeholder="Company (optional)"
+                      value={guest.company}
+                      onChange={(e) => updateGuest(index, "company", e.target.value)}
+                    />
+                  </div>
+                </div>
+              ))}
+              {guests.length < 4 && (
+                <button
+                  type="button"
+                  onClick={addGuest}
+                  className="btn-ghost"
+                  style={{ alignSelf: "flex-start", fontSize: 10 }}
+                >
+                  + Add guest
+                </button>
+              )}
             </div>
           </div>
 
@@ -182,8 +236,8 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
               className="field-input"
               style={{ minHeight: 220, resize: "vertical", lineHeight: 1.6 }}
               placeholder="Paste the full video transcript here..."
-              value={form.transcript}
-              onChange={(e) => set("transcript", e.target.value)}
+              value={transcript}
+              onChange={(e) => setTranscript(e.target.value)}
               required
             />
           </div>
@@ -192,7 +246,7 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
           {isWebinar && (
             <div>
               <label className="field-label">
-                Takeaways
+                Takeaways <Opt />
                 <span style={{ color: "var(--text-tertiary)", marginLeft: 6, textTransform: "none", letterSpacing: 0, fontFamily: "var(--font-sans)", fontSize: 11 }}>
                   — paste yours to keep consistent; leave blank to auto-generate
                 </span>
@@ -201,8 +255,8 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
                 className="field-input"
                 style={{ minHeight: 120, resize: "vertical", lineHeight: 1.6 }}
                 placeholder={`e.g.\n• AI search is reshaping how buyers discover tools\n• Brand mentions matter more than backlinks now`}
-                value={form.takeaways ?? ""}
-                onChange={(e) => set("takeaways", e.target.value)}
+                value={takeaways}
+                onChange={(e) => setTakeaways(e.target.value)}
               />
             </div>
           )}
@@ -219,8 +273,8 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
             <label className="field-label">Tone</label>
             <select
               className="field-input"
-              value={form.tonePreference}
-              onChange={(e) => set("tonePreference", e.target.value as TonePreference)}
+              value={tonePreference}
+              onChange={(e) => setTone(e.target.value as TonePreference)}
             >
               {toneOptions.map((t) => (
                 <option key={t.value} value={t.value}>{t.label}</option>
@@ -236,8 +290,8 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
                 type="number"
                 min={1}
                 max={10}
-                value={form.titleCount}
-                onChange={(e) => set("titleCount", Number(e.target.value))}
+                value={titleCount}
+                onChange={(e) => setTitleCount(Number(e.target.value))}
               />
             </div>
           )}
@@ -245,17 +299,17 @@ export default function GeneratorForm({ onSubmit, onClear, loading }: Props) {
 
         <div style={{ marginTop: 12 }}>
           <label className="field-label">
-            Recap blog URL
+            Recap blog URL <Opt />
             <span style={{ color: "var(--text-tertiary)", marginLeft: 6, textTransform: "none", letterSpacing: 0, fontFamily: "var(--font-sans)", fontSize: 11 }}>
-              — used in CTA; defaults to {"{{WEBINAR_RECAP_URL}}"} if blank
+              — used in CTA
             </span>
           </label>
           <input
             className="field-input"
             type="url"
             placeholder="https://www.airops.com/blog/webinar-recap-..."
-            value={form.recapUrl ?? ""}
-            onChange={(e) => set("recapUrl", e.target.value)}
+            value={recapUrl}
+            onChange={(e) => setRecapUrl(e.target.value)}
           />
         </div>
 
