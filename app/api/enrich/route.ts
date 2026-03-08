@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           inputs: {
             video_type:         data.videoType,
-            transcript:         data.transcript.slice(0, 50000),
+            transcript:         data.transcript.slice(0, 30000),
             transcript_summary: data.transcript.split(/\s+/).slice(0, 2000).join(" "),
             guest_name:         data.guestName,
             guest_role:         data.guestRole ?? "",
