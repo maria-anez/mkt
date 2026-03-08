@@ -54,15 +54,6 @@ function Section({
   );
 }
 
-const insightColors: Record<string, string> = {
-  reframe:    "#6366f1",
-  tactical:   "#0ea5e9",
-  data:       "#10b981",
-  revelation: "#f59e0b",
-  contrarian: "#ef4444",
-  story:      "#8b5cf6",
-};
-
 const matchColors: Record<string, string> = {
   topic: "#008c44",
   guest: "#6366f1",
@@ -160,7 +151,7 @@ export default function OutputPanel({ result, loading, error, onRegenerate, onCl
         </div>
       </Section>
 
-      {/* AEO matches — organic moments aligned to AirOps target prompts */}
+      {/* AEO moments */}
       {result.aeoMatches && result.aeoMatches.length > 0 && (
         <Section label="AEO moments">
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
@@ -186,28 +177,46 @@ export default function OutputPanel({ result, loading, error, onRegenerate, onCl
         </Section>
       )}
 
-      {/* Card & end screen suggestions */}
+      {/* Cards & end screens — now with timestamps */}
       {result.cardSuggestions && result.cardSuggestions.length > 0 && (
         <Section label="Cards & end screens">
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            {result.cardSuggestions.map((s, i) => (
-              <div key={i} style={{ padding: "12px", background: "var(--off-white)", border: "1px solid var(--stroke-green)" }}>
-                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8, marginBottom: 6 }}>
-                  <span style={{ fontSize: 13, fontWeight: 600, lineHeight: 1.4, color: "var(--text-primary)" }}>
-                    {s.video?.title ?? "Unknown video"}
-                  </span>
-                  <span style={{ fontSize: 9, fontFamily: "var(--font-mono)", letterSpacing: "0.06em", textTransform: "uppercase", padding: "2px 6px", background: (matchColors[s.matchType] ?? "#888") + "18", color: matchColors[s.matchType] ?? "#888", border: `1px solid ${matchColors[s.matchType] ?? "#888"}40`, whiteSpace: "nowrap", flexShrink: 0 }}>
-                    {s.matchType}
-                  </span>
+            {result.cardSuggestions.map((s, i) => {
+              const card = s as typeof s & { timestamp?: string; context?: string };
+              return (
+                <div key={i} style={{ padding: "12px", background: "var(--off-white)", border: "1px solid var(--stroke-green)" }}>
+                  <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8, marginBottom: 6 }}>
+                    <span style={{ fontSize: 13, fontWeight: 600, lineHeight: 1.4, color: "var(--text-primary)" }}>
+                      {s.video?.title ?? "Unknown video"}
+                    </span>
+                    <span style={{ fontSize: 9, fontFamily: "var(--font-mono)", letterSpacing: "0.06em", textTransform: "uppercase", padding: "2px 6px", background: (matchColors[s.matchType] ?? "#888") + "18", color: matchColors[s.matchType] ?? "#888", border: `1px solid ${matchColors[s.matchType] ?? "#888"}40`, whiteSpace: "nowrap", flexShrink: 0 }}>
+                      {s.matchType}
+                    </span>
+                  </div>
+
+                  {/* Timestamp recommendation */}
+                  {card.timestamp && (
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
+                      <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 700, color: "var(--forest)", background: "var(--accent-label)", padding: "2px 6px", border: "1px solid var(--stroke-green)" }}>
+                        Add at {card.timestamp}
+                      </span>
+                      {card.context && (
+                        <span style={{ fontSize: 11, color: "var(--text-tertiary)", fontStyle: "italic" }}>
+                          — {card.context}
+                        </span>
+                      )}
+                    </div>
+                  )}
+
+                  <div style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.5, marginBottom: 8 }}>
+                    {s.reason}
+                  </div>
+                  <a href={s.video?.url ?? "#"} target="_blank" rel="noopener noreferrer" style={{ fontSize: 10, color: "var(--green-500)", fontFamily: "var(--font-mono)", letterSpacing: "0.04em", textDecoration: "none", textTransform: "uppercase" }}>
+                    View on YouTube ↗
+                  </a>
                 </div>
-                <div style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.5, marginBottom: 8 }}>
-                  {s.reason}
-                </div>
-                <a href={s.video?.url ?? "#"} target="_blank" rel="noopener noreferrer" style={{ fontSize: 10, color: "var(--green-500)", fontFamily: "var(--font-mono)", letterSpacing: "0.04em", textDecoration: "none", textTransform: "uppercase" }}>
-                  View on YouTube ↗
-                </a>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </Section>
       )}
