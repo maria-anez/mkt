@@ -145,7 +145,7 @@ export default function Home() {
         return;
       }
 
-      await pollEnrichStatus(json.executionId);
+      pollEnrichStatus(json.executionId);
     } catch {
       setEnriching(false);
     }
