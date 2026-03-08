@@ -1,14 +1,48 @@
 "use client";
 
-import { useState } from "react";
-import type { GenerateResult } from "@/lib/types";
+import { useState, useEffect } from "react";
+import type { GenerateResult, FormData } from "@/lib/types";
 
 interface Props {
   result: GenerateResult | null;
   loading: boolean;
+  enriching: boolean;
   error: string | null;
   onRegenerate: () => void;
   onClear: () => void;
+  onEnrich: () => void;
+  onClipSelect: (data: Partial<FormData>) => void;
+  videoType: string;
+}
+
+const LOADING_MESSAGES = [
+  "Reading your transcript... 📖",
+  "Finding the real story in here... 🔍",
+  "Cooking up chapters... 🍳",
+  "Polishing the description... ✨",
+  "Making the title sing... 🎵",
+  "Almost there, this one's worth the wait... ⚡",
+  "Checking AirOps brand rules... 📋",
+  "Writing the pinned comment... 💬",
+];
+
+const ENRICH_MESSAGES = [
+  "Hunting for clip gold... 🎬",
+  "Asking the AEO gods... 🙏",
+  "Matching to AirOps target prompts... 🎯",
+  "Finding your best shorts... ⚡",
+  "Suggesting YouTube cards... 🃏",
+  "Almost done, finding the gems... 💎",
+];
+
+function useRotatingMessage(messages: string[], active: boolean, interval = 2500) {
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    if (!active) { setIndex(0); return; }
+    const t = setInterval(() => setIndex(i => (i + 1) % messages.length), interval);
+    return () => clearInterval(t);
+  }, [active, messages.length, interval]);
+  return messages[index];
 }
 
 function CopyButton({ text }: { text: string }) {
@@ -20,32 +54,18 @@ function CopyButton({ text }: { text: string }) {
   }
   return (
     <button onClick={handleCopy} className={`btn-ghost ${copied ? "copied" : ""}`}>
-      {copied ? "Copied!" : "Copy"}
+      {copied ? "✓ Copied" : "Copy"}
     </button>
   );
 }
 
-function Section({
-  label,
-  meta,
-  children,
-  copyText,
-}: {
-  label: string;
-  meta?: string;
-  children: React.ReactNode;
-  copyText?: string;
-}) {
+function Section({ label, meta, children, copyText }: { label: string; meta?: string; children: React.ReactNode; copyText?: string }) {
   return (
     <div style={{ marginBottom: 20 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span className="section-label">{label}</span>
-          {meta && (
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--text-tertiary)", letterSpacing: "0.04em" }}>
-              {meta}
-            </span>
-          )}
+          {meta && <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--text-tertiary)" }}>{meta}</span>}
         </div>
         {copyText && <CopyButton text={copyText} />}
       </div>
@@ -60,18 +80,38 @@ const matchColors: Record<string, string> = {
   both:  "#f59e0b",
 };
 
-export default function OutputPanel({ result, loading, error, onRegenerate, onClear }: Props) {
+export default function OutputPanel({ result, loading, enriching, error, onRegenerate, onClear, onEnrich, onClipSelect, videoType }: Props) {
+  const loadingMsg   = useRotatingMessage(LOADING_MESSAGES, loading);
+  const enrichingMsg = useRotatingMessage(ENRICH_MESSAGES, enriching);
 
   if (loading) {
     return (
-      <div className="card" style={{ padding: 32, minHeight: 300, display: "flex", alignItems: "center", justifyContent: "center", background: "var(--forest)", border: "1px solid #057a28", boxShadow: "inset 0 0 0 1px #013a1a" }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "60vh", gap: 24 }}>
+        <div style={{
+          width: 64,
+          height: 64,
+          borderRadius: "50%",
+          border: "3px solid var(--stroke-green)",
+          borderTopColor: "var(--interaction)",
+          animation: "spin 1s linear infinite",
+        }} />
         <div style={{ textAlign: "center" }}>
-          <div style={{ fontFamily: "var(--font-serif)", fontSize: 28, fontWeight: 400, letterSpacing: "-0.02em", color: "var(--off-white)", marginBottom: 10, lineHeight: 1 }}>
+          <div style={{ fontFamily: "var(--font-serif)", fontSize: 28, fontWeight: 400, letterSpacing: "-0.02em", color: "var(--forest)", lineHeight: 1, marginBottom: 12 }}>
             Generating
           </div>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6aad88" }}>
-            Reading transcript &amp; building output…
+          <div style={{ fontFamily: "var(--font-sans)", fontSize: 14, color: "var(--text-secondary)", minHeight: 24, transition: "all 0.3s" }}>
+            {loadingMsg}
           </div>
+        </div>
+        <div style={{ display: "flex", gap: 6 }}>
+          {[0,1,2].map(i => (
+            <div key={i} style={{
+              width: 8, height: 8,
+              borderRadius: "50%",
+              background: "var(--green-500)",
+              animation: `pulse-dot 1.4s ease-in-out ${i * 0.2}s infinite`,
+            }} />
+          ))}
         </div>
       </div>
     );
@@ -79,24 +119,37 @@ export default function OutputPanel({ result, loading, error, onRegenerate, onCl
 
   if (error) {
     return (
-      <div className="card" style={{ padding: 24 }}>
-        <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.06em", textTransform: "uppercase", color: "#ef4444", marginBottom: 16 }}>
-          {error}
+      <div style={{ padding: 24 }}>
+        <div style={{ fontFamily: "var(--font-serif)", fontSize: 20, color: "var(--forest)", marginBottom: 8, letterSpacing: "-0.02em" }}>
+          Something went wrong
         </div>
-        <button className="btn-accent" onClick={onRegenerate} style={{ fontSize: 13 }}>Try again →</button>
+        <div style={{ fontSize: 13, color: "#ef4444", marginBottom: 16, fontFamily: "var(--font-mono)" }}>{error}</div>
+        <button className="btn-accent" onClick={onRegenerate}>Try again →</button>
       </div>
     );
   }
 
   if (!result) {
     return (
-      <div className="card" style={{ padding: 32, minHeight: 300, display: "flex", alignItems: "center", justifyContent: "center", background: "#f8fffb", backgroundImage: "radial-gradient(var(--stroke-green) 1px, transparent 1px)", backgroundSize: "24px 24px" }}>
-        <div style={{ textAlign: "center" }}>
-          <div style={{ fontFamily: "var(--font-serif)", fontSize: 32, fontWeight: 400, letterSpacing: "-0.02em", color: "var(--forest)", marginBottom: 8, lineHeight: 1 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "60vh", gap: 16, textAlign: "center" }}>
+        <div style={{
+          width: 80, height: 80,
+          border: "2px solid var(--stroke-green)",
+          borderRadius: "50%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: 32,
+          background: "var(--green-50)",
+        }}>
+          🎬
+        </div>
+        <div>
+          <div style={{ fontFamily: "var(--font-serif)", fontSize: 28, fontWeight: 400, letterSpacing: "-0.02em", color: "var(--forest)", lineHeight: 1, marginBottom: 8 }}>
             Your output<br />lives here.
           </div>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--text-tertiary)", marginTop: 12 }}>
-            Fill in the form and hit generate
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--text-tertiary)" }}>
+            Fill in the form and hit Generate ✦
           </div>
         </div>
       </div>
@@ -104,14 +157,14 @@ export default function OutputPanel({ result, loading, error, onRegenerate, onCl
   }
 
   return (
-    <div className="card" style={{ padding: 24 }}>
+    <div className="fade-in">
 
       {/* Actions */}
       <div style={{ display: "flex", gap: 8, marginBottom: 24 }}>
         <button className="btn-accent" onClick={onRegenerate} style={{ flex: 1, padding: "10px 0", fontSize: 13, borderRadius: 58 }}>
           Regenerate →
         </button>
-        <button className="btn-ghost" onClick={onClear} style={{ padding: "10px 16px", fontSize: 10 }}>
+        <button className="btn-ghost" onClick={onClear} style={{ padding: "10px 16px" }}>
           Clear
         </button>
       </div>
@@ -120,8 +173,8 @@ export default function OutputPanel({ result, loading, error, onRegenerate, onCl
       <Section label="Titles" copyText={result.titles.join("\n")}>
         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
           {result.titles.map((t, i) => (
-            <div key={i} style={{ padding: "10px 12px", background: "var(--off-white)", border: "1px solid var(--stroke-green)", fontSize: 13, lineHeight: 1.5, display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
-              <span style={{ color: "var(--text-primary)" }}>{t}</span>
+            <div key={i} style={{ padding: "10px 12px", background: "var(--white)", border: "1px solid var(--stroke-green)", fontSize: 13, lineHeight: 1.5, display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
+              <span style={{ color: "var(--text-primary)", fontWeight: 500 }}>{t}</span>
               <CopyButton text={t} />
             </div>
           ))}
@@ -130,7 +183,7 @@ export default function OutputPanel({ result, loading, error, onRegenerate, onCl
 
       {/* Description */}
       <Section label="Description" meta={`${result.descriptionCharCount} chars`} copyText={result.description}>
-        <div style={{ padding: "14px", background: "var(--off-white)", border: "1px solid var(--stroke-green)", fontSize: 13, lineHeight: 1.7, whiteSpace: "pre-wrap", color: "var(--text-primary)" }}>
+        <div style={{ padding: "14px", background: "var(--white)", border: "1px solid var(--stroke-green)", fontSize: 13, lineHeight: 1.7, whiteSpace: "pre-wrap", color: "var(--text-primary)" }}>
           {result.description}
         </div>
       </Section>
@@ -138,7 +191,7 @@ export default function OutputPanel({ result, loading, error, onRegenerate, onCl
       {/* Chapters */}
       {result.chapters && (
         <Section label="Chapters" copyText={result.chapters}>
-          <div style={{ padding: "14px", background: "var(--off-white)", border: "1px solid var(--stroke-green)", fontSize: 12, lineHeight: 1.9, whiteSpace: "pre-wrap", fontFamily: "var(--font-mono)", color: "var(--text-primary)" }}>
+          <div style={{ padding: "14px", background: "var(--white)", border: "1px solid var(--stroke-green)", fontSize: 12, lineHeight: 1.9, whiteSpace: "pre-wrap", fontFamily: "var(--font-mono)", color: "var(--text-primary)" }}>
             {result.chapters}
           </div>
         </Section>
@@ -146,17 +199,49 @@ export default function OutputPanel({ result, loading, error, onRegenerate, onCl
 
       {/* Pinned comment */}
       <Section label="Pinned comment" copyText={result.pinnedComment}>
-        <div style={{ padding: "14px", background: "var(--off-white)", border: "1px solid var(--stroke-green)", fontSize: 13, lineHeight: 1.7, whiteSpace: "pre-wrap", color: "var(--text-primary)" }}>
+        <div style={{ padding: "14px", background: "var(--white)", border: "1px solid var(--stroke-green)", fontSize: 13, lineHeight: 1.7, whiteSpace: "pre-wrap", color: "var(--text-primary)" }}>
           {result.pinnedComment}
         </div>
       </Section>
+
+      {/* Step 2 — Enrich button */}
+      {!result.clipMoments?.length && !result.cardSuggestions?.length && !result.aeoMatches?.length && videoType === "webinar" && (
+        <div style={{ padding: "20px", background: "var(--forest)", border: "1px solid var(--stroke-dark)", marginBottom: 20 }}>
+          {enriching ? (
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--text-on-dark)", marginBottom: 12 }}>
+                {enrichingMsg}
+              </div>
+              <div style={{ display: "flex", gap: 6, justifyContent: "center" }}>
+                {[0,1,2].map(i => (
+                  <div key={i} style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--interaction)", animation: `pulse-dot 1.4s ease-in-out ${i * 0.2}s infinite` }} />
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+              <div>
+                <div style={{ fontFamily: "var(--font-sans)", fontSize: 13, fontWeight: 600, color: "var(--off-white)", marginBottom: 4 }}>
+                  Find clips, cards & AEO moments
+                </div>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: "0.06em", textTransform: "uppercase", color: "#3a6b4a" }}>
+                  Takes ~30 seconds · runs deeper analysis
+                </div>
+              </div>
+              <button className="btn-enrich" onClick={onEnrich}>
+                ✦ Analyze
+              </button>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* AEO moments */}
       {result.aeoMatches && result.aeoMatches.length > 0 && (
         <Section label="AEO moments">
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             {result.aeoMatches.map((m, i) => (
-              <div key={i} style={{ padding: "12px", background: "var(--off-white)", border: "1px solid var(--stroke-green)" }}>
+              <div key={i} style={{ padding: "12px", background: "var(--white)", border: "1px solid var(--stroke-green)" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
                   <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 700, color: "var(--forest)", background: "var(--accent-label)", padding: "2px 6px", border: "1px solid var(--stroke-green)" }}>
                     {m.timestamp}
@@ -177,14 +262,14 @@ export default function OutputPanel({ result, loading, error, onRegenerate, onCl
         </Section>
       )}
 
-      {/* Cards & end screens — now with timestamps */}
+      {/* Cards & end screens */}
       {result.cardSuggestions && result.cardSuggestions.length > 0 && (
         <Section label="Cards & end screens">
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             {result.cardSuggestions.map((s, i) => {
               const card = s as typeof s & { timestamp?: string; context?: string };
               return (
-                <div key={i} style={{ padding: "12px", background: "var(--off-white)", border: "1px solid var(--stroke-green)" }}>
+                <div key={i} style={{ padding: "12px", background: "var(--white)", border: "1px solid var(--stroke-green)" }}>
                   <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8, marginBottom: 6 }}>
                     <span style={{ fontSize: 13, fontWeight: 600, lineHeight: 1.4, color: "var(--text-primary)" }}>
                       {s.video?.title ?? "Unknown video"}
@@ -193,8 +278,6 @@ export default function OutputPanel({ result, loading, error, onRegenerate, onCl
                       {s.matchType}
                     </span>
                   </div>
-
-                  {/* Timestamp recommendation */}
                   {card.timestamp && (
                     <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
                       <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 700, color: "var(--forest)", background: "var(--accent-label)", padding: "2px 6px", border: "1px solid var(--stroke-green)" }}>
@@ -207,7 +290,6 @@ export default function OutputPanel({ result, loading, error, onRegenerate, onCl
                       )}
                     </div>
                   )}
-
                   <div style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.5, marginBottom: 8 }}>
                     {s.reason}
                   </div>
@@ -226,7 +308,7 @@ export default function OutputPanel({ result, loading, error, onRegenerate, onCl
         <Section label="Clip recommendations">
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             {result.clipMoments.map((c, i) => (
-              <div key={i} style={{ padding: "12px", background: "var(--off-white)", border: "1px solid var(--stroke-green)" }}>
+              <div key={i} style={{ padding: "12px", background: "var(--white)", border: "1px solid var(--stroke-green)" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 6 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 700, color: "var(--forest)", background: "var(--green-200)", padding: "2px 8px", border: "1px solid var(--stroke-green)" }}>
@@ -250,9 +332,32 @@ export default function OutputPanel({ result, loading, error, onRegenerate, onCl
                 <div style={{ fontSize: 13, fontWeight: 600, lineHeight: 1.4, marginBottom: 4, color: "var(--text-primary)" }}>
                   {c.summary}
                 </div>
-                <div style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.5 }}>
+                <div style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.5, marginBottom: 10 }}>
                   {c.rationale}
                 </div>
+
+                {/* Create clip/short copy button */}
+                <button
+                  onClick={() => onClipSelect({
+                    videoType: (c.format === "short" ? "short" : "clip") as "clip" | "short",
+                  })}
+                  style={{
+                    background: "var(--forest)",
+                    color: "var(--interaction)",
+                    border: "1px solid var(--stroke-dark)",
+                    padding: "6px 12px",
+                    fontFamily: "var(--font-mono)",
+                    fontSize: 9,
+                    letterSpacing: "0.06em",
+                    textTransform: "uppercase",
+                    cursor: "pointer",
+                    transition: "all 0.15s",
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.background = "var(--forest-mid)")}
+                  onMouseLeave={e => (e.currentTarget.style.background = "var(--forest)")}
+                >
+                  ✦ Create {c.format === "short" ? "short" : "clip"} copy →
+                </button>
               </div>
             ))}
           </div>
