@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import GeneratorForm from "@/components/GeneratorForm";
 import OutputPanel from "@/components/OutputPanel";
 import type { FormData, GenerateResult } from "@/lib/types";
@@ -9,40 +9,122 @@ type VideoType = "webinar" | "clip" | "short";
 
 const NAV_ITEMS = [
   { type: "webinar" as VideoType, emoji: "🎙️", label: "Webinar", hint: "45–60 min" },
-  { type: "clip" as VideoType,   emoji: "✂️",  label: "Clip",    hint: "2–5 min"  },
-  { type: "short" as VideoType,  emoji: "⚡",  label: "Short",   hint: "30–90 sec" },
+  { type: "clip"    as VideoType, emoji: "✂️",  label: "Clip",    hint: "2–5 min"  },
+  { type: "short"   as VideoType, emoji: "⚡",  label: "Short",   hint: "30–90 sec" },
 ];
 
+const POLL_INTERVAL = 3000;
+const MAX_POLLS     = 30;
+
 export default function Home() {
-  const [result, setResult]             = useState<GenerateResult | null>(null);
-  const [loading, setLoading]           = useState(false);
-  const [enriching, setEnriching]       = useState(false);
-  const [error, setError]               = useState<string | null>(null);
+  const [result,       setResult]       = useState<GenerateResult | null>(null);
+  const [loading,      setLoading]      = useState(false);
+  const [enriching,    setEnriching]    = useState(false);
+  const [error,        setError]        = useState<string | null>(null);
   const [lastFormData, setLastFormData] = useState<FormData | null>(null);
-  const [activeType, setActiveType]     = useState<VideoType>("webinar");
+  const [activeType,   setActiveType]   = useState<VideoType>("webinar");
+
+  const pollRef        = useRef<ReturnType<typeof setInterval> | null>(null);
+  const enrichPollRef  = useRef<ReturnType<typeof setInterval> | null>(null);
+  const pollCount      = useRef(0);
+  const enrichPollCount = useRef(0);
+
+  function stopPoll()        { if (pollRef.current)       clearInterval(pollRef.current); }
+  function stopEnrichPoll()  { if (enrichPollRef.current)  clearInterval(enrichPollRef.current); }
+
+  useEffect(() => () => { stopPoll(); stopEnrichPoll(); }, []);
+
+  async function pollStatus(executionId: string) {
+    pollCount.current = 0;
+    stopPoll();
+
+    pollRef.current = setInterval(async () => {
+      pollCount.current++;
+      if (pollCount.current > MAX_POLLS) {
+        stopPoll();
+        setLoading(false);
+        setError("Generation timed out — please try again");
+        return;
+      }
+
+      try {
+        const res  = await fetch(`/api/status?id=${executionId}`);
+        const json = await res.json();
+
+        if (json.status === "success") {
+          stopPoll();
+          setResult(json.result);
+          setLoading(false);
+        } else if (json.status === "error") {
+          stopPoll();
+          setLoading(false);
+          setError("Generation failed — please try again");
+        }
+        // "pending" — keep polling
+      } catch {
+        // network error — keep polling
+      }
+    }, POLL_INTERVAL);
+  }
+
+  async function pollEnrichStatus(executionId: string) {
+    enrichPollCount.current = 0;
+    stopEnrichPoll();
+
+    enrichPollRef.current = setInterval(async () => {
+      enrichPollCount.current++;
+      if (enrichPollCount.current > MAX_POLLS) {
+        stopEnrichPoll();
+        setEnriching(false);
+        return;
+      }
+
+      try {
+        const res  = await fetch(`/api/enrich-status?id=${executionId}`);
+        const json = await res.json();
+
+        if (json.status === "success") {
+          stopEnrichPoll();
+          setEnriching(false);
+          setResult(prev => prev ? {
+            ...prev,
+            clipMoments:     json.clipMoments     ?? prev.clipMoments,
+            cardSuggestions: json.cardSuggestions  ?? prev.cardSuggestions,
+            aeoMatches:      json.aeoMatches       ?? prev.aeoMatches,
+          } : prev);
+        } else if (json.status === "error") {
+          stopEnrichPoll();
+          setEnriching(false);
+        }
+      } catch {
+        // keep polling
+      }
+    }, POLL_INTERVAL);
+  }
 
   async function handleSubmit(data: FormData) {
     setLoading(true);
     setError(null);
     setResult(null);
     setLastFormData(data);
+    stopPoll();
+    stopEnrichPoll();
 
     try {
-      const res = await fetch("/api/generate", {
-        method: "POST",
+      const res  = await fetch("/api/generate", {
+        method:  "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body:    JSON.stringify(data),
       });
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || "Generation failed");
-      }
       const json = await res.json();
-      setResult(json);
-    } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "Something went wrong");
-    } finally {
+
+      if (json.error) throw new Error(json.error);
+      if (!json.executionId) throw new Error("No execution ID returned");
+
+      await pollStatus(json.executionId);
+    } catch (e) {
       setLoading(false);
+      setError(e instanceof Error ? e.message : "Something went wrong");
     }
   }
 
@@ -51,36 +133,35 @@ export default function Home() {
     setEnriching(true);
 
     try {
-      const res = await fetch("/api/enrich", {
-        method: "POST",
+      const res  = await fetch("/api/enrich", {
+        method:  "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(lastFormData),
+        body:    JSON.stringify(lastFormData),
       });
-      if (!res.ok) return;
       const json = await res.json();
-      setResult(prev => prev ? {
-        ...prev,
-        clipMoments: json.clipMoments ?? prev.clipMoments,
-        cardSuggestions: json.cardSuggestions ?? prev.cardSuggestions,
-        aeoMatches: json.aeoMatches ?? prev.aeoMatches,
-      } : prev);
-    } catch (e) {
-      console.warn("Enrichment failed:", e);
-    } finally {
+
+      if (json.error || !json.executionId) {
+        setEnriching(false);
+        return;
+      }
+
+      await pollEnrichStatus(json.executionId);
+    } catch {
       setEnriching(false);
     }
   }
 
   function handleClipSelect(clipData: Partial<FormData>) {
     if (!lastFormData) return;
-    const newData: FormData = { ...lastFormData, ...clipData };
     setActiveType((clipData.videoType as VideoType) ?? "clip");
-    handleSubmit(newData);
+    handleSubmit({ ...lastFormData, ...clipData });
   }
 
   function handleClear() {
     setResult(null);
     setError(null);
+    stopPoll();
+    stopEnrichPoll();
   }
 
   return (
