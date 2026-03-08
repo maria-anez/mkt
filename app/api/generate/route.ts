@@ -67,12 +67,20 @@ async function callAirOpsWorkflow(data: FormData): Promise<GenerateResult | null
 
     console.log("[callAirOpsWorkflow] output keys:", Object.keys(output));
 
-    // The End node has all 4 main copy outputs pointing to the same blob
-    // So titles, description, chapters, pinnedComment all contain the full JSON
-    // Parse the first one we find to get all main copy fields
-    const mainCopy = parseJsonBlob(
-      output.titles ?? output.description ?? output.chapters ?? output.pinnedComment
-    );
+    // All 4 main copy fields point to the same JSON blob in the End node
+    // Try each one until we get a parseable object
+    let mainCopy: Record<string, unknown> = {};
+    for (const key of ["titles", "description", "chapters", "pinnedComment"]) {
+      const parsed = parseJsonBlob(output[key]);
+      if (parsed.titles || parsed.description) {
+        mainCopy = parsed;
+        break;
+      }
+    }
+    // If still empty, try parsing the whole output as the blob
+    if (!mainCopy.titles && !mainCopy.description) {
+      mainCopy = parseJsonBlob(output);
+    }
 
     const titles = Array.isArray(mainCopy.titles)
       ? mainCopy.titles
