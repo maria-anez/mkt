@@ -2,9 +2,6 @@
  * Calls Claude via the AirOps YouTube Copy Generator workflow.
  * Uses AirOps enterprise Claude access — no personal Anthropic credits needed.
  * Requires AIROPS_API_KEY and AIROPS_WORKFLOW_UUID env vars.
- *
- * The workflow returns multiple outputs: titles, description, chapters, pinnedComment
- * wrapped in airops_app_execution.output
  */
 export async function callClaude(prompt: string): Promise<string> {
   const airOpsKey = process.env.AIROPS_API_KEY;
@@ -37,22 +34,20 @@ export async function callClaude(prompt: string): Promise<string> {
   const execution = data.airops_app_execution ?? data;
   const output = execution.output;
 
-  // Workflow returns multiple outputs — reconstruct as JSON string
-  // so generateOutput.ts can parse it normally
   if (output && typeof output === "object") {
     const result = {
       titles: output.titles ?? [],
       description: output.description ?? "",
       chapters: output.chapters ?? "",
       pinnedComment: output.pinnedComment ?? "",
+      moments: output.moments ?? [],
     };
     return JSON.stringify(result);
   }
 
-  // Fallback: output might already be a JSON string
   if (typeof output === "string" && output.trim().startsWith("{")) {
     return output;
   }
 
-  throw new Error(`Unexpected output shape from AirOps workflow: ${JSON.stringify(output)?.slice(0, 200)}`);
+  throw new Error(`Unexpected output shape: ${JSON.stringify(output)?.slice(0, 200)}`);
 }
