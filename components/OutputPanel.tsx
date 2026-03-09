@@ -340,7 +340,13 @@ export default function OutputPanel({ result, loading, enriching, error, onRegen
                 {/* Create clip/short copy button */}
                 <button
                   onClick={() => {
-                    const words = (fullTranscript ?? "").split(/\s+/);
+                    // Strip VTT timestamp lines before extracting clip segment
+                    const cleanTranscript = (fullTranscript ?? "")
+                      .split("\n")
+                      .filter(line => !line.match(/^\d{2}:\d{2}/) && !line.match(/^WEBVTT/) && line.trim() !== "")
+                      .join(" ");
+
+                    const words = cleanTranscript.split(/\s+/);
                     const startSeconds = c.timestampStart.split(":").reduce((acc: number, t: string) => acc * 60 + parseInt(t), 0);
                     const endSeconds = c.timestampEnd.split(":").reduce((acc: number, t: string) => acc * 60 + parseInt(t), 0);
                     const startWord = Math.floor(startSeconds * 130 / 60);
