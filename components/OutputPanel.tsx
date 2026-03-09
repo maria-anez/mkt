@@ -340,6 +340,9 @@ export default function OutputPanel({ result, loading, enriching, error, onRegen
                 {/* Create clip/short copy button */}
                 <button
                   onClick={() => {
+                    console.log("[clip] fullTranscript first 200 chars:", (fullTranscript ?? "").slice(0, 200));
+                    console.log("[clip] isVTT:", (fullTranscript ?? "").includes("WEBVTT"));
+                    console.log("[clip] clipTranscript length will be:", (fullTranscript ?? "").split(/\s+/).length, "words");
                     const transcript = fullTranscript ?? "";
                     const parseTime = (ts: string) => ts.split(":").reduce((acc: number, t: string) => acc * 60 + parseInt(t), 0);
                     const startSec = parseTime(c.timestampStart);
