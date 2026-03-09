@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { FormData, TonePreference } from "@/lib/types";
 
 type VideoType = "webinar" | "clip" | "short";
@@ -11,6 +11,7 @@ interface Props {
   loading: boolean;
   activeType: VideoType;
   onTypeChange: (type: VideoType) => void;
+  prefillTranscript?: string;
 }
 
 interface Guest {
@@ -33,8 +34,14 @@ function Req() {
   return <span style={{ color: "var(--accent)", marginLeft: 3, fontWeight: 700 }}>*</span>;
 }
 
-export default function GeneratorForm({ onSubmit, onClear, loading, activeType, onTypeChange }: Props) {
+export default function GeneratorForm({ onSubmit, onClear, loading, activeType, onTypeChange, prefillTranscript }: Props) {
   const [transcript, setTranscript]   = useState("");
+
+  useEffect(() => {
+    if (prefillTranscript) {
+      setTranscript(prefillTranscript);
+    }
+  }, [prefillTranscript]);
   const [tonePreference, setTone]     = useState<TonePreference>("empowering");
   const [titleCount, setTitleCount]   = useState(5);
   const [recapUrl, setRecapUrl]       = useState("");

@@ -24,6 +24,7 @@ export default function Home() {
   const [lastFormData,    setLastFormData]    = useState<FormData | null>(null);
   const [activeType,      setActiveType]      = useState<VideoType>("webinar");
   const [fullTranscript,  setFullTranscript]  = useState("");
+  const [prefillTranscript, setPrefillTranscript] = useState<string | undefined>(undefined);
 
   const pollRef        = useRef<ReturnType<typeof setInterval> | null>(null);
   const enrichPollRef  = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -167,6 +168,7 @@ export default function Home() {
   function handleClipSelect(clipData: Partial<FormData>) {
     if (!lastFormData) return;
     setActiveType((clipData.videoType as VideoType) ?? "clip");
+    setPrefillTranscript(clipData.transcript);
     handleSubmit({ ...lastFormData, ...clipData });
   }
 
@@ -260,6 +262,7 @@ export default function Home() {
               loading={loading}
               activeType={activeType}
               onTypeChange={setActiveType}
+              prefillTranscript={prefillTranscript}
             />
           </div>
           <div className="output-panel">
