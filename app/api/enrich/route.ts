@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
           inputs: {
             video_type:         data.videoType,
             transcript:         data.transcript.slice(0, 30000),
-            transcript_summary: data.transcript.split(/\s+/).slice(0, 2000).join(" "),
+            transcript_summary: data.transcript.split(/\s+/).slice(260, 2260).join(" "),
             guest_name:         data.guestName,
             guest_role:         data.guestRole ?? "",
             guest_company:      data.guestCompany ?? "",
