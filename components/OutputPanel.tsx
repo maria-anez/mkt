@@ -351,6 +351,7 @@ export default function OutputPanel({ result, loading, enriching, error, onRegen
                       videoType: (c.format === "short" ? "short" : "clip") as "clip" | "short",
                       transcript: clipTranscript || c.summary,
                       takeaways: undefined,
+                      recapUrl: undefined,
                     });
                   }}
                   style={{

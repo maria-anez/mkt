@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
             guest_company:      data.guestCompany ?? "",
             video_title:        data.videoTitle || "Untitled",
             recap_url:          data.recapUrl || "none",
-            takeaways:          data.takeaways || "none",
+            takeaways: (data.videoType === "webinar" && data.takeaways) ? data.takeaways : "none",
           },
         }),
       }
