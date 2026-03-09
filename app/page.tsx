@@ -7,6 +7,32 @@ import type { FormData, GenerateResult } from "@/lib/types";
 
 type VideoType = "webinar" | "clip" | "short";
 
+const RECENT_KEY = "airops_tube_recent";
+
+interface RecentGeneration {
+  id: string;
+  title: string;
+  videoType: string;
+  guestName: string;
+  timestamp: number;
+  formData: FormData;
+  result: GenerateResult;
+}
+
+function loadRecent(): RecentGeneration[] {
+  try {
+    return JSON.parse(localStorage.getItem(RECENT_KEY) ?? "[]");
+  } catch { return []; }
+}
+
+function saveRecent(item: RecentGeneration) {
+  try {
+    const existing = loadRecent().filter(r => r.id !== item.id);
+    const updated = [item, ...existing].slice(0, 5);
+    localStorage.setItem(RECENT_KEY, JSON.stringify(updated));
+  } catch {}
+}
+
 const NAV_ITEMS = [
   { type: "webinar" as VideoType, emoji: "🎙️", label: "Webinar", hint: "45–60 min" },
   { type: "clip"    as VideoType, emoji: "✂️",  label: "Clip",    hint: "2–5 min"  },
@@ -26,6 +52,7 @@ export default function Home() {
   const [fullTranscript,  setFullTranscript]  = useState("");
   const [prefillTranscript, setPrefillTranscript] = useState<string | undefined>(undefined);
   const [clipTimestamps, setClipTimestamps] = useState<{ start: string; end: string } | null>(null);
+  const [recentGenerations, setRecentGenerations] = useState<RecentGeneration[]>([]);
 
   const pollRef        = useRef<ReturnType<typeof setInterval> | null>(null);
   const enrichPollRef  = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -36,6 +63,10 @@ export default function Home() {
   function stopEnrichPoll()  { if (enrichPollRef.current)  clearInterval(enrichPollRef.current); }
 
   useEffect(() => () => { stopPoll(); stopEnrichPoll(); }, []);
+
+  useEffect(() => {
+    setRecentGenerations(loadRecent());
+  }, []);
 
   async function pollStatus(executionId: string) {
     pollCount.current = 0;
@@ -58,6 +89,17 @@ export default function Home() {
           stopPoll();
           setResult(json.result);
           setLoading(false);
+          const recentItem: RecentGeneration = {
+            id: Date.now().toString(),
+            title: json.result.titles?.[0] ?? "Untitled",
+            videoType: lastFormData?.videoType ?? "webinar",
+            guestName: lastFormData?.guestName ?? "",
+            timestamp: Date.now(),
+            formData: lastFormData!,
+            result: json.result,
+          };
+          saveRecent(recentItem);
+          setRecentGenerations(loadRecent());
         } else if (json.status === "error") {
           stopPoll();
           setLoading(false);
@@ -251,9 +293,35 @@ export default function Home() {
             <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase", color: "#3a6b4a", marginBottom: 12 }}>
               Recent
             </div>
-            <div style={{ color: "#3a6b4a", fontSize: 12, fontFamily: "var(--font-sans)" }}>
-              No recent generations yet.
-            </div>
+            {recentGenerations.length === 0 ? (
+              <div style={{ color: "#3a6b4a", fontSize: 12, fontFamily: "var(--font-sans)" }}>
+                No recent generations yet.
+              </div>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                {recentGenerations.map(r => (
+                  <div
+                    key={r.id}
+                    onClick={() => {
+                      setResult(r.result);
+                      setLastFormData(r.formData);
+                      setFullTranscript(r.formData.transcript);
+                      setActiveType(r.formData.videoType as VideoType);
+                    }}
+                    style={{ padding: "8px 0", cursor: "pointer", borderBottom: "1px solid #0d3320" }}
+                    onMouseEnter={e => (e.currentTarget.style.opacity = "0.7")}
+                    onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+                  >
+                    <div style={{ fontSize: 11, fontWeight: 600, color: "#8ab89a", lineHeight: 1.3, marginBottom: 2 }}>
+                      {r.title.length > 40 ? r.title.slice(0, 40) + "..." : r.title}
+                    </div>
+                    <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: "0.06em", textTransform: "uppercase", color: "#3a6b4a" }}>
+                      {r.videoType} · {r.guestName.split(",")[0]}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div style={{ marginTop: "auto", padding: "16px 20px", borderTop: "1px solid #0d3320" }}>
