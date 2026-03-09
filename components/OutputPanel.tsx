@@ -237,8 +237,8 @@ export default function OutputPanel({ result, loading, enriching, error, onRegen
         </div>
       )}
 
-      {/* AEO moments */}
-      {result.aeoMatches && result.aeoMatches.length > 0 && (
+      {/* AEO moments — hidden from UI, data feeds into clip scoring */}
+      {false && result.aeoMatches && result.aeoMatches.length > 0 && (
         <Section label="AEO moments">
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             {result.aeoMatches.map((m, i) => (
