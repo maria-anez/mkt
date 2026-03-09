@@ -12,6 +12,7 @@ interface Props {
   activeType: VideoType;
   onTypeChange: (type: VideoType) => void;
   prefillTranscript?: string;
+  clipTimestamps?: { start: string; end: string } | null;
 }
 
 interface Guest {
@@ -34,14 +35,20 @@ function Req() {
   return <span style={{ color: "var(--accent)", marginLeft: 3, fontWeight: 700 }}>*</span>;
 }
 
-export default function GeneratorForm({ onSubmit, onClear, loading, activeType, onTypeChange, prefillTranscript }: Props) {
+export default function GeneratorForm({ onSubmit, onClear, loading, activeType, onTypeChange, prefillTranscript, clipTimestamps: clipTimestampsProp }: Props) {
   const [transcript, setTranscript]   = useState("");
+  const [clipTimestamps, setClipTimestamps] = useState<{ start: string; end: string } | null>(null);
 
   useEffect(() => {
     if (prefillTranscript) {
       setTranscript(prefillTranscript);
     }
   }, [prefillTranscript]);
+
+  useEffect(() => {
+    if (clipTimestampsProp) setClipTimestamps(clipTimestampsProp);
+  }, [clipTimestampsProp]);
+
   const [tonePreference, setTone]     = useState<TonePreference>("empowering");
   const [titleCount, setTitleCount]   = useState(5);
   const [recapUrl, setRecapUrl]       = useState("");
@@ -137,6 +144,31 @@ export default function GeneratorForm({ onSubmit, onClear, loading, activeType, 
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+
+        {/* Edit point timestamps — clip/short only */}
+        {clipTimestamps && (
+          <div style={{
+            padding: "10px 14px",
+            background: "var(--accent-label)",
+            border: "1px solid var(--stroke-green)",
+            marginBottom: 16,
+            display: "flex",
+            alignItems: "center",
+            gap: 12,
+          }}>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--text-tertiary)" }}>Edit points</span>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: 13, fontWeight: 700, color: "var(--forest)" }}>
+              {clipTimestamps.start} → {clipTimestamps.end}
+            </span>
+            <button
+              type="button"
+              onClick={() => setClipTimestamps(null)}
+              style={{ marginLeft: "auto", background: "none", border: "none", cursor: "pointer", fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--text-tertiary)", letterSpacing: "0.06em", textTransform: "uppercase" }}
+            >
+              Clear
+            </button>
+          </div>
+        )}
 
         {/* Guests */}
         <div>

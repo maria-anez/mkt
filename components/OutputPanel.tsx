@@ -387,7 +387,9 @@ export default function OutputPanel({ result, loading, enriching, error, onRegen
                       transcript: clipTranscript || c.summary,
                       takeaways: undefined,
                       recapUrl: undefined,
-                    });
+                      timestampStart: c.timestampStart,
+                      timestampEnd: c.timestampEnd,
+                    } as Partial<FormData> & { timestampStart?: string; timestampEnd?: string });
                   }}
                   style={{
                     background: "var(--forest)",

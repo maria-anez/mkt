@@ -25,6 +25,7 @@ export default function Home() {
   const [activeType,      setActiveType]      = useState<VideoType>("webinar");
   const [fullTranscript,  setFullTranscript]  = useState("");
   const [prefillTranscript, setPrefillTranscript] = useState<string | undefined>(undefined);
+  const [clipTimestamps, setClipTimestamps] = useState<{ start: string; end: string } | null>(null);
 
   const pollRef        = useRef<ReturnType<typeof setInterval> | null>(null);
   const enrichPollRef  = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -165,11 +166,20 @@ export default function Home() {
     }
   }
 
-  function handleClipSelect(clipData: Partial<FormData>) {
+  function handleClipSelect(clipData: Partial<FormData> & { timestampStart?: string; timestampEnd?: string }) {
     if (!lastFormData) return;
     setActiveType((clipData.videoType as VideoType) ?? "clip");
     setPrefillTranscript(clipData.transcript);
-    handleSubmit({ ...lastFormData, ...clipData });
+    if (clipData.timestampStart && clipData.timestampEnd) {
+      setClipTimestamps({ start: clipData.timestampStart, end: clipData.timestampEnd });
+    }
+    const { timestampStart, timestampEnd, ...formData } = clipData;
+    handleSubmit({
+      ...lastFormData,
+      ...formData,
+      takeaways: undefined,
+      videoTitle: undefined,
+    });
   }
 
   function handleClear() {
@@ -263,6 +273,7 @@ export default function Home() {
               activeType={activeType}
               onTypeChange={setActiveType}
               prefillTranscript={prefillTranscript}
+              clipTimestamps={clipTimestamps}
             />
           </div>
           <div className="output-panel">
