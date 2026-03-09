@@ -13,6 +13,7 @@ interface Props {
   onEnrich: () => void;
   onClipSelect: (data: Partial<FormData>) => void;
   videoType: string;
+  fullTranscript?: string;
 }
 
 const LOADING_MESSAGES = [
@@ -80,7 +81,7 @@ const matchColors: Record<string, string> = {
   both:  "#f59e0b",
 };
 
-export default function OutputPanel({ result, loading, enriching, error, onRegenerate, onClear, onEnrich, onClipSelect, videoType }: Props) {
+export default function OutputPanel({ result, loading, enriching, error, onRegenerate, onClear, onEnrich, onClipSelect, videoType, fullTranscript }: Props) {
   const loadingMsg   = useRotatingMessage(LOADING_MESSAGES, loading);
   const enrichingMsg = useRotatingMessage(ENRICH_MESSAGES, enriching);
 
@@ -338,9 +339,20 @@ export default function OutputPanel({ result, loading, enriching, error, onRegen
 
                 {/* Create clip/short copy button */}
                 <button
-                  onClick={() => onClipSelect({
-                    videoType: (c.format === "short" ? "short" : "clip") as "clip" | "short",
-                  })}
+                  onClick={() => {
+                    const words = (fullTranscript ?? "").split(/\s+/);
+                    const startSeconds = c.timestampStart.split(":").reduce((acc: number, t: string) => acc * 60 + parseInt(t), 0);
+                    const endSeconds = c.timestampEnd.split(":").reduce((acc: number, t: string) => acc * 60 + parseInt(t), 0);
+                    const startWord = Math.floor(startSeconds * 130 / 60);
+                    const endWord = Math.ceil(endSeconds * 130 / 60);
+                    const clipTranscript = words.slice(Math.max(0, startWord - 20), endWord + 20).join(" ");
+
+                    onClipSelect({
+                      videoType: (c.format === "short" ? "short" : "clip") as "clip" | "short",
+                      transcript: clipTranscript || c.summary,
+                      takeaways: undefined,
+                    });
+                  }}
                   style={{
                     background: "var(--forest)",
                     color: "var(--interaction)",

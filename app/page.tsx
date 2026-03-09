@@ -21,8 +21,9 @@ export default function Home() {
   const [loading,      setLoading]      = useState(false);
   const [enriching,    setEnriching]    = useState(false);
   const [error,        setError]        = useState<string | null>(null);
-  const [lastFormData, setLastFormData] = useState<FormData | null>(null);
-  const [activeType,   setActiveType]   = useState<VideoType>("webinar");
+  const [lastFormData,    setLastFormData]    = useState<FormData | null>(null);
+  const [activeType,      setActiveType]      = useState<VideoType>("webinar");
+  const [fullTranscript,  setFullTranscript]  = useState("");
 
   const pollRef        = useRef<ReturnType<typeof setInterval> | null>(null);
   const enrichPollRef  = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -107,6 +108,7 @@ export default function Home() {
     setError(null);
     setResult(null);
     setLastFormData(data);
+    setFullTranscript(data.transcript);
     stopPoll();
     stopEnrichPoll();
 
@@ -271,6 +273,7 @@ export default function Home() {
               onEnrich={handleEnrich}
               onClipSelect={handleClipSelect}
               videoType={activeType}
+              fullTranscript={fullTranscript}
             />
           </div>
         </div>
