@@ -340,18 +340,44 @@ export default function OutputPanel({ result, loading, enriching, error, onRegen
                 {/* Create clip/short copy button */}
                 <button
                   onClick={() => {
-                    // Strip VTT timestamp lines before extracting clip segment
-                    const cleanTranscript = (fullTranscript ?? "")
-                      .split("\n")
-                      .filter(line => !line.match(/^\d{2}:\d{2}/) && !line.match(/^WEBVTT/) && line.trim() !== "")
-                      .join(" ");
+                    const transcript = fullTranscript ?? "";
+                    const parseTime = (ts: string) => ts.split(":").reduce((acc: number, t: string) => acc * 60 + parseInt(t), 0);
+                    const startSec = parseTime(c.timestampStart);
+                    const endSec = parseTime(c.timestampEnd);
+                    const bufferSec = 30;
+                    const extractStart = Math.max(0, startSec - bufferSec);
+                    const extractEnd = endSec + bufferSec;
 
-                    const words = cleanTranscript.split(/\s+/);
-                    const startSeconds = c.timestampStart.split(":").reduce((acc: number, t: string) => acc * 60 + parseInt(t), 0);
-                    const endSeconds = c.timestampEnd.split(":").reduce((acc: number, t: string) => acc * 60 + parseInt(t), 0);
-                    const startWord = Math.floor(startSeconds * 130 / 60);
-                    const endWord = Math.ceil(endSeconds * 130 / 60);
-                    const clipTranscript = words.slice(Math.max(0, startWord - 20), endWord + 20).join(" ");
+                    const lines = transcript.split("\n");
+                    const isVTT = transcript.includes("WEBVTT") || lines.some(l => l.match(/^\d{2}:\d{2}:\d{2}/));
+                    let clipTranscript = "";
+
+                    if (isVTT) {
+                      let currentTime = 0;
+                      let capturing = false;
+                      const capturedLines: string[] = [];
+                      for (const line of lines) {
+                        const timeMatch = line.match(/^(\d{2}):(\d{2}):(\d{2})/);
+                        if (timeMatch) {
+                          currentTime = parseInt(timeMatch[1]) * 3600 + parseInt(timeMatch[2]) * 60 + parseInt(timeMatch[3]);
+                          capturing = currentTime >= extractStart && currentTime <= extractEnd;
+                          continue;
+                        }
+                        if (line.match(/^WEBVTT/) || line.match(/^\d+$/) || line.trim() === "") continue;
+                        if (capturing) capturedLines.push(line.trim());
+                      }
+                      clipTranscript = capturedLines.join(" ");
+                    }
+
+                    if (!clipTranscript) {
+                      const cleanTranscript = lines
+                        .filter(line => !line.match(/^\d{2}:\d{2}/) && !line.match(/^WEBVTT/) && !line.match(/^\d+$/) && line.trim() !== "")
+                        .join(" ");
+                      const words = cleanTranscript.split(/\s+/);
+                      const startWord = Math.floor(startSec * 130 / 60);
+                      const endWord = Math.ceil(endSec * 130 / 60);
+                      clipTranscript = words.slice(Math.max(0, startWord - 20), endWord + 20).join(" ");
+                    }
 
                     onClipSelect({
                       videoType: (c.format === "short" ? "short" : "clip") as "clip" | "short",
