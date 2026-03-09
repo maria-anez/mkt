@@ -23,7 +23,29 @@ export async function POST(req: NextRequest) {
           inputs: {
             video_type:         data.videoType,
             transcript:         data.transcript.slice(0, 30000),
-            transcript_summary: data.transcript.split(/\s+/).slice(260, 2260).join(" "),
+            transcript_summary: (() => {
+              const lines = data.transcript.split("\n");
+              const isVTT = data.transcript.includes("WEBVTT");
+              if (isVTT) {
+                // Find first line after 3 minute mark
+                let pastIntro = false;
+                const contentLines: string[] = [];
+                for (const line of lines) {
+                  const timeMatch = line.match(/^(\d{2}):(\d{2}):(\d{2})/);
+                  if (timeMatch) {
+                    const seconds = parseInt(timeMatch[1]) * 3600 + parseInt(timeMatch[2]) * 60 + parseInt(timeMatch[3]);
+                    if (seconds >= 180) pastIntro = true;
+                    continue;
+                  }
+                  if (line.match(/^WEBVTT/) || line.match(/^\d+$/) || line.trim() === "") continue;
+                  if (pastIntro) contentLines.push(line.trim());
+                  if (contentLines.length >= 400) break;
+                }
+                return contentLines.join(" ");
+              }
+              // Plain text fallback — skip first 400 words
+              return data.transcript.split(/\s+/).slice(400, 2400).join(" ");
+            })(),
             guest_name:         data.guestName,
             guest_role:         data.guestRole ?? "",
             guest_company:      data.guestCompany ?? "",
