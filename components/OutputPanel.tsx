@@ -238,10 +238,10 @@ export default function OutputPanel({ result, loading, enriching, error, onRegen
       )}
 
       {/* AEO moments — hidden from UI, data feeds into clip scoring */}
-      {false && result.aeoMatches && result.aeoMatches.length > 0 && (
+      {false && (result?.aeoMatches?.length ?? 0) > 0 && (
         <Section label="AEO moments">
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            {result.aeoMatches.map((m, i) => (
+            {result?.aeoMatches?.map((m, i) => (
               <div key={i} style={{ padding: "12px", background: "var(--white)", border: "1px solid var(--stroke-green)" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
                   <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 700, color: "var(--forest)", background: "var(--accent-label)", padding: "2px 6px", border: "1px solid var(--stroke-green)" }}>

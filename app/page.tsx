@@ -28,9 +28,12 @@ function loadRecent(): RecentGeneration[] {
 function saveRecent(item: RecentGeneration) {
   try {
     const existing = loadRecent().filter(r => r.id !== item.id);
-    const updated = [item, ...existing].slice(0, 5);
-    localStorage.setItem(RECENT_KEY, JSON.stringify(updated));
+    localStorage.setItem(RECENT_KEY, JSON.stringify([item, ...existing].slice(0, 5)));
   } catch {}
+}
+
+function clearRecent() {
+  try { localStorage.removeItem(RECENT_KEY); } catch {}
 }
 
 const NAV_ITEMS = [
@@ -290,8 +293,18 @@ export default function Home() {
           </div>
 
           <div style={{ padding: "8px 20px" }}>
-            <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase", color: "#3a6b4a", marginBottom: 12 }}>
-              Recent
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase", color: "#3a6b4a" }}>
+                Recent
+              </div>
+              {recentGenerations.length > 0 && (
+                <button
+                  onClick={() => { clearRecent(); setRecentGenerations([]); }}
+                  style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: "0.06em", textTransform: "uppercase", color: "#3a6b4a" }}
+                >
+                  Clear all
+                </button>
+              )}
             </div>
             {recentGenerations.length === 0 ? (
               <div style={{ color: "#3a6b4a", fontSize: 12, fontFamily: "var(--font-sans)" }}>
