@@ -170,15 +170,16 @@ export default function Home() {
     if (!lastFormData) return;
     setActiveType((clipData.videoType as VideoType) ?? "clip");
     setPrefillTranscript(clipData.transcript);
-    if (clipData.timestampStart && clipData.timestampEnd) {
-      setClipTimestamps({ start: clipData.timestampStart, end: clipData.timestampEnd });
-    }
     const { timestampStart, timestampEnd, ...formData } = clipData;
+    if (timestampStart && timestampEnd) {
+      setClipTimestamps({ start: timestampStart, end: timestampEnd });
+    }
     handleSubmit({
       ...lastFormData,
       ...formData,
       takeaways: undefined,
       videoTitle: undefined,
+      recapUrl: lastFormData.recapUrl,
     });
   }
 
