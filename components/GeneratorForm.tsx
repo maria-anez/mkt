@@ -41,6 +41,7 @@ export default function GeneratorForm({ onSubmit, onClear, loading, activeType, 
   const [takeaways, setTakeaways]     = useState("");
   const [guests, setGuests]           = useState<Guest[]>([{ ...defaultGuest }]);
   const [lastFormData, setLastFormData] = useState<FormData | null>(null);
+  const [eventTopic, setEventTopic]   = useState("");
 
   const isWebinar     = activeType === "webinar";
   const isClipOrShort = activeType === "clip" || activeType === "short";
@@ -69,11 +70,17 @@ export default function GeneratorForm({ onSubmit, onClear, loading, activeType, 
     const guestRole    = guests.map(g => g.role).filter(Boolean).join(", ");
     const guestCompany = guests.map(g => g.company).filter(Boolean).join(", ");
 
+    const guestNameForTitle = guests.map(g => g.name).filter(Boolean).join(", ");
+    const videoTitle = activeType === "webinar" && eventTopic
+      ? `${eventTopic} | AirOps & ${guestNameForTitle}`
+      : undefined;
+
     const data: FormData = {
       videoType: activeType,
       guestName,
       guestRole,
       guestCompany,
+      videoTitle,
       transcript,
       tonePreference,
       titleCount,
@@ -93,6 +100,7 @@ export default function GeneratorForm({ onSubmit, onClear, loading, activeType, 
     setTakeaways("");
     setGuests([{ ...defaultGuest }]);
     setLastFormData(null);
+    setEventTopic("");
     onClear();
   }
 
@@ -156,6 +164,21 @@ export default function GeneratorForm({ onSubmit, onClear, loading, activeType, 
             )}
           </div>
         </div>
+
+        {/* Event topic — webinar only */}
+        {activeType === "webinar" && (
+          <div>
+            <label className="field-label">Event topic / name <Req /></label>
+            <input
+              className="field-input"
+              type="text"
+              placeholder="e.g. BOFU Content Playbook, AEO for Growth"
+              value={eventTopic}
+              onChange={(e) => setEventTopic(e.target.value)}
+              required={activeType === "webinar"}
+            />
+          </div>
+        )}
 
         {/* Transcript */}
         <div>
