@@ -6,6 +6,7 @@ export async function POST(req: NextRequest) {
     const data: FormData = await req.json();
     const airOpsKey  = process.env.AIROPS_API_KEY;
     const enrichUuid = process.env.AIROPS_ENRICH_UUID;
+    console.log("[/api/enrich] enrichUuid:", enrichUuid ? "set" : "NOT SET");
 
     if (!airOpsKey || !enrichUuid) {
       return NextResponse.json({ error: "Enrichment not configured" }, { status: 503 });
