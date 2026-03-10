@@ -4,6 +4,7 @@ export async function GET() {
   const anthropicKey = process.env.ANTHROPIC_API_KEY;
   const airOpsKey = process.env.AIROPS_API_KEY;
   const workflowUuid = process.env.AIROPS_WORKFLOW_UUID;
+  const enrichUuid   = process.env.AIROPS_ENRICH_UUID;
 
   return NextResponse.json({
     anthropic: {
@@ -19,6 +20,10 @@ export async function GET() {
     workflow: {
       hasUuid: !!workflowUuid,
       uuidPrefix: workflowUuid?.slice(0, 8) ?? "none",
+    },
+    enrich: {
+      hasUuid: !!enrichUuid,
+      uuidPrefix: enrichUuid?.slice(0, 8) ?? "none",
     },
     nodeEnv: process.env.NODE_ENV,
   });
