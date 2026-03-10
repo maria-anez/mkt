@@ -186,27 +186,36 @@ export default function Home() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          videoType: lastFormData.videoType,
-          guestName: lastFormData.guestName,
-          guestRole: lastFormData.guestRole ?? "",
+          videoType:    lastFormData.videoType,
+          guestName:    lastFormData.guestName,
+          guestRole:    lastFormData.guestRole ?? "",
           guestCompany: lastFormData.guestCompany ?? "",
-          videoTitle: lastFormData.videoTitle ?? "Untitled",
-          recapUrl: lastFormData.recapUrl || "none",
-          takeaways: lastFormData.takeaways || "none",
+          videoTitle:   lastFormData.videoTitle ?? "Untitled",
+          recapUrl:     lastFormData.recapUrl || "none",
+          takeaways:    "none",
           tonePreference: lastFormData.tonePreference,
-          titleCount: lastFormData.titleCount,
-          transcript: lastFormData.transcript.slice(0, 25000),
+          titleCount:   lastFormData.titleCount,
+          transcript:   lastFormData.transcript.slice(0, 25000),
         }),
       });
+
       const json = await res.json();
 
-      if (json.error || !json.executionId) {
+      if (json.error) {
+        console.error("[handleEnrich] error:", json.error);
         setEnriching(false);
         return;
       }
 
-      pollEnrichStatus(json.executionId);
-    } catch {
+      setResult(prev => prev ? {
+        ...prev,
+        clipMoments:     json.clipMoments     ?? prev.clipMoments,
+        cardSuggestions: json.cardSuggestions  ?? prev.cardSuggestions,
+        aeoMatches:      json.aeoMatches       ?? prev.aeoMatches,
+      } : prev);
+    } catch (e) {
+      console.error("[handleEnrich] failed:", e);
+    } finally {
       setEnriching(false);
     }
   }
