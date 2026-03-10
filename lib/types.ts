@@ -78,7 +78,7 @@ export interface GenerateResult {
   description: string;
   descriptionCharCount: number;
   chapters: string;
-  pinnedComment: string;
+  pinnedComment: string | string[];
   matchedMoments?: MatchedMoment[];
   clipMoments?: ClipMoment[];
   cardSuggestions?: CardSuggestion[];
