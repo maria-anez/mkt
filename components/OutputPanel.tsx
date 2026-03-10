@@ -199,10 +199,22 @@ export default function OutputPanel({ result, loading, enriching, error, onRegen
       )}
 
       {/* Pinned comment */}
-      <Section label="Pinned comment" copyText={result.pinnedComment}>
-        <div style={{ padding: "14px", background: "var(--white)", border: "1px solid var(--stroke-green)", fontSize: 13, lineHeight: 1.7, whiteSpace: "pre-wrap", color: "var(--text-primary)" }}>
-          {result.pinnedComment}
-        </div>
+      <Section label="Pinned comment">
+        {Array.isArray(result.pinnedComment) ? (
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            {(result.pinnedComment as string[]).map((comment, i) => (
+              <div key={i} style={{ padding: "12px 14px", background: "var(--white)", border: "1px solid var(--stroke-green)", fontSize: 13, lineHeight: 1.7, display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
+                <span style={{ color: "var(--text-primary)", whiteSpace: "pre-wrap" }}>{comment}</span>
+                <CopyButton text={comment} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div style={{ padding: "14px", background: "var(--white)", border: "1px solid var(--stroke-green)", fontSize: 13, lineHeight: 1.7, whiteSpace: "pre-wrap", color: "var(--text-primary)", display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
+            <span>{result.pinnedComment as string}</span>
+            <CopyButton text={result.pinnedComment as string} />
+          </div>
+        )}
       </Section>
 
       {/* Step 2 — Enrich button */}
