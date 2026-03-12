@@ -205,8 +205,7 @@ export default function GeneratorForm({ onSubmit, onClear, loading, activeType, 
         </div>
 
         {/* Event topic — webinar only */}
-        {console.log("[GeneratorForm] activeType:", activeType) as unknown as null}
-        {activeType === "webinar" && (
+{activeType === "webinar" && (
           <div>
             <label className="field-label">Event topic / name <Req /></label>
             <input

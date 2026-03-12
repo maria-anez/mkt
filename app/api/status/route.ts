@@ -75,9 +75,13 @@ export async function GET(req: NextRequest) {
     const chapters      = typeof mainCopy.chapters === "string" ? mainCopy.chapters : "";
     const pinnedComment = Array.isArray(mainCopy.pinnedComment)
       ? mainCopy.pinnedComment
+      : Array.isArray(output.pinnedComment)
+      ? output.pinnedComment
       : typeof mainCopy.pinnedComment === "string"
       ? mainCopy.pinnedComment
-      : "";
+      : typeof output.pinnedComment === "string"
+      ? output.pinnedComment
+      : [];
 
     const result: GenerateResult = {
       titles,
